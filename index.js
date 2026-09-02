@@ -23,6 +23,10 @@ app.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "register.html"));
 });
 
+app.get("/worker-register", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "worker-register.html"));
+});
+
 app.post("/login", (req, res) => {
   res.redirect("/");
 });

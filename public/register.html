@@ -115,6 +115,15 @@
                 </span>
               </label>
             </fieldset>
+
+            <button
+              id="next-btn"
+              type="submit"
+              disabled
+              class="w-full rounded-lg bg-gradient-to-r from-primary-600 to-primary-700 py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Next
+            </button>
           </form>
 
           <div class="text-center text-sm text-primary-500">
@@ -128,5 +137,26 @@
         </div>
       </section>
     </main>
+    <script>
+      (function () {
+        var btn = document.getElementById('next-btn');
+        var radios = document.querySelectorAll('input[name="role"]');
+        function toggle() {
+          var checked = document.querySelector('input[name="role"]:checked');
+          btn.disabled = !checked;
+        }
+        radios.forEach(function (r) {
+          r.addEventListener('change', toggle);
+        });
+        btn.addEventListener('click', function (e) {
+          var checked = document.querySelector('input[name="role"]:checked');
+          if (checked && checked.value === 'provider') {
+            e.preventDefault();
+            window.location.href = '/worker-register';
+          }
+        });
+        toggle();
+      })();
+    </script>
   </body>
 </html>
