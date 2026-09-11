@@ -12,6 +12,11 @@ export default function RegisterPage() {
     e.preventDefault();
     if (!selectedRole) return;
 
+    if (selectedRole === "client") {
+      navigate("/client-register");
+      return;
+    }
+
     if (selectedRole === "provider") {
       navigate("/worker-register");
       return;

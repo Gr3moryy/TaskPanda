@@ -32,7 +32,7 @@ export default function Layout({ theme = "primary", children }) {
     <div className="text-gray-800 antialiased">
       <Header logoColor={theme === "green" ? "text-green-700" : "text-primary-700"} />
       <main className="grid min-h-screen grid-cols-1 gap-6 lg:h-screen lg:grid-cols-[60%_40%] lg:gap-0">
-        <section className={`${a.body} h-full flex flex-col items-center justify-end gap-6 px-6 pt-16 pb-0 text-center md:pt-20 lg:text-left lg:px-8 lg:pt-12 xl:gap-8 xl:pt-20`}>
+        <section className={`${a.body} h-full min-h-0 flex flex-col items-center justify-end gap-6 overflow-visible px-6 pt-16 pb-0 text-center md:pt-20 lg:text-left lg:px-8 lg:pt-12 xl:gap-8 xl:pt-20`}>
           <div className="mb-10 lg:mb-12">
             <h1
               className="font-extrabold leading-tight tracking-tight text-gray-900 text-3xl sm:text-4xl md:text-5xl xl:text-6xl"
