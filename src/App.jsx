@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import WorkerRegisterPage from "./pages/WorkerRegisterPage.jsx";
 import ClientRegisterPage from "./pages/ClientRegisterPage.jsx";
+import ClientDashboardPage from "./pages/ClientDashboardPage.jsx";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/worker-register" element={<WorkerRegisterPage />} />
       <Route path="/client-register" element={<ClientRegisterPage />} />
+      <Route path="/dashboard" element={<ClientDashboardPage />} />
     </Routes>
   );
 }
