@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-export default function Header({ logoColor = "text-primary-700", showNav = false }) {
+export default function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home" }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const navLinks = [
     { label: "Home", icon: "🏠", path: "/dashboard" },
-    { label: "Explore", icon: "🔍", path: "/dashboard" },
+    { label: "Explore", icon: "🔍", path: "/explore" },
     { label: "Bookings", icon: "📋", path: "/dashboard" },
     { label: "Messages", icon: "💬", path: "/dashboard" },
     { label: "Profile", icon: "👤", path: "/dashboard" },
@@ -31,7 +31,11 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
               <a
                 key={link.label}
                 href={link.path}
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  activeTab === link.label
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                }`}
               >
                 <span>{link.icon}</span>
                 <span>{link.label}</span>

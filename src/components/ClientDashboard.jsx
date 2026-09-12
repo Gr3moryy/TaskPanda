@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Header from "./Header.jsx";
 
-const categories = [
+export const categories = [
   { name: "All Services", icon: "🏠" },
   { name: "AC Cleaning", icon: "❄️" },
   { name: "Carpentry", icon: "🪵" },
@@ -136,7 +136,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
-      <Header showNav />
+      <Header showNav activeTab="Home" />
 
       {/* 2. Reminder Banner */}
       {bannerVisible && (

@@ -4,6 +4,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import WorkerRegisterPage from "./pages/WorkerRegisterPage.jsx";
 import ClientRegisterPage from "./pages/ClientRegisterPage.jsx";
 import ClientDashboardPage from "./pages/ClientDashboardPage.jsx";
+import ExplorePage from "./pages/ExplorePage.jsx";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Route path="/worker-register" element={<WorkerRegisterPage />} />
       <Route path="/client-register" element={<ClientRegisterPage />} />
       <Route path="/dashboard" element={<ClientDashboardPage />} />
+      <Route path="/explore" element={<ExplorePage />} />
     </Routes>
   );
 }
