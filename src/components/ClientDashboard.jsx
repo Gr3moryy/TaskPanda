@@ -9,17 +9,7 @@ export const categories = [
   { name: "Plumbing", icon: "🔧" },
   { name: "Painting", icon: "🎨" },
   { name: "Cleaning", icon: "🧹" },
-  { name: "Deep Cleaning", icon: "🧽" },
-  { name: "Furniture Assembly", icon: "🪑" },
-  { name: "Appliance Installation", icon: "🥤" },
-  { name: "Lawn Care", icon: "🌱" },
-  { name: "Roof Repair", icon: "🏠" },
-  { name: "Handyman", icon: "🔨" },
-  { name: "Water Heater", icon: "🌡️" },
-  { name: "Drain Cleaning", icon: "🚿" },
-  { name: "Door Repair", icon: "🚪" },
-  { name: "Ceiling Fan", icon: "💡" },
-  { name: "Pest Control", icon: "🐜" },
+  { name: "Landscaping", icon: "🌱" },
 ];
 
 const favourites = [

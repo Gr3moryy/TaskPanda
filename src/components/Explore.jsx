@@ -1,13 +1,25 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Header from "./Header.jsx";
-import { categories as dashboardCategories } from "./ClientDashboard.jsx";
 
-const catPills = [
-  { name: "All Services" },
-  ...dashboardCategories.slice(1).map((c) => ({ name: c.name })),
+const filterCategories = [
+  { name: "AC Repair" },
+  { name: "Appliance Installation" },
+  { name: "Carpentry" },
+  { name: "Ceiling Fan" },
+  { name: "Cleaning" },
+  { name: "Deep Cleaning" },
+  { name: "Drain Cleaning" },
+  { name: "Door Repair" },
+  { name: "Electrical" },
+  { name: "Furniture Assembly" },
+  { name: "Handyman" },
+  { name: "Landscaping" },
+  { name: "Painting" },
+  { name: "Pest Control" },
+  { name: "Plumbing" },
+  { name: "Roof Repair" },
+  { name: "Water Heater" },
 ];
-
-const filterCategories = [...dashboardCategories.slice(1)].sort((a, b) => a.name.localeCompare(b.name));
 
 const providers = [
   {
@@ -110,9 +122,7 @@ function CheckBox({ label, count, defaultChecked = false }) {
 export default function Explore() {
   const [searchService, setSearchService] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
-  const [activePill, setActivePill] = useState("Carpentry");
   const [showAllCats, setShowAllCats] = useState(false);
-  const pillRef = useRef(null);
   const visibleCats = showAllCats ? filterCategories : filterCategories.slice(0, 4);
 
   return (
@@ -166,51 +176,6 @@ export default function Explore() {
               </button>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Category Filter Pills */}
-      <div className="mx-auto mt-4 max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center">
-          <button
-            onClick={() => pillRef.current?.scrollBy({ left: -200, behavior: "smooth" })}
-            className="z-10 mr-1 hidden shrink-0 rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700 lg:block"
-            aria-label="Scroll left"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-              <path d="M10 4L4 12l6 8V4z" />
-              <rect x="10" y="11" width="12" height="2" />
-            </svg>
-          </button>
-          <div
-            ref={pillRef}
-            className="flex flex-1 gap-2 overflow-x-auto pb-1 pt-2 scrollbar-hide"
-            style={{ scrollbarWidth: "none" }}
-          >
-            {catPills.map((pill) => (
-              <button
-                key={pill.name}
-                onClick={() => setActivePill(pill.name)}
-                className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
-                  activePill === pill.name
-                    ? "bg-gray-900 text-white"
-                    : "bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50"
-                }`}
-              >
-                {pill.name}
-              </button>
-            ))}
-          </div>
-          <button
-            onClick={() => pillRef.current?.scrollBy({ left: 200, behavior: "smooth" })}
-            className="z-10 ml-1 hidden shrink-0 rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700 lg:block"
-            aria-label="Scroll right"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-              <path d="M14 4l6 8-6 8V4z" />
-              <rect x="2" y="11" width="12" height="2" />
-            </svg>
-          </button>
         </div>
       </div>
 
