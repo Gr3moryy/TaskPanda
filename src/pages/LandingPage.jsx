@@ -287,7 +287,6 @@ export default function LandingPage() {
             {categories.map((cat) => (
               <button
                 key={cat.name}
-                data-auth-action
                 onClick={() => navigate("/explore")}
                 className="flex shrink-0 cursor-pointer flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md hover:border-gray-200"
                 style={{ width: "120px" }}
@@ -420,14 +419,12 @@ export default function LandingPage() {
                   </div>
                   <div className="mt-4 flex gap-2">
                     <button
-                      data-auth-action
                       onClick={() => navigate("/explore")}
                       className="flex-1 rounded-lg bg-gray-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-gray-800"
                     >
                       View Profile
                     </button>
                     <button
-                      data-auth-action
                       onClick={() => navigate("/explore")}
                       className="flex-1 rounded-lg border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
                     >

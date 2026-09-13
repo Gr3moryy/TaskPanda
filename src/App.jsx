@@ -14,29 +14,90 @@ import ProviderMessagesPage from "./pages/ProviderMessagesPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProviderProfilePage from "./pages/ProviderProfilePage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
-import GuestGuard from "./components/GuestGuard.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
   return (
     <AuthProvider>
-      <GuestGuard>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/worker-register" element={<WorkerRegisterPage />} />
-          <Route path="/client-register" element={<ClientRegisterPage />} />
-          <Route path="/dashboard" element={<ClientDashboardPage />} />
-          <Route path="/provider-dashboard" element={<ProviderDashboardPage />} />
-          <Route path="/bookings" element={<BookingsPage />} />
-          <Route path="/provider-bookings" element={<ProviderBookingsPage />} />
-          <Route path="/messages" element={<MessagesPage />} />
-          <Route path="/provider-messages" element={<ProviderMessagesPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/provider-profile" element={<ProviderProfilePage />} />
-          <Route path="/explore" element={<ExplorePage />} />
-        </Routes>
-      </GuestGuard>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/worker-register" element={<WorkerRegisterPage />} />
+        <Route path="/client-register" element={<ClientRegisterPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <ClientDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/provider-dashboard"
+          element={
+            <ProtectedRoute>
+              <ProviderDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
+              <BookingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/provider-bookings"
+          element={
+            <ProtectedRoute>
+              <ProviderBookingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/messages"
+          element={
+            <ProtectedRoute>
+              <MessagesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/provider-messages"
+          element={
+            <ProtectedRoute>
+              <ProviderMessagesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/provider-profile"
+          element={
+            <ProtectedRoute>
+              <ProviderProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/explore"
+          element={
+            <ProtectedRoute>
+              <ExplorePage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </AuthProvider>
   );
 }
