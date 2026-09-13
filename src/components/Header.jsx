@@ -7,8 +7,8 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
   const navLinks = [
     { label: "Home", icon: "🏠", path: "/dashboard" },
     { label: "Explore", icon: "🔍", path: "/explore" },
-    { label: "Bookings", icon: "📋", path: "/dashboard" },
-    { label: "Messages", icon: "💬", path: "/dashboard" },
+    { label: "Bookings", icon: "📋", path: "/bookings" },
+    { label: "Messages", icon: "💬", path: "/messages" },
     { label: "Profile", icon: "👤", path: "/dashboard" },
   ];
 

@@ -5,6 +5,8 @@ import WorkerRegisterPage from "./pages/WorkerRegisterPage.jsx";
 import ClientRegisterPage from "./pages/ClientRegisterPage.jsx";
 import ClientDashboardPage from "./pages/ClientDashboardPage.jsx";
 import ExplorePage from "./pages/ExplorePage.jsx";
+import BookingsPage from "./pages/BookingsPage.jsx";
+import MessagesPage from "./pages/MessagesPage.jsx";
 
 export default function App() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
       <Route path="/worker-register" element={<WorkerRegisterPage />} />
       <Route path="/client-register" element={<ClientRegisterPage />} />
       <Route path="/dashboard" element={<ClientDashboardPage />} />
+      <Route path="/bookings" element={<BookingsPage />} />
+      <Route path="/messages" element={<MessagesPage />} />
       <Route path="/explore" element={<ExplorePage />} />
     </Routes>
   );
