@@ -166,12 +166,20 @@ export default function LoginPage() {
               </a>
             </div>
 
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="mt-2 w-full rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
-            >
-              [Debug] Go to Dashboard
-            </button>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => navigate("/dashboard")}
+                className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              >
+                [Debug] Client Dashboard
+              </button>
+              <button
+                onClick={() => navigate("/provider-dashboard")}
+                className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              >
+                [Debug] Provider Dashboard
+              </button>
+            </div>
           </div>
         </section>
       )}

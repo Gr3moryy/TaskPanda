@@ -128,7 +128,6 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50 pt-16">
       <Header showNav activeTab="Home" />
 
-      {/* 2. Reminder Banner */}
       {bannerVisible && (
         <div className="relative bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
@@ -162,18 +161,13 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Main Content */}
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row lg:px-8">
-        {/* Left / Center Main Area */}
         <div className="flex-1 space-y-8 lg:min-w-0">
-          {/* 3. Hero Search & Banner */}
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-slate-700 to-slate-800 px-6 py-10 sm:px-10 sm:py-12">
-            {/* Decorative background elements */}
             <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" />
             <div className="pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" />
             <div className="pointer-events-none absolute right-1/4 top-1/4 h-16 w-16 rounded-full bg-white/5" />
 
-            {/* Panda mascot peeking out */}
             <div className="pointer-events-none absolute -bottom-4 -right-2 hidden h-48 w-40 overflow-hidden sm:block md:right-8">
               <img
                 src="/assets/Panda Cropped.png"
@@ -191,14 +185,13 @@ export default function Dashboard() {
                 independent local specialists.
               </p>
 
-              {/* Search Bar */}
               <div className="mt-8 flex items-center overflow-hidden rounded-xl bg-white shadow-lg">
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search for carpentry, plumbing, cleaning, or electrical services..."
-                  className="flex-1 px-5 py-3.5 text-sm text-gray-800 placeholder-gray-400 outline-none"
+                  className="flex-1 px-5 py-3.5 text-sm text-gray-800 placeholder-gray-400/70 outline-none"
                   ref={scrollRef}
                 />
                 <button className="shrink-0 bg-gray-800 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-900">
@@ -208,7 +201,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* 4. Explore Categories */}
           <section>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">Explore Categories</h2>
@@ -270,7 +262,6 @@ export default function Dashboard() {
             </div>
           </section>
 
-          {/* 5. Your Favourites */}
           <section>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">Your Favourites</h2>
@@ -361,7 +352,6 @@ export default function Dashboard() {
           </section>
         </div>
 
-        {/* 6. Active Bookings Sidebar */}
         <aside className="w-full shrink-0 lg:w-80">
           <div className="sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
@@ -375,7 +365,6 @@ export default function Dashboard() {
                 See All &gt;
               </a>
             </div>
-            {/* Filter Tabs */}
             <div className="flex gap-1 border-b border-gray-100 px-5 py-3">
               {tabs.map((tab) => (
                 <button
@@ -391,7 +380,6 @@ export default function Dashboard() {
                 </button>
               ))}
             </div>
-            {/* Booking List */}
             <div className="max-h-[480px] overflow-y-auto p-4">
               {filteredBookings.length === 0 ? (
                 <p className="py-8 text-center text-sm text-gray-400">

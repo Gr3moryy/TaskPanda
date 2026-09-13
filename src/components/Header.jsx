@@ -1,33 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export default function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home" }) {
+export default function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home", role = "client", notifCount = 2 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef(null);
 
-  const navLinks = [
+  useEffect(() => {
+    function handleClick(e) {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setNotifOpen(false);
+      }
+    }
+    if (notifOpen) {
+      document.addEventListener("mousedown", handleClick);
+      return () => document.removeEventListener("mousedown", handleClick);
+    }
+  }, [notifOpen]);
+
+  const clientNavLinks = [
     { label: "Home", icon: "🏠", path: "/dashboard" },
     { label: "Explore", icon: "🔍", path: "/explore" },
     { label: "Bookings", icon: "📋", path: "/bookings" },
     { label: "Messages", icon: "💬", path: "/messages" },
-    { label: "Profile", icon: "👤", path: "/dashboard" },
+    { label: "Profile", icon: "👤", path: "/profile" },
   ];
+
+  const providerNavLinks = [
+    { label: "Home", icon: "🏠", path: "/provider-dashboard" },
+    { label: "Bookings", icon: "📋", path: "/provider-bookings" },
+    { label: "Messages", icon: "💬", path: "/provider-messages" },
+    { label: "Profile", icon: "👤", path: "/provider-profile" },
+  ];
+
+  const navLinks = role === "provider" ? providerNavLinks : clientNavLinks;
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-4">
+      <div className="container mx-auto flex h-16 items-center px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-none items-center gap-3">
           <a href="/" className={`text-2xl font-extrabold tracking-tight ${logoColor}`}>
             <span className="text-black">Task</span>Panda
           </a>
-          {showNav && (
-            <span className="hidden rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600 sm:inline-flex">
-              📍 Dagupan City, Pangasinan
-            </span>
-          )}
         </div>
 
         {showNav && (
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden flex-1 items-center justify-center gap-2 md:flex">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -45,11 +63,11 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
           </nav>
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-none items-center gap-6">
           {showNav && (
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="mr-1 inline-flex items-center justify-center rounded-lg p-2 text-gray-600 md:hidden hover:bg-gray-100"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-gray-600 md:hidden hover:bg-gray-100"
               aria-label="Toggle navigation"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
@@ -61,13 +79,61 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
               </svg>
             </button>
           )}
+          {showNav && notifCount > 0 && (
+            <div className="relative" ref={notifRef}>
+              <button
+                onClick={() => setNotifOpen(!notifOpen)}
+                className="relative inline-flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100"
+                aria-label="Notifications"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                  <path fillRule="evenodd" d="M12 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 006 15h12a1 1 0 00.707-1.707L18 11.586V8a6 6 0 00-6-6zM10 20a2 2 0 114 0a2 2 0 01-4 0z" clipRule="evenodd" />
+                </svg>
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {notifCount}
+                </span>
+              </button>
+              {notifOpen && (
+                <div className="absolute right-0 mt-2 w-72 rounded-xl border border-gray-100 bg-white shadow-lg">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <h3 className="text-sm font-semibold text-gray-900">Notifications</h3>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {role === "provider" ? (
+                      <>
+                        <a href="/provider-bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-50">
+                          <p className="text-sm text-gray-700">New request from <span className="font-semibold">Ana Reyes</span></p>
+                          <p className="text-xs text-gray-400 mt-0.5">Leaking Pipe Fix — 2 min ago</p>
+                        </a>
+                        <a href="/provider-bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50">
+                          <p className="text-sm text-gray-700">New request from <span className="font-semibold">Carlos Magsaysay</span></p>
+                          <p className="text-xs text-gray-400 mt-0.5">Bookshelf Assembly — 15 min ago</p>
+                        </a>
+                      </>
+                    ) : (
+                      <>
+                        <a href="/bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-50">
+                          <p className="text-sm text-gray-700">Your booking <span className="font-semibold">Circuit Breaker Replacement</span> was confirmed</p>
+                          <p className="text-xs text-gray-400 mt-0.5">2 hours ago</p>
+                        </a>
+                        <a href="/bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50">
+                          <p className="text-sm text-gray-700">Your booking <span className="font-semibold">Desktop Table Repair</span> is pending</p>
+                          <p className="text-xs text-gray-400 mt-0.5">5 hours ago</p>
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           {showNav && (
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 text-sm"
+                className="flex items-center gap-3 text-sm"
               >
-                <span className="hidden text-gray-600 sm:inline">Good morning, Miguel!</span>
+                <span className="hidden whitespace-nowrap text-gray-600 sm:inline">Good morning, Miguel!</span>
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
                   M
                 </div>
