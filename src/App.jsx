@@ -13,24 +13,30 @@ import MessagesPage from "./pages/MessagesPage.jsx";
 import ProviderMessagesPage from "./pages/ProviderMessagesPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProviderProfilePage from "./pages/ProviderProfilePage.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import GuestGuard from "./components/GuestGuard.jsx";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/worker-register" element={<WorkerRegisterPage />} />
-      <Route path="/client-register" element={<ClientRegisterPage />} />
-      <Route path="/dashboard" element={<ClientDashboardPage />} />
-      <Route path="/provider-dashboard" element={<ProviderDashboardPage />} />
-      <Route path="/bookings" element={<BookingsPage />} />
-      <Route path="/provider-bookings" element={<ProviderBookingsPage />} />
-      <Route path="/messages" element={<MessagesPage />} />
-      <Route path="/provider-messages" element={<ProviderMessagesPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/provider-profile" element={<ProviderProfilePage />} />
-      <Route path="/explore" element={<ExplorePage />} />
-    </Routes>
+    <AuthProvider>
+      <GuestGuard>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/worker-register" element={<WorkerRegisterPage />} />
+          <Route path="/client-register" element={<ClientRegisterPage />} />
+          <Route path="/dashboard" element={<ClientDashboardPage />} />
+          <Route path="/provider-dashboard" element={<ProviderDashboardPage />} />
+          <Route path="/bookings" element={<BookingsPage />} />
+          <Route path="/provider-bookings" element={<ProviderBookingsPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/provider-messages" element={<ProviderMessagesPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/provider-profile" element={<ProviderProfilePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
+        </Routes>
+      </GuestGuard>
+    </AuthProvider>
   );
 }
