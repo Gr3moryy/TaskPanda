@@ -3,7 +3,6 @@ import Header from "./Header.jsx";
 
 export const categories = [
   { name: "All Services", icon: "🏠" },
-  { name: "AC Cleaning", icon: "❄️" },
   { name: "Carpentry", icon: "🪵" },
   { name: "Electrical", icon: "⚡" },
   { name: "Plumbing", icon: "🔧" },

@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
@@ -13,10 +13,20 @@ import MessagesPage from "./pages/MessagesPage.jsx";
 import ProviderMessagesPage from "./pages/ProviderMessagesPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProviderProfilePage from "./pages/ProviderProfilePage.jsx";
+import AboutUsPage from "./pages/AboutUsPage.jsx";
+import CareersPage from "./pages/CareersPage.jsx";
+import HelpCenterPage from "./pages/HelpCenterPage.jsx";
+import BlogPage from "./pages/BlogPage.jsx";
+import ContactUsPage from "./pages/ContactUsPage.jsx";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Footer from "./components/Footer.jsx";
+
+const authRoutes = ["/login", "/register", "/worker-register", "/client-register"];
 
 export default function App() {
+  const location = useLocation();
+  const showFooter = !authRoutes.includes(location.pathname);
   return (
     <AuthProvider>
       <Routes>
@@ -25,79 +35,23 @@ export default function App() {
         <Route path="/worker-register" element={<WorkerRegisterPage />} />
         <Route path="/client-register" element={<ClientRegisterPage />} />
         <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <ClientDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/provider-dashboard"
-          element={
-            <ProtectedRoute>
-              <ProviderDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/bookings"
-          element={
-            <ProtectedRoute>
-              <BookingsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/provider-bookings"
-          element={
-            <ProtectedRoute>
-              <ProviderBookingsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/messages"
-          element={
-            <ProtectedRoute>
-              <MessagesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/provider-messages"
-          element={
-            <ProtectedRoute>
-              <ProviderMessagesPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/provider-profile"
-          element={
-            <ProtectedRoute>
-              <ProviderProfilePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/explore"
-          element={
-            <ProtectedRoute>
-              <ExplorePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/dashboard" element={<ClientDashboardPage />} />
+        <Route path="/provider-dashboard" element={<ProviderDashboardPage />} />
+        <Route path="/bookings" element={<BookingsPage />} />
+        <Route path="/provider-bookings" element={<ProviderBookingsPage />} />
+        <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/provider-messages" element={<ProviderMessagesPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/provider-profile" element={<ProviderProfilePage />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/careers" element={<CareersPage />} />
+        <Route path="/help-center" element={<HelpCenterPage />} />
+        <Route path="/contact" element={<ContactUsPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/blog" element={<BlogPage />} />
       </Routes>
+      {showFooter && <Footer />}
     </AuthProvider>
   );
 }

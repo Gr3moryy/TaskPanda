@@ -171,13 +171,13 @@ export default function LoginPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => { login("client"); navigate("/dashboard"); }}
                 className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
               >
                 [Debug] Client Dashboard
               </button>
               <button
-                onClick={() => navigate("/provider-dashboard")}
+                onClick={() => { login("provider"); navigate("/provider-dashboard"); }}
                 className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
               >
                 [Debug] Provider Dashboard

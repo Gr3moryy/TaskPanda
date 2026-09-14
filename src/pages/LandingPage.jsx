@@ -113,6 +113,7 @@ function StarIcon({ filled }) {
 export default function LandingPage() {
   const navigate = useNavigate();
   const [howTab, setHowTab] = useState("client");
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const catScrollRef = useRef(null);
 
   const scrollCategories = (direction) => {
@@ -419,13 +420,13 @@ export default function LandingPage() {
                   </div>
                   <div className="mt-4 flex gap-2">
                     <button
-                      onClick={() => navigate("/explore")}
+                      onClick={() => setShowAuthModal(true)}
                       className="flex-1 rounded-lg bg-gray-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-gray-800"
                     >
                       View Profile
                     </button>
                     <button
-                      onClick={() => navigate("/explore")}
+                      onClick={() => setShowAuthModal(true)}
                       className="flex-1 rounded-lg border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
                     >
                       Book Now
@@ -474,81 +475,53 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-white py-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <a href="/" className="text-2xl font-extrabold tracking-tight">
-                <span className="text-gray-900">Task</span>
-                <span className="text-primary-700">Panda</span>
-              </a>
-              <p className="mt-3 text-sm leading-relaxed text-gray-500">
-                Connecting homeowners with trusted local tradespeople since
-                2024.
-              </p>
+      {showAuthModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => setShowAuthModal(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-xl">
+              🔐
             </div>
-            <div>
-              <h4 className="text-sm font-bold text-gray-900">Services</h4>
-              <ul className="mt-3 space-y-2 text-sm text-gray-500">
-                {categories.slice(0, 5).map((cat) => (
-                  <li key={cat.name}>
-                    <a
-                      href="/explore"
-                      className="transition hover:text-gray-900"
-                    >
-                      {cat.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <h2 className="text-center text-2xl font-bold text-gray-900">
+              Welcome Back
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-500">
+              Login or create an account to continue
+            </p>
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  navigate("/login");
+                }}
+                className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  navigate("/register");
+                }}
+                className="rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+              >
+                Register
+              </button>
             </div>
-            <div>
-              <h4 className="text-sm font-bold text-gray-900">Company</h4>
-              <ul className="mt-3 space-y-2 text-sm text-gray-500">
-                <li>
-                  <a href="/explore" className="transition hover:text-gray-900">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="/explore" className="transition hover:text-gray-900">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="/explore" className="transition hover:text-gray-900">
-                    Blog
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-gray-900">Support</h4>
-              <ul className="mt-3 space-y-2 text-sm text-gray-500">
-                <li>
-                  <a href="/explore" className="transition hover:text-gray-900">
-                    Help Center
-                  </a>
-                </li>
-                <li>
-                  <a href="/explore" className="transition hover:text-gray-900">
-                    Contact Us
-                  </a>
-                </li>
-                <li>
-                  <a href="/explore" className="transition hover:text-gray-900">
-                    Privacy Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 border-t border-gray-100 pt-6 text-center text-xs text-gray-400">
-            &copy; {new Date().getFullYear()} TaskPanda. All rights reserved.
+            <button
+              onClick={() => setShowAuthModal(false)}
+              className="mt-4 w-full text-center text-xs text-gray-400 hover:text-gray-600"
+            >
+              Close
+            </button>
           </div>
         </div>
-      </footer>
+      )}
     </div>
   );
 }
