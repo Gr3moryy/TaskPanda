@@ -62,7 +62,7 @@ export default function BlogPage() {
       {/* Hero */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             Blog
           </h1>
           <p className="mt-4 text-lg text-gray-600">
@@ -78,7 +78,7 @@ export default function BlogPage() {
       </section>
 
       {/* Posts */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p, i) => (

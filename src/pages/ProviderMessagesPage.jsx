@@ -138,7 +138,7 @@ export default function ProviderMessagesPage() {
     <div className="min-h-screen bg-gray-50 pt-16">
       <Header showNav activeTab="Messages" role="provider" />
 
-      <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-5xl sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Conversation List */}
         <div
           className={`flex-1 h-full w-full shrink-0 border-r border-gray-200 bg-white ${

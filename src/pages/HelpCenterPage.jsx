@@ -82,9 +82,9 @@ export default function HelpCenterPage() {
       </section>
 
       {/* FAQ Categories */}
-      <section className="py-12">
+      <section className="py-10 sm:py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((c) => (
               <div
                 key={c.title}
@@ -106,7 +106,7 @@ export default function HelpCenterPage() {
       </section>
 
       {/* FAQs */}
-      <section className="bg-white py-16">
+      <section className="bg-white py-12 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-8 text-center text-3xl font-bold text-gray-900 sm:text-4xl">
             Frequently Asked Questions
@@ -148,7 +148,7 @@ export default function HelpCenterPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-teal-600 px-6 py-12 text-center sm:px-12 sm:py-16">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">

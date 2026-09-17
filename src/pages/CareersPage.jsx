@@ -48,7 +48,7 @@ export default function CareersPage() {
       <section className="relative overflow-hidden bg-white">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               Join Our Team
             </h1>
             <p className="mt-6 text-lg text-gray-600">

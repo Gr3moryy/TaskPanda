@@ -122,9 +122,9 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
+          <div className="grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2 lg:gap-10 lg:py-24">
             <div className="max-w-xl animate-hero">
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+              <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
                 Find trusted local
                 <span className="block bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   pros for your home
@@ -135,16 +135,16 @@ export default function LandingPage() {
                 independent local specialists. Quick, reliable, and hassle-free.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3 animate-fade-in-up delay-300">
+              <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-3 animate-fade-in-up delay-300">
                 <button
                   onClick={() => navigate("/register")}
-                  className="rounded-xl bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5"
+                  className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
                 >
                   Get Started
                 </button>
                 <button
                   onClick={() => navigate("/login")}
-                  className="rounded-xl border border-gray-300 bg-white px-7 py-3.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5"
+                  className="rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
                 >
                   Sign In
                 </button>
@@ -206,7 +206,7 @@ export default function LandingPage() {
       {/* Stats Bar */}
       <section className="bg-white py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
             {stats.map((s, i) => (
               <div
                 key={s.label}
@@ -242,8 +242,8 @@ export default function LandingPage() {
               <button
                 key={cat.name}
                 onClick={() => navigate("/explore")}
-                className="flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up"
-                style={{ width: "120px", animationDelay: `${0.05 * categories.indexOf(cat)}s` }}
+                className="flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up"
+                style={{ width: "100px", maxWidth: "120px", animationDelay: `${0.05 * categories.indexOf(cat)}s` }}
               >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className="whitespace-nowrap text-xs font-medium text-gray-700">
@@ -268,7 +268,7 @@ export default function LandingPage() {
             <div className="mt-4 inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1">
                 <button
                   onClick={() => setHowTab("client")}
-                  className={`rounded-md px-5 py-2 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition sm:px-5 sm:py-2 ${
                     howTab === "client"
                       ? "bg-primary-600 text-white shadow-sm"
                       : "text-gray-500 hover:text-gray-700"
@@ -278,7 +278,7 @@ export default function LandingPage() {
                 </button>
                 <button
                   onClick={() => setHowTab("provider")}
-                  className={`rounded-md px-5 py-2 text-sm font-medium transition ${
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition sm:px-5 sm:py-2 ${
                     howTab === "provider"
                       ? "bg-green-600 text-white shadow-sm"
                       : "text-gray-500 hover:text-gray-700"
@@ -374,18 +374,18 @@ export default function LandingPage() {
                     </span>
                   </div>
                   <div className="mt-4 flex gap-2">
-                    <button
-                      onClick={() => setShowAuthModal(true)}
-                      className="flex-1 rounded-lg bg-gray-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-gray-800"
-                    >
-                      View Profile
-                    </button>
-                    <button
-                      onClick={() => setShowAuthModal(true)}
-                      className="flex-1 rounded-lg border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
-                    >
-                      Book Now
-                    </button>
+                  <button
+                    onClick={() => setShowAuthModal(true)}
+                    className="flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4"
+                  >
+                    View Profile
+                  </button>
+                  <button
+                    onClick={() => setShowAuthModal(true)}
+                    className="flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4"
+                  >
+                    Book Now
+                  </button>
                   </div>
                 </div>
               </div>
@@ -400,30 +400,30 @@ export default function LandingPage() {
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-12 sm:px-12 sm:py-16 animate-fade-in">
             <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" />
             <div className="pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" />
-            <div className="relative z-10 flex flex-col items-center gap-6 text-center lg:flex-row lg:text-left animate-fade-in-up">
+            <div className="relative z-10 flex flex-col items-center gap-5 text-center lg:flex-row lg:text-left animate-fade-in-up">
               <div className="flex-1">
-                <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl">
+                <h2 className="text-xl font-extrabold leading-tight tracking-tight text-white sm:text-2xl md:text-3xl lg:text-4xl">
                   Ready to start your project?
                 </h2>
-                <p className="mt-3 text-base text-gray-400 sm:text-lg">
+                <p className="mt-2 text-sm text-gray-400 sm:text-base">
                   Join thousands of homeowners who trust TaskPanda to find
                   reliable local professionals. Get started in minutes — no
                   commitments needed.
                 </p>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row lg:flex-none">
-                <button
-                  onClick={() => navigate("/register")}
-                  className="rounded-xl bg-white px-7 py-3.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-100"
-                >
-                  Create Free Account
-                </button>
-                <button
-                  onClick={() => navigate("/login")}
-                  className="rounded-xl border border-gray-600 bg-transparent px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800"
-                >
-                  Sign In
-                </button>
+              <div className="flex flex-col gap-2 sm:flex-row lg:flex-none">
+              <button
+                    onClick={() => navigate("/register")}
+                    className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5"
+                  >
+                    Create Free Account
+                  </button>
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="rounded-xl border border-gray-600 bg-transparent px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 sm:px-7 sm:py-3.5"
+                  >
+                    Sign In
+                  </button>
               </div>
             </div>
           </div>

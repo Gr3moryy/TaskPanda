@@ -169,7 +169,7 @@ export default function Explore() {
                 value={searchLocation}
                 onChange={(e) => setSearchLocation(e.target.value)}
                 placeholder="Dagupan City"
-                className="w-36 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none sm:w-44"
+                className="w-24 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none sm:w-36 md:w-44"
               />
               <button className="shrink-0 bg-purple-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-purple-700">
                 Search
@@ -269,7 +269,7 @@ export default function Explore() {
           </div>
 
           {/* Provider Grid */}
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
             {providers.map((provider) => (
               <div
                 key={provider.name}
