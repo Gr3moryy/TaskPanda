@@ -37,7 +37,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="container mx-auto flex h-16 items-center px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex flex-none items-center gap-3">
           <a href="/" className={`text-2xl font-extrabold tracking-tight ${logoColor}`}>
             <span className="text-black">Task</span>Panda
@@ -45,7 +45,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
         </div>
 
         {showNav && (
-          <nav className="hidden flex-1 items-center justify-center gap-2 md:flex">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex">
             {navLinks.map((link) => (
               <a
                 key={link.label}

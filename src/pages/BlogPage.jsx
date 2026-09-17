@@ -81,10 +81,11 @@ export default function BlogPage() {
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((p) => (
+            {posts.map((p, i) => (
               <article
                 key={p.title}
-                className="flex flex-col rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition hover:shadow-md"
+                className="flex flex-col rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition hover:shadow-md hover:-translate-y-1 animate-fade-in-up"
+                style={{ animationDelay: `${0.1 * i}s` }}
               >
                 <span
                   className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${p.color}`}

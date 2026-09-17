@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import { categories } from "../components/ClientDashboard.jsx";
@@ -114,16 +114,6 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const [howTab, setHowTab] = useState("client");
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const catScrollRef = useRef(null);
-
-  const scrollCategories = (direction) => {
-    if (catScrollRef.current) {
-      catScrollRef.current.scrollBy({
-        left: direction === "left" ? -200 : 200,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -133,34 +123,34 @@ export default function LandingPage() {
       <section className="relative overflow-hidden">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
-            <div className="max-w-xl">
+            <div className="max-w-xl animate-hero">
               <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
                 Find trusted local
                 <span className="block bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   pros for your home
                 </span>
               </h1>
-              <p className="mt-5 text-base leading-relaxed text-gray-600 sm:text-lg">
+              <p className="mt-5 text-base leading-relaxed text-gray-600 sm:text-lg animate-fade-in-up delay-200">
                 TaskPanda connects you with certified tradespeople and trusted
                 independent local specialists. Quick, reliable, and hassle-free.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-3 animate-fade-in-up delay-300">
                 <button
                   onClick={() => navigate("/register")}
-                  className="rounded-xl bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+                  className="rounded-xl bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5"
                 >
                   Get Started
                 </button>
                 <button
                   onClick={() => navigate("/login")}
-                  className="rounded-xl border border-gray-300 bg-white px-7 py-3.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                  className="rounded-xl border border-gray-300 bg-white px-7 py-3.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5"
                 >
                   Sign In
                 </button>
               </div>
 
-              <div className="mt-6 flex items-center gap-3 text-sm text-gray-500">
+              <div className="mt-6 flex items-center gap-3 text-sm text-gray-500 animate-fade-in-up delay-400">
                 <div className="flex -space-x-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700 ring-2 ring-white">
                     J
@@ -179,7 +169,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative animate-slide-right delay-300">
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-slate-700 to-slate-800 px-6 py-10 sm:px-10 sm:py-12">
                 <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" />
                 <div className="pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" />
@@ -216,13 +206,14 @@ export default function LandingPage() {
       {/* Stats Bar */}
       <section className="bg-white py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {stats.map((s) => (
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            {stats.map((s, i) => (
               <div
                 key={s.label}
-                className="flex flex-col items-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-5 text-center"
+                className="flex flex-col items-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-5 text-center transition hover:shadow-md animate-fade-in-up"
+                style={{ animationDelay: `${0.1 * i}s` }}
               >
-                <span className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+                <span className="text-2xl font-extrabold text-gray-900 sm:text-3xl animate-fade-in-up" style={{ animationDelay: `${0.15 * i}s` }}>
                   {s.value}
                 </span>
                 <span className="mt-1 text-xs text-gray-500 sm:text-sm">
@@ -237,60 +228,22 @@ export default function LandingPage() {
       {/* Categories Section */}
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">
-                Explore Services
-              </h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Browse services from certified local professionals
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => scrollCategories("left")}
-                className="rounded-full border border-gray-200 bg-white p-2 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700"
-                aria-label="Scroll left"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-4 w-4"
-                >
-                  <path d="M10 4L4 12l6 8V4z" />
-                  <rect x="10" y="11" width="12" height="2" />
-                </svg>
-              </button>
-              <button
-                onClick={() => scrollCategories("right")}
-                className="rounded-full border border-gray-200 bg-white p-2 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700"
-                aria-label="Scroll right"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-4 w-4"
-                >
-                  <path d="M14 4l6 8-6 8V4z" />
-                  <rect x="2" y="11" width="12" height="2" />
-                </svg>
-              </button>
-            </div>
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Explore Services
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Browse services from certified local professionals
+            </p>
           </div>
 
-          <div
-            ref={catScrollRef}
-            className="flex gap-3 overflow-x-auto pb-2"
-            style={{ scrollbarWidth: "none" }}
-          >
+          <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => navigate("/explore")}
-                className="flex shrink-0 cursor-pointer flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md hover:border-gray-200"
-                style={{ width: "120px" }}
+                className="flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up"
+                style={{ width: "120px", animationDelay: `${0.05 * categories.indexOf(cat)}s` }}
               >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className="whitespace-nowrap text-xs font-medium text-gray-700">
@@ -313,40 +266,41 @@ export default function LandingPage() {
               Simple steps for both clients and providers
             </p>
             <div className="mt-4 inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1">
-              <button
-                onClick={() => setHowTab("client")}
-                className={`rounded-md px-5 py-2 text-sm font-medium transition ${
-                  howTab === "client"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                For Clients
-              </button>
-              <button
-                onClick={() => setHowTab("provider")}
-                className={`rounded-md px-5 py-2 text-sm font-medium transition ${
-                  howTab === "provider"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                For Providers
-              </button>
+                <button
+                  onClick={() => setHowTab("client")}
+                  className={`rounded-md px-5 py-2 text-sm font-medium transition ${
+                    howTab === "client"
+                      ? "bg-primary-600 text-white shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  } animate-fade-in-up`}
+                >
+                  For Clients
+                </button>
+                <button
+                  onClick={() => setHowTab("provider")}
+                  className={`rounded-md px-5 py-2 text-sm font-medium transition ${
+                    howTab === "provider"
+                      ? "bg-green-600 text-white shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  } animate-fade-in-up delay-100`}
+                >
+                  For Providers
+                </button>
             </div>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-3">
             {(howTab === "client" ? howItWorksClient : howItWorksProvider).map(
-              (item) => (
+              (item, i) => (
                 <div
                   key={item.step}
-                  className="relative rounded-2xl border border-gray-100 bg-gray-50 p-6 text-center transition hover:shadow-md hover:border-gray-200"
+                  className="relative rounded-2xl border border-gray-100 bg-gray-50 p-6 text-center transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up"
+                  style={{ animationDelay: `${0.1 * i}s` }}
                 >
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white text-2xl shadow-sm">
                     {item.icon}
                   </div>
-                  <span className="mt-4 inline-block rounded-lg bg-primary-100 px-3 py-1 text-xs font-bold text-primary-700">
+                  <span className={`mt-4 inline-block rounded-lg px-3 py-1 text-xs font-bold ${howTab === "client" ? "bg-primary-100 text-primary-700" : "bg-green-100 text-green-700"}`}>
                     {item.step}
                   </span>
                   <h3 className="mt-3 text-lg font-bold text-gray-900">
@@ -375,10 +329,11 @@ export default function LandingPage() {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {providers.map((p) => (
+            {providers.map((p, i) => (
               <div
                 key={p.name}
-                className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md"
+                className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md hover:-translate-y-1 animate-fade-in-up"
+                style={{ animationDelay: `${0.1 * i}s` }}
               >
                 <div className={`relative h-28 bg-gradient-to-r ${p.banner}`}>
                   <div className="absolute -bottom-6 left-4">
@@ -442,10 +397,10 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-12 sm:px-12 sm:py-16">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-12 sm:px-12 sm:py-16 animate-fade-in">
             <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" />
             <div className="pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" />
-            <div className="relative z-10 flex flex-col items-center gap-6 text-center lg:flex-row lg:text-left">
+            <div className="relative z-10 flex flex-col items-center gap-6 text-center lg:flex-row lg:text-left animate-fade-in-up">
               <div className="flex-1">
                 <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl">
                   Ready to start your project?
@@ -477,11 +432,11 @@ export default function LandingPage() {
 
       {showAuthModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in"
           onClick={() => setShowAuthModal(false)}
         >
           <div
-            className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl"
+            className="w-full max-w-sm scale-100 rounded-2xl bg-white p-8 shadow-xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-xl">
