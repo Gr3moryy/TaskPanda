@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+  const { isVerified } = useAuth();
   return (
     <div className="min-h-screen bg-gray-50 pt-16 pb-12">
       <Header showNav activeTab="Profile" />
@@ -20,6 +24,19 @@ export default function ProfilePage() {
             Dagupan City, Pangasinan
           </p>
           <p className="mt-1 text-xs text-gray-400">Member since Jan 2025</p>
+          <div className="mt-3">
+            {isVerified ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                Verified
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                Unverified
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Stats */}
@@ -40,12 +57,20 @@ export default function ProfilePage() {
 
         {/* Settings */}
         <div className="mt-6 rounded-2xl bg-white shadow-sm">
-          <a href="#" className="flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50">
+          <a href="/profile/edit" className="flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50">
             <span className="text-sm font-medium text-gray-700">Edit Profile</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-gray-400">
               <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
             </svg>
           </a>
+          {!isVerified && (
+            <a href="/profile/verify" className="flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50">
+              <span className="text-sm font-medium text-amber-600">Verify Identity</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-amber-400">
+                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+              </svg>
+            </a>
+          )}
           <a href="#" className="flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50">
             <span className="text-sm font-medium text-gray-700">Change Password</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-gray-400">

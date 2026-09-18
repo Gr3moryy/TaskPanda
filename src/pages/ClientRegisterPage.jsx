@@ -33,12 +33,12 @@ export default function ClientRegisterPage() {
       const response = await fetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-          role: "client",
-        }),
+          body: JSON.stringify({
+            fullName: formData.fullName,
+            email: formData.email,
+            password: formData.password,
+            role: "client",
+          }),
       });
       if (response.ok) {
         navigate("/login");

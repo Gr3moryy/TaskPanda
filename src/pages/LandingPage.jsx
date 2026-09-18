@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import { categories } from "../components/ClientDashboard.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const howItWorksClient = [
   {
@@ -112,11 +113,13 @@ function StarIcon({ filled }) {
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const { isVerified } = useAuth();
   const [howTab, setHowTab] = useState("client");
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showVerifyPrompt, setShowVerifyPrompt] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-16">
       <Header showNav={false} />
 
       {/* Hero Section */}
@@ -189,21 +192,20 @@ export default function LandingPage() {
                         className="flex items-center gap-3 rounded-lg bg-white/10 px-4 py-2.5"
                       >
                         <span className="text-base">{item.icon}</span>
-                        <span className="text-sm text-teal-50">
-                          {item.text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                         <span className="text-sm text-teal-50">
+                           {item.text}
+                         </span>
+                       </div>
+                     ))}
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </section>
 
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Bar */}
+       {/* Stats Bar */}
       <section className="bg-white py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
@@ -375,14 +377,26 @@ export default function LandingPage() {
                   </div>
                   <div className="mt-4 flex gap-2">
                   <button
-                    onClick={() => setShowAuthModal(true)}
-                    className="flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4"
+                    onClick={() => {
+                      if (!isVerified) {
+                        setShowVerifyPrompt(true);
+                        return;
+                      }
+                      setShowAuthModal(true);
+                    }}
+                    className="flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4"
                   >
-                    View Profile
+                    Book Now
                   </button>
                   <button
-                    onClick={() => setShowAuthModal(true)}
-                    className="flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4"
+                    onClick={() => {
+                      if (!isVerified) {
+                        setShowVerifyPrompt(true);
+                        return;
+                      }
+                      setShowAuthModal(true);
+                    }}
+                    className="flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4"
                   >
                     Book Now
                   </button>
@@ -474,6 +488,45 @@ export default function LandingPage() {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {showVerifyPrompt && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in"
+          onClick={() => setShowVerifyPrompt(false)}
+        >
+          <div
+            className="w-full max-w-sm scale-100 rounded-2xl bg-white p-8 shadow-xl animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-xl">
+              🪪
+            </div>
+            <h2 className="text-center text-2xl font-bold text-gray-900">
+              Verification Required
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-500">
+              You need to verify your identity with a valid ID before booking services.
+            </p>
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setShowVerifyPrompt(false);
+                  navigate("/profile/verify");
+                }}
+                className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
+              >
+                Verify Now
+              </button>
+              <button
+                onClick={() => setShowVerifyPrompt(false)}
+                className="w-full text-center text-xs text-gray-400 hover:text-gray-600"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

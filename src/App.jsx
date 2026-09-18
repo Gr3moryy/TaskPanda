@@ -12,13 +12,15 @@ import ProviderBookingsPage from "./pages/ProviderBookingsPage.jsx";
 import MessagesPage from "./pages/MessagesPage.jsx";
 import ProviderMessagesPage from "./pages/ProviderMessagesPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import EditProfilePage from "./pages/EditProfilePage.jsx";
 import ProviderProfilePage from "./pages/ProviderProfilePage.jsx";
 import AboutUsPage from "./pages/AboutUsPage.jsx";
 import CareersPage from "./pages/CareersPage.jsx";
 import HelpCenterPage from "./pages/HelpCenterPage.jsx";
 import BlogPage from "./pages/BlogPage.jsx";
-import ContactUsPage from "./pages/ContactUsPage.jsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
+import ContactUsPage from "./pages/ContactUsPage.jsx";
+import VerificationPage from "./pages/VerificationPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import Footer from "./components/Footer.jsx";
 
@@ -42,6 +44,7 @@ export default function App() {
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/provider-messages" element={<ProviderMessagesPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
         <Route path="/provider-profile" element={<ProviderProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/about" element={<AboutUsPage />} />
@@ -50,6 +53,7 @@ export default function App() {
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/profile/verify" element={<VerificationPage />} />
       </Routes>
       {showFooter && <Footer />}
     </AuthProvider>

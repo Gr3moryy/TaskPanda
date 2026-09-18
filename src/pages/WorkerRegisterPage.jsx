@@ -33,12 +33,12 @@ export default function WorkerRegisterPage() {
       const response = await fetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          role: "provider",
-        }),
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            role: "provider",
+          }),
       });
       if (response.ok) {
         navigate("/login");
@@ -166,13 +166,13 @@ export default function WorkerRegisterPage() {
                 <p className="text-sm text-red-600">{error}</p>
               )}
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
-              >
-                {isSubmitting ? "Signing up..." : "Sign up"}
-              </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            {isSubmitting ? "Signing up..." : "Sign up"}
+          </button>
             </form>
 
             <div className="flex items-center gap-3 text-sm text-gray-400">
