@@ -46,7 +46,7 @@ export default function Layout({ theme = "primary", children }) {
           </div>
           <Mascot />
         </section>
-        {children(a)}
+        {typeof children === "function" ? children(a) : children}
       </main>
     </div>
   );

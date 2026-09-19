@@ -10,14 +10,17 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("[RegisterPage] handleSubmit, selectedRole:", selectedRole);
     if (!selectedRole) return;
 
     if (selectedRole === "client") {
+      console.log("[RegisterPage] navigating to /client-register");
       navigate("/client-register");
       return;
     }
 
     if (selectedRole === "provider") {
+      console.log("[RegisterPage] navigating to /worker-register");
       navigate("/worker-register");
       return;
     }

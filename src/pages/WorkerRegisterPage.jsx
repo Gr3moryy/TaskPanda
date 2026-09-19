@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import SocialButton from "../components/SocialButton.jsx";
+import TermsModal from "../components/TermsModal.jsx";
 
 export default function WorkerRegisterPage() {
+  console.log("[WorkerRegisterPage] MOUNTED");
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -13,6 +15,8 @@ export default function WorkerRegisterPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +26,11 @@ export default function WorkerRegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!agreedToTerms) {
+      setError("You must agree to the Terms of Service and Privacy Policy");
+      return;
+    }
 
     if (formData.password !== formData["confirm-password"]) {
       setError("Passwords do not match");
@@ -55,6 +64,7 @@ export default function WorkerRegisterPage() {
   return (
     <Layout theme="green">
       {(a) => (
+        <>
         <section className="flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20">
           <div className="w-full max-w-sm space-y-6">
             <div className="flex items-center gap-2">
@@ -166,9 +176,37 @@ export default function WorkerRegisterPage() {
                 <p className="text-sm text-red-600">{error}</p>
               )}
 
+              <div className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="agreeTerms"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+                />
+                <label htmlFor="agreeTerms" className="text-sm text-gray-600">
+                  I agree to the{" "}
+                  <button
+                    type="button"
+                    onClick={() => setShowTerms(true)}
+                    className="font-medium text-green-600 hover:text-green-800 underline"
+                  >
+                    Terms of Service
+                  </button>{" "}
+                  and{" "}
+                  <button
+                    type="button"
+                    onClick={() => setShowTerms(true)}
+                    className="font-medium text-green-600 hover:text-green-800 underline"
+                  >
+                    Privacy Policy
+                  </button>
+                </label>
+              </div>
+
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !agreedToTerms}
             className={`w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
           >
             {isSubmitting ? "Signing up..." : "Sign up"}
@@ -194,6 +232,8 @@ export default function WorkerRegisterPage() {
             </div>
           </div>
         </section>
+        <TermsModal open={showTerms} onClose={() => setShowTerms(false)} />
+      </>
       )}
     </Layout>
   );
