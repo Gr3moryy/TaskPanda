@@ -24,22 +24,6 @@ export default function RegisterPage() {
       navigate("/worker-register");
       return;
     }
-
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role: selectedRole }),
-      });
-      if (response.ok) {
-        navigate("/login");
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (

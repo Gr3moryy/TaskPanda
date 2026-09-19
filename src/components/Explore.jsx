@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from "./Header.jsx";
+import ProviderModal from "./ProviderModal.jsx";
 
 const filterCategories = [
   { name: "AC Repair" },
@@ -120,6 +121,7 @@ function CheckBox({ label, count, defaultChecked = false }) {
 }
 
 export default function Explore() {
+  const [viewingProvider, setViewingProvider] = useState(null);
   const [searchService, setSearchService] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
   const [showAllCats, setShowAllCats] = useState(false);
@@ -313,7 +315,11 @@ export default function Explore() {
                         ({provider.reviews})
                       </span>
                     </div>
-                    <button className="rounded-lg bg-purple-600 px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-purple-700">
+                    <button
+                      type="button"
+                      onClick={() => setViewingProvider(provider)}
+                      className="rounded-lg bg-purple-600 px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-purple-700"
+                    >
                       View Profile
                     </button>
                   </div>
@@ -322,6 +328,7 @@ export default function Explore() {
             ))}
           </div>
         </div>
+        <ProviderModal provider={viewingProvider} onClose={() => setViewingProvider(null)} />
       </div>
     </div>
   );

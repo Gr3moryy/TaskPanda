@@ -33,7 +33,14 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
     { label: "Profile", icon: "👤", path: "/provider-profile" },
   ];
 
-  const navLinks = role === "provider" ? providerNavLinks : clientNavLinks;
+  const adminNavLinks = [
+    { label: "Dashboard", icon: "📊", path: "/admin?section=dashboard" },
+    { label: "Users", icon: "👥", path: "/admin?section=users" },
+    { label: "Verifications", icon: "⏳", path: "/admin?section=verifications" },
+    { label: "Bookings", icon: "📋", path: "/admin?section=bookings" },
+  ];
+
+  const navLinks = role === "provider" ? providerNavLinks : role === "admin" ? adminNavLinks : clientNavLinks;
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm">
@@ -45,7 +52,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
         </div>
 
         {showNav && (
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -67,7 +74,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
           {showNav && (
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="inline-flex items-center justify-center rounded-lg p-2 text-gray-600 md:hidden hover:bg-gray-100"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-gray-600 lg:hidden hover:bg-gray-100"
               aria-label="Toggle navigation"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
@@ -165,7 +172,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
         </div>
       </div>
       {mobileOpen && showNav && (
-        <div className="absolute inset-x-0 top-16 z-20 border-b border-gray-200 bg-white px-4 py-3 shadow-lg md:hidden">
+        <div className="absolute inset-x-0 top-16 z-20 border-b border-gray-200 bg-white px-4 py-3 shadow-lg lg:hidden">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <a

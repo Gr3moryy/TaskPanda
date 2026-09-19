@@ -13,7 +13,6 @@ export default function ClientRegisterPage() {
     password: "",
     confirmPassword: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
@@ -23,7 +22,7 @@ export default function ClientRegisterPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
@@ -37,28 +36,12 @@ export default function ClientRegisterPage() {
       return;
     }
 
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fullName: formData.fullName,
-            email: formData.email,
-            password: formData.password,
-            role: "client",
-          }),
-      });
-      if (response.ok) {
-        navigate("/login");
-      } else {
-        setError("Registration failed. Please try again.");
-      }
-    } catch (err) {
-      setError("Network error. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    sessionStorage.setItem("clientStep1", JSON.stringify({
+      fullName: formData.fullName,
+      email: formData.email,
+      password: formData.password,
+    }));
+    navigate("/client-register/location");
   };
 
   return (
@@ -208,10 +191,10 @@ export default function ClientRegisterPage() {
 
               <button
                 type="submit"
-                disabled={isSubmitting || !agreedToTerms}
+                disabled={!agreedToTerms}
                 className={`w-full rounded-lg bg-gradient-to-r ${a.button} px-4 py-2.5 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 lg:col-span-2`}
               >
-                {isSubmitting ? "Signing up..." : "Sign up"}
+                Next
               </button>
             </form>
 

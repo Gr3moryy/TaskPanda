@@ -169,20 +169,26 @@ export default function LoginPage() {
               </a>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => { login("client"); navigate("/dashboard"); }}
+                  className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                >
+                  [Debug] Client Dashboard
+                </button>
+                <button
+                  onClick={() => { login("provider"); navigate("/provider-dashboard"); }}
+                  className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                >
+                  [Debug] Provider Dashboard
+                </button>
+              </div>
               <button
-                onClick={() => { login("client"); navigate("/dashboard"); }}
-                className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                onClick={() => { login("admin"); navigate("/admin"); }}
+                className="rounded-lg border border-dashed border-primary-300 bg-primary-50 py-2 text-xs font-medium text-primary-600 transition hover:border-primary-400 hover:bg-primary-100"
               >
-                [Debug] Client Dashboard
+                [Debug] Admin Dashboard
               </button>
-              <button
-                onClick={() => { login("provider"); navigate("/provider-dashboard"); }}
-                className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
-              >
-                [Debug] Provider Dashboard
-              </button>
-            </div>
           </div>
         </section>
       )}

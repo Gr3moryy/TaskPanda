@@ -4,7 +4,9 @@ import LandingPage from "./pages/LandingPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import WorkerRegisterPage from "./pages/WorkerRegisterPage.jsx";
+import WorkerRegisterLocation from "./pages/WorkerRegisterLocation.jsx";
 import ClientRegisterPage from "./pages/ClientRegisterPage.jsx";
+import ClientRegisterLocation from "./pages/ClientRegisterLocation.jsx";
 import ClientDashboardPage from "./pages/ClientDashboardPage.jsx";
 import ProviderDashboardPage from "./pages/ProviderDashboardPage.jsx";
 import ExplorePage from "./pages/ExplorePage.jsx";
@@ -16,6 +18,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import EditProfilePage from "./pages/EditProfilePage.jsx";
 import ProviderProfilePage from "./pages/ProviderProfilePage.jsx";
 import AboutUsPage from "./pages/AboutUsPage.jsx";
+import AdminDashboardPage from "./pages/AdminDashboardPage.jsx";
 import CareersPage from "./pages/CareersPage.jsx";
 import HelpCenterPage from "./pages/HelpCenterPage.jsx";
 import BlogPage from "./pages/BlogPage.jsx";
@@ -59,7 +62,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const authRoutes = ["/login", "/register", "/worker-register", "/client-register"];
+const authRoutes = ["/login", "/register", "/worker-register", "/worker-register/location", "/client-register", "/client-register/location", "/admin"];
 
 export default function App() {
   const location = useLocation();
@@ -72,7 +75,9 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/worker-register" element={<WorkerRegisterPage />} />
+        <Route path="/worker-register/location" element={<WorkerRegisterLocation />} />
         <Route path="/client-register" element={<ClientRegisterPage />} />
+        <Route path="/client-register/location" element={<ClientRegisterLocation />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<ClientDashboardPage />} />
         <Route path="/provider-dashboard" element={<ProviderDashboardPage />} />
@@ -84,8 +89,9 @@ export default function App() {
         <Route path="/profile/edit" element={<EditProfilePage />} />
         <Route path="/provider-profile" element={<ProviderProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/careers" element={<CareersPage />} />
+          <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/careers" element={<CareersPage />} />
         <Route path="/help-center" element={<HelpCenterPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />

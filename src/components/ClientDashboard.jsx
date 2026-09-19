@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import Header from "./Header.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const categories = [
   { name: "All Services", icon: "🏠" },
@@ -88,6 +89,7 @@ function StarIcon({ filled }) {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [bannerVisible, setBannerVisible] = useState(true);
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
@@ -341,9 +343,18 @@ export default function Dashboard() {
                     <span className="text-lg font-bold text-gray-900">
                       {fav.price}
                     </span>
-                    <button className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary-700">
-                      Rebook
-                    </button>
+                    <div className="flex gap-2">
+                      <button className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary-700">
+                        Rebook
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/profile")}
+                        className="rounded-lg border border-gray-300 bg-white px-4 py-1.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                      >
+                        View Profile
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -419,6 +430,13 @@ export default function Dashboard() {
                       </button>
                       <button className="flex-1 rounded-lg bg-red-50 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">
                         Cancel Request
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => navigate("/profile")}
+                        className="flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
+                      >
+                        View Profile
                       </button>
                     </div>
                   </div>
