@@ -49,14 +49,19 @@ export default function ClientRegisterLocation() {
       role: "client",
     };
 
-    fetch("/api/register", {
+    fetch("/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     })
-      .then((res) => {
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
         sessionStorage.removeItem("clientStep1");
-        navigate("/login");
+        if (res.ok) {
+          navigate("/login");
+        } else {
+          setError(data.message || "Registration failed. Please try again.");
+        }
       })
       .catch(() => {
         setError("Network error. Please try again.");

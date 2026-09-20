@@ -55,9 +55,14 @@ export default function WorkerRegisterLocation() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     })
-      .then((res) => {
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
         sessionStorage.removeItem("workerStep1");
-        navigate("/login");
+        if (res.ok) {
+          navigate("/login");
+        } else {
+          setError(data.message || "Registration failed. Please try again.");
+        }
       })
       .catch(() => {
         setError("Network error. Please try again.");
@@ -182,9 +187,9 @@ export default function WorkerRegisterLocation() {
 
             <div className="text-center text-sm text-gray-600">
               Already have an account?
-              <a href="/login" className={`font-medium ${a.link}`}>
+              <Link to="/login" className={`font-medium ${a.link}`}>
                 Log in here
-              </a>
+              </Link>
             </div>
           </div>
         </section>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import SocialButton from "../components/SocialButton.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -7,12 +7,36 @@ import { useAuth } from "../context/AuthContext.jsx";
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", remember: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [touched, setTouched] = useState({});
+
+  const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const errors = {
+    email:
+      !formData.email.trim()
+        ? "Email is required"
+        : !emailValid(formData.email)
+        ? "Please enter a valid email address"
+        : "",
+    password: !formData.password
+      ? "Password is required"
+      : formData.password.length < 6
+      ? "Password must be at least 6 characters"
+      : "",
+  };
+
+  const showError = (field) =>
+    (touched[field] || serverError) && errors[field];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerError("");
+    setTouched({ email: true, password: true });
+    if (errors.email || errors.password) return;
     setIsSubmitting(true);
     try {
       const response = await fetch("/login", {
@@ -24,15 +48,22 @@ export default function LoginPage() {
           remember: formData.remember,
         }),
       });
+      const data = await response.json().catch(() => ({}));
       if (response.ok) {
-        login("client");
+        login({ email: formData.email, role: data.role || "client" }, data.token);
         navigate("/");
+      } else {
+        setServerError(data.message || "Invalid email or password. Please try again.");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      setServerError("Network error. Please check your connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
   const handleChange = (e) => {
@@ -56,6 +87,11 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {(serverError || errors.email) && (
+                <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-700" role="alert">
+                  {serverError || errors.email}
+                </div>
+              )}
               <div className="space-y-2">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email or Username
@@ -69,8 +105,16 @@ export default function LoginPage() {
                   placeholder="hello@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                  onBlur={() => handleBlur("email")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${
+                    showError("email")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"
+                  }`}
                 />
+                {showError("email") && (
+                  <p className="text-xs text-red-600">{errors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -78,9 +122,13 @@ export default function LoginPage() {
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                     Password
                   </label>
-                  <a href="#" className="text-sm font-medium text-primary-600 hover:text-primary-800">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/forgot-password")}
+                    className="text-sm font-medium text-primary-600 hover:text-primary-800"
+                  >
                     Forgot password?
-                  </a>
+                  </button>
                 </div>
                 <div className="relative">
                   <input
@@ -92,7 +140,12 @@ export default function LoginPage() {
                     placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                     value={formData.password}
                     onChange={handleChange}
-                    className="block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 pr-10 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                    onBlur={() => handleBlur("password")}
+                    className={`block w-full rounded-lg border px-4 py-2.5 pr-10 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${
+                      showError("password")
+                        ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                        : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"
+                    }`}
                   />
                   <button
                     type="button"
@@ -126,6 +179,9 @@ export default function LoginPage() {
                     )}
                   </button>
                 </div>
+                {showError("password") && (
+                  <p className="text-xs text-red-600">{errors.password}</p>
+                )}
               </div>
 
               <div className="flex items-center justify-between pt-1">
@@ -134,7 +190,7 @@ export default function LoginPage() {
                     id="remember"
                     name="remember"
                     type="checkbox"
-                    checked={formData.remember || false}
+                    checked={formData.remember}
                     onChange={handleChange}
                     className="h-4 w-4 rounded border-primary-300 text-primary-600 focus:ring-primary-500"
                   />
@@ -162,33 +218,33 @@ export default function LoginPage() {
               <SocialButton provider="facebook" />
             </div>
 
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => { login({ email: "test@client.com", role: "client" }, null); navigate("/dashboard"); }}
+                className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              >
+                [Debug] Client Dashboard
+              </button>
+              <button
+                onClick={() => { login({ email: "test@provider.com", role: "provider" }, null); navigate("/provider-dashboard"); }}
+                className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              >
+                [Debug] Provider Dashboard
+              </button>
+            </div>
+            <button
+              onClick={() => { login({ email: "test@admin.com", role: "admin" }, null); navigate("/admin"); }}
+              className="rounded-lg border border-dashed border-primary-300 bg-primary-50 py-2 text-xs font-medium text-primary-600 transition hover:border-primary-400 hover:bg-primary-100"
+            >
+              [Debug] Admin Dashboard
+            </button>
+
             <div className="text-center text-sm text-gray-600">
               Don&apos;t have an account?
-              <a href="/register" className={`font-medium ${a.link}`}>
+              <Link to="/register" className={`font-medium ${a.link}`}>
                 Register
-              </a>
+              </Link>
             </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={() => { login("client"); navigate("/dashboard"); }}
-                  className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
-                >
-                  [Debug] Client Dashboard
-                </button>
-                <button
-                  onClick={() => { login("provider"); navigate("/provider-dashboard"); }}
-                  className="rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500"
-                >
-                  [Debug] Provider Dashboard
-                </button>
-              </div>
-              <button
-                onClick={() => { login("admin"); navigate("/admin"); }}
-                className="rounded-lg border border-dashed border-primary-300 bg-primary-50 py-2 text-xs font-medium text-primary-600 transition hover:border-primary-400 hover:bg-primary-100"
-              >
-                [Debug] Admin Dashboard
-              </button>
           </div>
         </section>
       )}

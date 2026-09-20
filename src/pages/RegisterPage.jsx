@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import RoleCard from "../components/RoleCard.jsx";
 
@@ -73,9 +73,9 @@ export default function RegisterPage() {
 
             <div className="text-center text-sm text-gray-600">
               Already registered?
-              <a href="/login" className={`font-medium ${a.link}`}>
+              <Link to="/login" className={`font-medium ${a.link}`}>
                 Log in here
-              </a>
+              </Link>
             </div>
           </div>
         </section>

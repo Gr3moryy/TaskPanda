@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function ProviderModal({ provider, onClose }) {
+export default function ProviderModal({ provider, onClose, onBookNow }) {
   if (!provider) return null;
 
   return (
@@ -51,7 +51,10 @@ export default function ProviderModal({ provider, onClose }) {
           <p className="mt-4 text-sm leading-relaxed text-gray-600">{provider.bio}</p>
 
           <div className="mt-5 flex gap-2">
-            <button className="flex-1 rounded-lg bg-gray-900 py-2 text-sm font-semibold text-white transition hover:bg-gray-800">
+            <button
+              onClick={onBookNow}
+              className="flex-1 rounded-lg bg-gray-900 py-2 text-sm font-semibold text-white transition hover:bg-gray-800"
+            >
               Book Now
             </button>
             <button

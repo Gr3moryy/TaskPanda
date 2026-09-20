@@ -165,14 +165,14 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50 pt-16 overflow-x-hidden">
       <Header showNav activeTab="Home" />
 
       {bannerVisible && (
-        <div className="relative bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 flex-wrap">
+        <div className="relative w-full overflow-hidden bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex w-full min-w-0 items-center gap-3">
             <span className="shrink-0 text-2xl">⚠️</span>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0 overflow-hidden">
               {isLoggedIn && (
                 <p className="text-xs font-medium text-gray-600">Welcome back, Client</p>
               )}
@@ -209,8 +209,8 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row lg:px-8">
-        <div className="flex-1 space-y-8 lg:min-w-0">
+      <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1fr_340px] lg:px-8">
+        <div className="space-y-8">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-slate-700 to-slate-800 px-6 py-10 sm:px-10 sm:py-12">
             <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" />
             <div className="pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" />
@@ -418,9 +418,9 @@ export default function Dashboard() {
               ))}
             </div>
           </section>
-        </div>
+      </div>
 
-        <aside className="w-full shrink-0 lg:w-80">
+      <aside className="w-full shrink-0 lg:w-[340px]">
           <div className="sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm">
             {/* Summary */}
             <div className="grid grid-cols-2 gap-px bg-gray-100">

@@ -16,23 +16,57 @@ export default function ClientRegisterPage() {
   const [error, setError] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
+  const [touched, setTouched] = useState({});
+
+  const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const errors = {
+    fullName: !formData.fullName.trim()
+      ? "Full name is required"
+      : formData.fullName.trim().length < 2
+      ? "Name must be at least 2 characters"
+      : "",
+    email: !formData.email.trim()
+      ? "Email is required"
+      : !emailValid(formData.email)
+      ? "Please enter a valid email address"
+      : "",
+    password: !formData.password
+      ? "Password is required"
+      : formData.password.length < 6
+      ? "Password must be at least 6 characters"
+      : "",
+    confirmPassword: !formData.confirmPassword
+      ? "Please confirm your password"
+      : formData.confirmPassword !== formData.password
+      ? "Passwords do not match"
+      : "",
+  };
+
+  const showFieldError = (field) => touched[field] && errors[field];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
+    setTouched({
+      fullName: true,
+      email: true,
+      password: true,
+      confirmPassword: true,
+    });
+    if (Object.values(errors).some((err) => err)) return;
 
     if (!agreedToTerms) {
       setError("You must agree to the Terms of Service and Privacy Policy");
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
       return;
     }
 
@@ -100,8 +134,16 @@ export default function ClientRegisterPage() {
                   placeholder="Jane Smith"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                  onBlur={() => handleBlur("fullName")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${
+                    showFieldError("fullName")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"
+                  }`}
                 />
+                {showFieldError("fullName") && (
+                  <p className="text-xs text-red-600">{errors.fullName}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -117,8 +159,16 @@ export default function ClientRegisterPage() {
                   placeholder="hello@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                  onBlur={() => handleBlur("email")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${
+                    showFieldError("email")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"
+                  }`}
                 />
+                {showFieldError("email") && (
+                  <p className="text-xs text-red-600">{errors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -134,8 +184,16 @@ export default function ClientRegisterPage() {
                   placeholder="Create a password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                  onBlur={() => handleBlur("password")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${
+                    showFieldError("password")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"
+                  }`}
                 />
+                {showFieldError("password") && (
+                  <p className="text-xs text-red-600">{errors.password}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -151,15 +209,21 @@ export default function ClientRegisterPage() {
                   placeholder="Repeat your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+                  onBlur={() => handleBlur("confirmPassword")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${
+                    showFieldError("confirmPassword")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"
+                  }`}
                 />
+                {showFieldError("confirmPassword") && (
+                  <p className="text-xs text-red-600">{errors.confirmPassword}</p>
+                )}
               </div>
 
-              {error && (
-                <p className="text-sm text-red-600 lg:col-span-2" role="alert">
-                  {error}
-                </p>
-              )}
+              <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-700" role="alert">
+                {error}
+              </div>
 
               <div className="flex items-start gap-2">
                 <input

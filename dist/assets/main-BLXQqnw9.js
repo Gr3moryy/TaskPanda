@@ -12074,7 +12074,7 @@ function hasInvalidProtocol(location) {
 	}
 }
 function useIsRSCRouterContext() {
-	return import_react$27.useContext(RSCRouterContext);
+	return import_react$29.useContext(RSCRouterContext);
 }
 function decodeRedirectErrorDigest(digest) {
 	if (digest.startsWith(`${ERROR_DIGEST_BASE}:${ERROR_DIGEST_REDIRECT}:{`)) try {
@@ -12090,7 +12090,7 @@ function decodeRouteErrorResponseDigest(digest) {
 }
 function useHref(to, { relative } = {}) {
 	invariant(useInRouterContext(), `useHref() may be used only in the context of a <Router> component.`);
-	let { basename, navigator } = import_react$28.useContext(NavigationContext);
+	let { basename, navigator } = import_react$30.useContext(NavigationContext);
 	let { hash, pathname, search } = useResolvedPath(to, { relative });
 	let joinedPathname = pathname;
 	if (basename !== "/") joinedPathname = pathname === "/" ? basename : joinPaths([basename, pathname]);
@@ -12101,31 +12101,31 @@ function useHref(to, { relative } = {}) {
 	});
 }
 function useInRouterContext() {
-	return import_react$28.useContext(LocationContext) != null;
+	return import_react$30.useContext(LocationContext) != null;
 }
 function useLocation() {
 	invariant(useInRouterContext(), `useLocation() may be used only in the context of a <Router> component.`);
-	return import_react$28.useContext(LocationContext).location;
+	return import_react$30.useContext(LocationContext).location;
 }
 function useIsomorphicLayoutEffect(cb) {
-	if (!import_react$28.useContext(NavigationContext).static) import_react$28.useLayoutEffect(cb);
+	if (!import_react$30.useContext(NavigationContext).static) import_react$30.useLayoutEffect(cb);
 }
 function useNavigate() {
-	let { isDataRoute } = import_react$28.useContext(RouteContext);
+	let { isDataRoute } = import_react$30.useContext(RouteContext);
 	return isDataRoute ? useNavigateStable() : useNavigateUnstable();
 }
 function useNavigateUnstable() {
 	invariant(useInRouterContext(), `useNavigate() may be used only in the context of a <Router> component.`);
-	let dataRouterContext = import_react$28.useContext(DataRouterContext);
-	let { basename, navigator } = import_react$28.useContext(NavigationContext);
-	let { matches } = import_react$28.useContext(RouteContext);
+	let dataRouterContext = import_react$30.useContext(DataRouterContext);
+	let { basename, navigator } = import_react$30.useContext(NavigationContext);
+	let { matches } = import_react$30.useContext(RouteContext);
 	let { pathname: locationPathname } = useLocation();
 	let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
-	let activeRef = import_react$28.useRef(false);
+	let activeRef = import_react$30.useRef(false);
 	useIsomorphicLayoutEffect(() => {
 		activeRef.current = true;
 	});
-	return import_react$28.useCallback((to, options = {}) => {
+	return import_react$30.useCallback((to, options = {}) => {
 		warning(activeRef.current, navigateEffectWarning);
 		if (!activeRef.current) return;
 		if (typeof to === "number") {
@@ -12145,10 +12145,10 @@ function useNavigateUnstable() {
 	]);
 }
 function useResolvedPath(to, { relative } = {}) {
-	let { matches } = import_react$28.useContext(RouteContext);
+	let { matches } = import_react$30.useContext(RouteContext);
 	let { pathname: locationPathname } = useLocation();
 	let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
-	return import_react$28.useMemo(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [
+	return import_react$30.useMemo(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [
 		to,
 		routePathnamesJson,
 		locationPathname,
@@ -12160,8 +12160,8 @@ function useRoutes(routes, locationArg) {
 }
 function useRoutesImpl(routes, locationArg, dataRouterOpts) {
 	invariant(useInRouterContext(), `useRoutes() may be used only in the context of a <Router> component.`);
-	let { navigator } = import_react$28.useContext(NavigationContext);
-	let { matches: parentMatches } = import_react$28.useContext(RouteContext);
+	let { navigator } = import_react$30.useContext(NavigationContext);
+	let { matches: parentMatches } = import_react$30.useContext(RouteContext);
 	let routeMatch = parentMatches[parentMatches.length - 1];
 	let parentParams = routeMatch ? routeMatch.params : {};
 	let parentPathname = routeMatch ? routeMatch.pathname : "/";
@@ -12194,7 +12194,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
 		pathname: joinPaths([parentPathnameBase, navigator.encodeLocation ? navigator.encodeLocation(match.pathname.replace(/%/g, "%25").replace(/\?/g, "%3F").replace(/#/g, "%23")).pathname : match.pathname]),
 		pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([parentPathnameBase, navigator.encodeLocation ? navigator.encodeLocation(match.pathnameBase.replace(/%/g, "%25").replace(/\?/g, "%3F").replace(/#/g, "%23")).pathname : match.pathnameBase])
 	})), parentMatches, dataRouterOpts);
-	if (locationArg && renderedMatches) return /* @__PURE__ */ import_react$28.createElement(LocationContext.Provider, { value: {
+	if (locationArg && renderedMatches) return /* @__PURE__ */ import_react$30.createElement(LocationContext.Provider, { value: {
 		location: {
 			pathname: "/",
 			search: "",
@@ -12223,11 +12223,11 @@ function DefaultErrorComponent() {
 	};
 	let devInfo = null;
 	console.error("Error handled by React Router default ErrorBoundary:", error);
-	devInfo = /* @__PURE__ */ import_react$28.createElement(import_react$28.Fragment, null, /* @__PURE__ */ import_react$28.createElement("p", null, "💿 Hey developer 👋"), /* @__PURE__ */ import_react$28.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ import_react$28.createElement("code", { style: codeStyles }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ import_react$28.createElement("code", { style: codeStyles }, "errorElement"), " prop on your route."));
-	return /* @__PURE__ */ import_react$28.createElement(import_react$28.Fragment, null, /* @__PURE__ */ import_react$28.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ import_react$28.createElement("h3", { style: { fontStyle: "italic" } }, message), stack ? /* @__PURE__ */ import_react$28.createElement("pre", { style: preStyles }, stack) : null, devInfo);
+	devInfo = /* @__PURE__ */ import_react$30.createElement(import_react$30.Fragment, null, /* @__PURE__ */ import_react$30.createElement("p", null, "💿 Hey developer 👋"), /* @__PURE__ */ import_react$30.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ import_react$30.createElement("code", { style: codeStyles }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ import_react$30.createElement("code", { style: codeStyles }, "errorElement"), " prop on your route."));
+	return /* @__PURE__ */ import_react$30.createElement(import_react$30.Fragment, null, /* @__PURE__ */ import_react$30.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ import_react$30.createElement("h3", { style: { fontStyle: "italic" } }, message), stack ? /* @__PURE__ */ import_react$30.createElement("pre", { style: preStyles }, stack) : null, devInfo);
 }
 function RSCErrorHandler({ children, error }) {
-	let { basename, navigator } = import_react$28.useContext(NavigationContext);
+	let { basename, navigator } = import_react$30.useContext(NavigationContext);
 	if (typeof error === "object" && error && "digest" in error && typeof error.digest === "string") {
 		let redirect2 = decodeRedirectErrorDigest(error.digest);
 		if (redirect2) {
@@ -12245,7 +12245,7 @@ function RSCErrorHandler({ children, error }) {
 					throw redirectPromise;
 				}
 			}
-			return /* @__PURE__ */ import_react$28.createElement("meta", {
+			return /* @__PURE__ */ import_react$30.createElement("meta", {
 				httpEquiv: "refresh",
 				content: `0;url=${target}`
 			});
@@ -12254,9 +12254,9 @@ function RSCErrorHandler({ children, error }) {
 	return children;
 }
 function RenderedRoute({ routeContext, match, children }) {
-	let dataRouterContext = import_react$28.useContext(DataRouterContext);
+	let dataRouterContext = import_react$30.useContext(DataRouterContext);
 	if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
-	return /* @__PURE__ */ import_react$28.createElement(RouteContext.Provider, { value: routeContext }, children);
+	return /* @__PURE__ */ import_react$30.createElement(RouteContext.Provider, { value: routeContext }, children);
 }
 function _renderMatches(matches, parentMatches = [], dataRouterOpts) {
 	let dataRouterState = dataRouterOpts?.state;
@@ -12325,10 +12325,10 @@ function _renderMatches(matches, parentMatches = [], dataRouterOpts) {
 			let children;
 			if (error) children = errorElement;
 			else if (shouldRenderHydrateFallback) children = hydrateFallbackElement;
-			else if (match.route.Component) children = /* @__PURE__ */ import_react$28.createElement(match.route.Component, null);
+			else if (match.route.Component) children = /* @__PURE__ */ import_react$30.createElement(match.route.Component, null);
 			else if (match.route.element) children = match.route.element;
 			else children = outlet;
-			return /* @__PURE__ */ import_react$28.createElement(RenderedRoute, {
+			return /* @__PURE__ */ import_react$30.createElement(RenderedRoute, {
 				match,
 				routeContext: {
 					outlet,
@@ -12338,7 +12338,7 @@ function _renderMatches(matches, parentMatches = [], dataRouterOpts) {
 				children
 			});
 		};
-		return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ import_react$28.createElement(RenderErrorBoundary, {
+		return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ import_react$30.createElement(RenderErrorBoundary, {
 			location: dataRouterState.location,
 			revalidation: dataRouterState.revalidation,
 			component: errorElement,
@@ -12357,17 +12357,17 @@ function getDataRouterConsoleError(hookName) {
 	return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
 }
 function useDataRouterContext(hookName) {
-	let ctx = import_react$28.useContext(DataRouterContext);
+	let ctx = import_react$30.useContext(DataRouterContext);
 	invariant(ctx, getDataRouterConsoleError(hookName));
 	return ctx;
 }
 function useDataRouterState(hookName) {
-	let state = import_react$28.useContext(DataRouterStateContext);
+	let state = import_react$30.useContext(DataRouterStateContext);
 	invariant(state, getDataRouterConsoleError(hookName));
 	return state;
 }
 function useRouteContext(hookName) {
-	let route = import_react$28.useContext(RouteContext);
+	let route = import_react$30.useContext(RouteContext);
 	invariant(route, getDataRouterConsoleError(hookName));
 	return route;
 }
@@ -12382,17 +12382,17 @@ function useRouteId() {
 }
 function useNavigation() {
 	let state = useDataRouterState("useNavigation");
-	return import_react$28.useMemo(() => {
+	return import_react$30.useMemo(() => {
 		let { matches, historyAction, ...rest } = state.navigation;
 		return rest;
 	}, [state.navigation]);
 }
 function useMatches() {
 	let { matches, loaderData } = useDataRouterState("useMatches");
-	return import_react$28.useMemo(() => matches.map((m) => convertRouteMatchToUiMatch(m, loaderData)), [matches, loaderData]);
+	return import_react$30.useMemo(() => matches.map((m) => convertRouteMatchToUiMatch(m, loaderData)), [matches, loaderData]);
 }
 function useRouteError() {
-	let error = import_react$28.useContext(RouteErrorContext);
+	let error = import_react$30.useContext(RouteErrorContext);
 	let state = useDataRouterState("useRouteError");
 	let routeId = useCurrentRouteId("useRouteError");
 	if (error !== void 0) return error;
@@ -12401,11 +12401,11 @@ function useRouteError() {
 function useNavigateStable() {
 	let { router } = useDataRouterContext("useNavigate");
 	let id = useCurrentRouteId("useNavigate");
-	let activeRef = import_react$28.useRef(false);
+	let activeRef = import_react$30.useRef(false);
 	useIsomorphicLayoutEffect(() => {
 		activeRef.current = true;
 	});
-	return import_react$28.useCallback(async (to, options = {}) => {
+	return import_react$30.useCallback(async (to, options = {}) => {
 		warning(activeRef.current, navigateEffectWarning);
 		if (!activeRef.current) return;
 		if (typeof to === "number") await router.navigate(to);
@@ -12436,7 +12436,7 @@ function Route(props) {
 function Router({ basename: basenameProp = "/", children = null, location: locationProp, navigationType = "POP", navigator, static: staticProp = false, useTransitions }) {
 	invariant(!useInRouterContext(), `You cannot render a <Router> inside another <Router>. You should never have more than one in your app.`);
 	let basename = basenameProp.replace(/^\/*/, "/");
-	let navigationContext = import_react$29.useMemo(() => ({
+	let navigationContext = import_react$31.useMemo(() => ({
 		basename,
 		navigator,
 		static: staticProp,
@@ -12450,7 +12450,7 @@ function Router({ basename: basenameProp = "/", children = null, location: locat
 	]);
 	if (typeof locationProp === "string") locationProp = parsePath(locationProp);
 	let { pathname = "/", search = "", hash = "", state = null, key = "default", mask } = locationProp;
-	let locationContext = import_react$29.useMemo(() => {
+	let locationContext = import_react$31.useMemo(() => {
 		let trailingPathname = stripBasename(pathname, basename);
 		if (trailingPathname == null) return null;
 		return {
@@ -12476,7 +12476,7 @@ function Router({ basename: basenameProp = "/", children = null, location: locat
 	]);
 	warning(locationContext != null, `<Router basename="${basename}"> is not able to match the URL "${pathname}${search}${hash}" because it does not start with the basename, so the <Router> won't render anything.`);
 	if (locationContext == null) return null;
-	return /* @__PURE__ */ import_react$29.createElement(NavigationContext.Provider, { value: navigationContext }, /* @__PURE__ */ import_react$29.createElement(LocationContext.Provider, {
+	return /* @__PURE__ */ import_react$31.createElement(NavigationContext.Provider, { value: navigationContext }, /* @__PURE__ */ import_react$31.createElement(LocationContext.Provider, {
 		children,
 		value: locationContext
 	}));
@@ -12486,10 +12486,10 @@ function Routes({ children, location }) {
 }
 function createRoutesFromChildren(children, parentPath = []) {
 	let routes = [];
-	import_react$29.Children.forEach(children, (element, index) => {
-		if (!import_react$29.isValidElement(element)) return;
+	import_react$31.Children.forEach(children, (element, index) => {
+		if (!import_react$31.isValidElement(element)) return;
 		let treePath = [...parentPath, index];
-		if (element.type === import_react$29.Fragment) {
+		if (element.type === import_react$31.Fragment) {
 			routes.push.apply(routes, createRoutesFromChildren(element.props.children, treePath));
 			return;
 		}
@@ -12739,27 +12739,27 @@ function dedupeLinkDescriptors(descriptors, preloads) {
 	}, []);
 }
 function useDataRouterContext2() {
-	let context = import_react$32.useContext(DataRouterContext);
+	let context = import_react$34.useContext(DataRouterContext);
 	invariant2(context, "You must render this element inside a <DataRouterContext.Provider> element");
 	return context;
 }
 function useDataRouterStateContext() {
-	let context = import_react$32.useContext(DataRouterStateContext);
+	let context = import_react$34.useContext(DataRouterStateContext);
 	invariant2(context, "You must render this element inside a <DataRouterStateContext.Provider> element");
 	return context;
 }
 function useFrameworkContext() {
-	let context = import_react$32.useContext(FrameworkContext);
+	let context = import_react$34.useContext(FrameworkContext);
 	invariant2(context, "You must render this element inside a <HydratedRouter> element");
 	return context;
 }
 function usePrefetchBehavior(prefetch, theirElementProps) {
-	let frameworkContext = import_react$32.useContext(FrameworkContext);
-	let [maybePrefetch, setMaybePrefetch] = import_react$32.useState(false);
-	let [shouldPrefetch, setShouldPrefetch] = import_react$32.useState(false);
+	let frameworkContext = import_react$34.useContext(FrameworkContext);
+	let [maybePrefetch, setMaybePrefetch] = import_react$34.useState(false);
+	let [shouldPrefetch, setShouldPrefetch] = import_react$34.useState(false);
 	let { onFocus, onBlur, onMouseEnter, onMouseLeave, onTouchStart } = theirElementProps;
-	let ref = import_react$32.useRef(null);
-	import_react$32.useEffect(() => {
+	let ref = import_react$34.useRef(null);
+	import_react$34.useEffect(() => {
 		if (prefetch === "render") setShouldPrefetch(true);
 		if (prefetch === "viewport") {
 			let callback = (entries) => {
@@ -12774,7 +12774,7 @@ function usePrefetchBehavior(prefetch, theirElementProps) {
 			};
 		}
 	}, [prefetch]);
-	import_react$32.useEffect(() => {
+	import_react$34.useEffect(() => {
 		if (maybePrefetch) {
 			let id = setTimeout(() => {
 				setShouldPrefetch(true);
@@ -12823,7 +12823,7 @@ function PrefetchPageLinks({ page, ...linkProps }) {
 	let rsc = useIsRSCRouterContext();
 	let { nonce: contextNonce } = useFrameworkContext();
 	let { router } = useDataRouterContext2();
-	let matches = import_react$32.useMemo(() => matchRoutes(router.routes, page, router.basename), [
+	let matches = import_react$34.useMemo(() => matchRoutes(router.routes, page, router.basename), [
 		router.routes,
 		page,
 		router.basename
@@ -12833,12 +12833,12 @@ function PrefetchPageLinks({ page, ...linkProps }) {
 		...linkProps,
 		nonce: contextNonce
 	};
-	if (rsc) return /* @__PURE__ */ import_react$32.createElement(RSCPrefetchPageLinksImpl, {
+	if (rsc) return /* @__PURE__ */ import_react$34.createElement(RSCPrefetchPageLinksImpl, {
 		page,
 		matches,
 		...linkProps
 	});
-	return /* @__PURE__ */ import_react$32.createElement(PrefetchPageLinksImpl, {
+	return /* @__PURE__ */ import_react$34.createElement(PrefetchPageLinksImpl, {
 		page,
 		matches,
 		...linkProps
@@ -12846,8 +12846,8 @@ function PrefetchPageLinks({ page, ...linkProps }) {
 }
 function useKeyedPrefetchLinks(matches) {
 	let { manifest, routeModules } = useFrameworkContext();
-	let [keyedPrefetchLinks, setKeyedPrefetchLinks] = import_react$32.useState([]);
-	import_react$32.useEffect(() => {
+	let [keyedPrefetchLinks, setKeyedPrefetchLinks] = import_react$34.useState([]);
+	import_react$34.useEffect(() => {
 		let interrupted = false;
 		getKeyedPrefetchLinks(matches, manifest, routeModules).then((links) => {
 			if (!interrupted) setKeyedPrefetchLinks(links);
@@ -12866,7 +12866,7 @@ function RSCPrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) 
 	let location = useLocation();
 	let { future } = useFrameworkContext();
 	let { basename } = useDataRouterContext2();
-	let dataHrefs = import_react$32.useMemo(() => {
+	let dataHrefs = import_react$34.useMemo(() => {
 		if (page === location.pathname + location.search + location.hash) return [];
 		let url = singleFetchUrl(page, basename, future.v8_trailingSlashAwareDataRequests, "rsc");
 		let hasSomeRoutesWithShouldRevalidate = false;
@@ -12882,7 +12882,7 @@ function RSCPrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) 
 		location,
 		nextMatches
 	]);
-	return /* @__PURE__ */ import_react$32.createElement(import_react$32.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$32.createElement("link", {
+	return /* @__PURE__ */ import_react$34.createElement(import_react$34.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$34.createElement("link", {
 		key: href,
 		rel: "prefetch",
 		as: "fetch",
@@ -12895,21 +12895,21 @@ function PrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) {
 	let { future, manifest, routeModules } = useFrameworkContext();
 	let { basename } = useDataRouterContext2();
 	let { loaderData, matches } = useDataRouterStateContext();
-	let newMatchesForData = import_react$32.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "data"), [
+	let newMatchesForData = import_react$34.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "data"), [
 		page,
 		nextMatches,
 		matches,
 		manifest,
 		location
 	]);
-	let newMatchesForAssets = import_react$32.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "assets"), [
+	let newMatchesForAssets = import_react$34.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "assets"), [
 		page,
 		nextMatches,
 		matches,
 		manifest,
 		location
 	]);
-	let dataHrefs = import_react$32.useMemo(() => {
+	let dataHrefs = import_react$34.useMemo(() => {
 		if (page === location.pathname + location.search + location.hash) return [];
 		let routesParams = /* @__PURE__ */ new Set();
 		let foundOptOutRoute = false;
@@ -12935,20 +12935,20 @@ function PrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) {
 		page,
 		routeModules
 	]);
-	let moduleHrefs = import_react$32.useMemo(() => getModuleLinkHrefs(newMatchesForAssets, manifest), [newMatchesForAssets, manifest]);
+	let moduleHrefs = import_react$34.useMemo(() => getModuleLinkHrefs(newMatchesForAssets, manifest), [newMatchesForAssets, manifest]);
 	let keyedPrefetchLinks = useKeyedPrefetchLinks(newMatchesForAssets);
-	return /* @__PURE__ */ import_react$32.createElement(import_react$32.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$32.createElement("link", {
+	return /* @__PURE__ */ import_react$34.createElement(import_react$34.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$34.createElement("link", {
 		key: href,
 		rel: "prefetch",
 		as: "fetch",
 		href,
 		...linkProps
-	})), moduleHrefs.map((href) => /* @__PURE__ */ import_react$32.createElement("link", {
+	})), moduleHrefs.map((href) => /* @__PURE__ */ import_react$34.createElement("link", {
 		key: href,
 		rel: "modulepreload",
 		href,
 		...linkProps
-	})), keyedPrefetchLinks.map(({ key, link }) => /* @__PURE__ */ import_react$32.createElement("link", {
+	})), keyedPrefetchLinks.map(({ key, link }) => /* @__PURE__ */ import_react$34.createElement("link", {
 		key,
 		nonce: linkProps.nonce,
 		...link,
@@ -12964,22 +12964,22 @@ function mergeRefs(...refs) {
 	};
 }
 function BrowserRouter({ basename, children, useTransitions, window: window2 }) {
-	let historyRef = import_react$36.useRef();
+	let historyRef = import_react$38.useRef();
 	if (historyRef.current == null) historyRef.current = createBrowserHistory({
 		window: window2,
 		v5Compat: true
 	});
 	let history = historyRef.current;
-	let [state, setStateImpl] = import_react$36.useState({
+	let [state, setStateImpl] = import_react$38.useState({
 		action: history.action,
 		location: history.location
 	});
-	let setState = import_react$36.useCallback((newState) => {
+	let setState = import_react$38.useCallback((newState) => {
 		if (useTransitions === false) setStateImpl(newState);
-		else import_react$36.startTransition(() => setStateImpl(newState));
+		else import_react$38.startTransition(() => setStateImpl(newState));
 	}, [useTransitions]);
-	import_react$36.useLayoutEffect(() => history.listen(setState), [history, setState]);
-	return /* @__PURE__ */ import_react$36.createElement(Router, {
+	import_react$38.useLayoutEffect(() => history.listen(setState), [history, setState]);
+	return /* @__PURE__ */ import_react$38.createElement(Router, {
 		basename,
 		children,
 		location: state.location,
@@ -12989,16 +12989,16 @@ function BrowserRouter({ basename, children, useTransitions, window: window2 }) 
 	});
 }
 function HistoryRouter({ basename, children, history, useTransitions }) {
-	let [state, setStateImpl] = import_react$36.useState({
+	let [state, setStateImpl] = import_react$38.useState({
 		action: history.action,
 		location: history.location
 	});
-	let setState = import_react$36.useCallback((newState) => {
+	let setState = import_react$38.useCallback((newState) => {
 		if (useTransitions === false) setStateImpl(newState);
-		else import_react$36.startTransition(() => setStateImpl(newState));
+		else import_react$38.startTransition(() => setStateImpl(newState));
 	}, [useTransitions]);
-	import_react$36.useLayoutEffect(() => history.listen(setState), [history, setState]);
-	return /* @__PURE__ */ import_react$36.createElement(Router, {
+	import_react$38.useLayoutEffect(() => history.listen(setState), [history, setState]);
+	return /* @__PURE__ */ import_react$38.createElement(Router, {
 		basename,
 		children,
 		location: state.location,
@@ -13008,15 +13008,15 @@ function HistoryRouter({ basename, children, history, useTransitions }) {
 	});
 }
 function ScrollRestoration({ getKey, storageKey, ...props }) {
-	let remixContext = import_react$36.useContext(FrameworkContext);
-	let { basename } = import_react$36.useContext(NavigationContext);
+	let remixContext = import_react$38.useContext(FrameworkContext);
+	let { basename } = import_react$38.useContext(NavigationContext);
 	let location = useLocation();
 	let matches = useMatches();
 	useScrollRestoration({
 		getKey,
 		storageKey
 	});
-	let ssrKey = import_react$36.useMemo(() => {
+	let ssrKey = import_react$38.useMemo(() => {
 		if (!remixContext || !getKey) return null;
 		let userKey = getScrollRestorationKey(location, matches, basename, getKey);
 		return userKey !== location.key ? userKey : null;
@@ -13036,7 +13036,7 @@ function ScrollRestoration({ getKey, storageKey, ...props }) {
 		}
 	}).toString();
 	if (props.nonce == null && remixContext?.nonce) props.nonce = remixContext.nonce;
-	return /* @__PURE__ */ import_react$36.createElement("script", {
+	return /* @__PURE__ */ import_react$38.createElement("script", {
 		...props,
 		suppressHydrationWarning: true,
 		dangerouslySetInnerHTML: { __html: `(${restoreScroll})(${escapeHtml(JSON.stringify(storageKey || SCROLL_RESTORATION_STORAGE_KEY))}, ${escapeHtml(JSON.stringify(ssrKey))})` }
@@ -13046,12 +13046,12 @@ function getDataRouterConsoleError2(hookName) {
 	return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
 }
 function useDataRouterContext3(hookName) {
-	let ctx = import_react$36.useContext(DataRouterContext);
+	let ctx = import_react$38.useContext(DataRouterContext);
 	invariant(ctx, getDataRouterConsoleError2(hookName));
 	return ctx;
 }
 function useDataRouterState2(hookName) {
-	let state = import_react$36.useContext(DataRouterStateContext);
+	let state = import_react$38.useContext(DataRouterStateContext);
 	invariant(state, getDataRouterConsoleError2(hookName));
 	return state;
 }
@@ -13059,7 +13059,7 @@ function useLinkClickHandler(to, { target, replace: replaceProp, mask, state, pr
 	let navigate = useNavigate();
 	let location = useLocation();
 	let path = useResolvedPath(to, { relative });
-	return import_react$36.useCallback((event) => {
+	return import_react$38.useCallback((event) => {
 		if (shouldProcessLinkClick(event, target)) {
 			event.preventDefault();
 			let replace2 = replaceProp !== void 0 ? replaceProp : createPath(location) === createPath(path);
@@ -13072,7 +13072,7 @@ function useLinkClickHandler(to, { target, replace: replaceProp, mask, state, pr
 				viewTransition,
 				defaultShouldRevalidate
 			});
-			if (useTransitions) import_react$36.startTransition(() => doNavigate());
+			if (useTransitions) import_react$38.startTransition(() => doNavigate());
 			else doNavigate();
 		}
 	}, [
@@ -13093,12 +13093,12 @@ function useLinkClickHandler(to, { target, replace: replaceProp, mask, state, pr
 }
 function useSearchParams(defaultInit) {
 	warning(typeof URLSearchParams !== "undefined", `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`);
-	let defaultSearchParamsRef = import_react$36.useRef(createSearchParams(defaultInit));
-	let hasSetSearchParamsRef = import_react$36.useRef(false);
+	let defaultSearchParamsRef = import_react$38.useRef(createSearchParams(defaultInit));
+	let hasSetSearchParamsRef = import_react$38.useRef(false);
 	let location = useLocation();
-	let searchParams = import_react$36.useMemo(() => getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
+	let searchParams = import_react$38.useMemo(() => getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
 	let navigate = useNavigate();
-	return [searchParams, import_react$36.useCallback((nextInit, navigateOptions) => {
+	return [searchParams, import_react$38.useCallback((nextInit, navigateOptions) => {
 		const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(new URLSearchParams(searchParams)) : nextInit);
 		hasSetSearchParamsRef.current = true;
 		navigate("?" + newSearchParams, navigateOptions);
@@ -13106,11 +13106,11 @@ function useSearchParams(defaultInit) {
 }
 function useSubmit() {
 	let { router } = useDataRouterContext3("useSubmit");
-	let { basename } = import_react$36.useContext(NavigationContext);
+	let { basename } = import_react$38.useContext(NavigationContext);
 	let currentRouteId = useRouteId();
 	let routerFetch = router.fetch;
 	let routerNavigate = router.navigate;
-	return import_react$36.useCallback(async (target, options = {}) => {
+	return import_react$38.useCallback(async (target, options = {}) => {
 		let { action, method, encType, formData, body } = getFormSubmissionInfo(target, basename);
 		if (options.navigate === false) {
 			let key = options.fetcherKey || getUniqueFetcherId();
@@ -13144,8 +13144,8 @@ function useSubmit() {
 	]);
 }
 function useFormAction(action, { relative } = {}) {
-	let { basename } = import_react$36.useContext(NavigationContext);
-	let routeContext = import_react$36.useContext(RouteContext);
+	let { basename } = import_react$38.useContext(NavigationContext);
+	let routeContext = import_react$38.useContext(RouteContext);
 	invariant(routeContext, "useFormAction must be used inside a RouteContext");
 	let [match] = routeContext.matches.slice(-1);
 	let path = { ...useResolvedPath(action ? action : ".", { relative }) };
@@ -13180,17 +13180,17 @@ function getScrollRestorationKey(location, matches, basename, getKey) {
 function useScrollRestoration({ getKey, storageKey } = {}) {
 	let { router } = useDataRouterContext3("useScrollRestoration");
 	let { restoreScrollPosition, preventScrollReset } = useDataRouterState2("useScrollRestoration");
-	let { basename } = import_react$36.useContext(NavigationContext);
+	let { basename } = import_react$38.useContext(NavigationContext);
 	let location = useLocation();
 	let matches = useMatches();
 	let navigation = useNavigation();
-	import_react$36.useEffect(() => {
+	import_react$38.useEffect(() => {
 		window.history.scrollRestoration = "manual";
 		return () => {
 			window.history.scrollRestoration = "auto";
 		};
 	}, []);
-	usePageHide(import_react$36.useCallback(() => {
+	usePageHide(import_react$38.useCallback(() => {
 		if (navigation.state === "idle") {
 			let key = getScrollRestorationKey(location, matches, basename, getKey);
 			savedScrollPositions[key] = window.scrollY;
@@ -13210,13 +13210,13 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 		storageKey
 	]));
 	if (typeof document !== "undefined") {
-		import_react$36.useLayoutEffect(() => {
+		import_react$38.useLayoutEffect(() => {
 			try {
 				let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
 				if (sessionPositions) savedScrollPositions = JSON.parse(sessionPositions);
 			} catch (e) {}
 		}, [storageKey]);
-		import_react$36.useLayoutEffect(() => {
+		import_react$38.useLayoutEffect(() => {
 			let disableScrollRestoration = router?.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKey ? (location2, matches2) => getScrollRestorationKey(location2, matches2, basename, getKey) : void 0);
 			return () => disableScrollRestoration && disableScrollRestoration();
 		}, [
@@ -13224,7 +13224,7 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 			basename,
 			getKey
 		]);
-		import_react$36.useLayoutEffect(() => {
+		import_react$38.useLayoutEffect(() => {
 			if (restoreScrollPosition === false) return;
 			if (typeof restoreScrollPosition === "number") {
 				window.scrollTo(0, restoreScrollPosition);
@@ -13252,7 +13252,7 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 }
 function usePageHide(callback, options) {
 	let { capture } = options || {};
-	import_react$36.useEffect(() => {
+	import_react$38.useEffect(() => {
 		let opts = capture != null ? { capture } : void 0;
 		window.addEventListener("pagehide", callback, opts);
 		return () => {
@@ -13261,7 +13261,7 @@ function usePageHide(callback, options) {
 	}, [callback, capture]);
 }
 function useViewTransitionState(to, { relative } = {}) {
-	let vtContext = import_react$36.useContext(ViewTransitionContext);
+	let vtContext = import_react$38.useContext(ViewTransitionContext);
 	invariant(vtContext != null, "`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?");
 	let { basename } = useDataRouterContext3("useViewTransitionState");
 	let path = useResolvedPath(to, { relative });
@@ -13270,18 +13270,18 @@ function useViewTransitionState(to, { relative } = {}) {
 	let nextPath = stripBasename(vtContext.nextLocation.pathname, basename) || vtContext.nextLocation.pathname;
 	return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
 }
-var import_react$27, import_react$28, import_react$29, import_react$31, import_react$32, import_react$36, ABSOLUTE_URL_REGEX, PROTOCOL_RELATIVE_URL_REGEX, PopStateEventType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, removeDoubleSlashes, joinPaths, normalizePathname, normalizeSearch, normalizeHash, ErrorResponseImpl, isBrowser, DEFAULT_NAVIGATION_URL, validMutationMethodsArr, validRequestMethodsArr, invalidProtocols, DataRouterContext, DataRouterStateContext, RSCRouterContext, ViewTransitionContext, FetchersContext, AwaitContext, NavigationContext, LocationContext, RouteContext, RouteErrorContext, ERROR_DIGEST_BASE, ERROR_DIGEST_REDIRECT, ERROR_DIGEST_ROUTE_ERROR_RESPONSE, navigateEffectWarning, defaultErrorElement, RenderErrorBoundary, errorRedirectHandledMap, alreadyWarned, defaultMethod, defaultEncType, _formDataSupportsSubmitter, supportedFormEncTypes, ESCAPE_LOOKUP, ESCAPE_REGEX, FrameworkContext, isBrowser2, Link, NavLink, Form, fetcherId, getUniqueFetcherId, SCROLL_RESTORATION_STORAGE_KEY, savedScrollPositions;
+var import_react$29, import_react$30, import_react$31, import_react$33, import_react$34, import_react$38, ABSOLUTE_URL_REGEX, PROTOCOL_RELATIVE_URL_REGEX, PopStateEventType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, removeDoubleSlashes, joinPaths, normalizePathname, normalizeSearch, normalizeHash, ErrorResponseImpl, isBrowser, DEFAULT_NAVIGATION_URL, validMutationMethodsArr, validRequestMethodsArr, invalidProtocols, DataRouterContext, DataRouterStateContext, RSCRouterContext, ViewTransitionContext, FetchersContext, AwaitContext, NavigationContext, LocationContext, RouteContext, RouteErrorContext, ERROR_DIGEST_BASE, ERROR_DIGEST_REDIRECT, ERROR_DIGEST_ROUTE_ERROR_RESPONSE, navigateEffectWarning, defaultErrorElement, RenderErrorBoundary, errorRedirectHandledMap, alreadyWarned, defaultMethod, defaultEncType, _formDataSupportsSubmitter, supportedFormEncTypes, ESCAPE_LOOKUP, ESCAPE_REGEX, FrameworkContext, isBrowser2, Link, NavLink, Form, fetcherId, getUniqueFetcherId, SCROLL_RESTORATION_STORAGE_KEY, savedScrollPositions;
 var init_chunk_OB3PAWPO = __esmMin((() => {
-	import_react$27 = /* @__PURE__ */ __toESM(require_react(), 1);
-	import_react$28 = /* @__PURE__ */ __toESM(require_react(), 1);
 	import_react$29 = /* @__PURE__ */ __toESM(require_react(), 1);
-	require_react();
+	import_react$30 = /* @__PURE__ */ __toESM(require_react(), 1);
 	import_react$31 = /* @__PURE__ */ __toESM(require_react(), 1);
-	import_react$32 = /* @__PURE__ */ __toESM(require_react(), 1);
+	require_react();
+	import_react$33 = /* @__PURE__ */ __toESM(require_react(), 1);
+	import_react$34 = /* @__PURE__ */ __toESM(require_react(), 1);
 	require_react();
 	require_react();
 	require_react();
-	import_react$36 = /* @__PURE__ */ __toESM(require_react(), 1);
+	import_react$38 = /* @__PURE__ */ __toESM(require_react(), 1);
 	require_react();
 	init_preload_helper();
 	ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|[\\/]{2})/i;
@@ -13334,36 +13334,36 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 		"filesystem:",
 		"javascript:"
 	];
-	DataRouterContext = import_react$27.createContext(null);
+	DataRouterContext = import_react$29.createContext(null);
 	DataRouterContext.displayName = "DataRouter";
-	DataRouterStateContext = import_react$27.createContext(null);
+	DataRouterStateContext = import_react$29.createContext(null);
 	DataRouterStateContext.displayName = "DataRouterState";
-	RSCRouterContext = import_react$27.createContext(false);
-	ViewTransitionContext = import_react$27.createContext({ isTransitioning: false });
+	RSCRouterContext = import_react$29.createContext(false);
+	ViewTransitionContext = import_react$29.createContext({ isTransitioning: false });
 	ViewTransitionContext.displayName = "ViewTransition";
-	FetchersContext = import_react$27.createContext(/* @__PURE__ */ new Map());
+	FetchersContext = import_react$29.createContext(/* @__PURE__ */ new Map());
 	FetchersContext.displayName = "Fetchers";
-	AwaitContext = import_react$27.createContext(null);
+	AwaitContext = import_react$29.createContext(null);
 	AwaitContext.displayName = "Await";
-	NavigationContext = import_react$27.createContext(null);
+	NavigationContext = import_react$29.createContext(null);
 	NavigationContext.displayName = "Navigation";
-	LocationContext = import_react$27.createContext(null);
+	LocationContext = import_react$29.createContext(null);
 	LocationContext.displayName = "Location";
-	RouteContext = import_react$27.createContext({
+	RouteContext = import_react$29.createContext({
 		outlet: null,
 		matches: [],
 		isDataRoute: false
 	});
 	RouteContext.displayName = "Route";
-	RouteErrorContext = import_react$27.createContext(null);
+	RouteErrorContext = import_react$29.createContext(null);
 	RouteErrorContext.displayName = "RouteError";
 	ERROR_DIGEST_BASE = "REACT_ROUTER_ERROR";
 	ERROR_DIGEST_REDIRECT = "REDIRECT";
 	ERROR_DIGEST_ROUTE_ERROR_RESPONSE = "ROUTE_ERROR_RESPONSE";
 	navigateEffectWarning = `You should call navigate() in a React.useEffect(), not when your component is first rendered.`;
-	import_react$28.createContext(null);
-	defaultErrorElement = /* @__PURE__ */ import_react$28.createElement(DefaultErrorComponent, null);
-	RenderErrorBoundary = class extends import_react$28.Component {
+	import_react$30.createContext(null);
+	defaultErrorElement = /* @__PURE__ */ import_react$30.createElement(DefaultErrorComponent, null);
+	RenderErrorBoundary = class extends import_react$30.Component {
 		constructor(props) {
 			super(props);
 			this.state = {
@@ -13397,19 +13397,19 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 				const decoded = decodeRouteErrorResponseDigest(error.digest);
 				if (decoded) error = decoded;
 			}
-			let result = error !== void 0 ? /* @__PURE__ */ import_react$28.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ import_react$28.createElement(RouteErrorContext.Provider, {
+			let result = error !== void 0 ? /* @__PURE__ */ import_react$30.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ import_react$30.createElement(RouteErrorContext.Provider, {
 				value: error,
 				children: this.props.component
 			})) : this.props.children;
-			if (this.context) return /* @__PURE__ */ import_react$28.createElement(RSCErrorHandler, { error }, result);
+			if (this.context) return /* @__PURE__ */ import_react$30.createElement(RSCErrorHandler, { error }, result);
 			return result;
 		}
 	};
 	RenderErrorBoundary.contextType = RSCRouterContext;
 	errorRedirectHandledMap = /* @__PURE__ */ new WeakMap();
 	alreadyWarned = {};
-	import_react$29.memo(DataRoutes2);
-	import_react$29.Component;
+	import_react$31.memo(DataRoutes2);
+	import_react$31.Component;
 	defaultMethod = "get";
 	defaultEncType = "application/x-www-form-urlencoded";
 	_formDataSupportsSubmitter = null;
@@ -13427,16 +13427,16 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 		"\u2029": "\\u2029"
 	};
 	ESCAPE_REGEX = /[&><\u2028\u2029]/g;
-	FrameworkContext = import_react$32.createContext(void 0);
+	FrameworkContext = import_react$34.createContext(void 0);
 	FrameworkContext.displayName = "FrameworkContext";
-	import_react$31.Component;
+	import_react$33.Component;
 	isBrowser2 = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 	try {
 		if (isBrowser2) window.__reactRouterVersion = "7.18.4";
 	} catch (e) {}
 	HistoryRouter.displayName = "unstable_HistoryRouter";
-	Link = import_react$36.forwardRef(function LinkWithRef({ onClick, discover = "render", prefetch = "none", relative, reloadDocument, replace: replace2, mask, state, target, to, preventScrollReset, viewTransition, defaultShouldRevalidate, ...rest }, forwardedRef) {
-		let { basename, navigator, useTransitions } = import_react$36.useContext(NavigationContext);
+	Link = import_react$38.forwardRef(function LinkWithRef({ onClick, discover = "render", prefetch = "none", relative, reloadDocument, replace: replace2, mask, state, target, to, preventScrollReset, viewTransition, defaultShouldRevalidate, ...rest }, forwardedRef) {
+		let { basename, navigator, useTransitions } = import_react$38.useContext(NavigationContext);
 		let isAbsolute = typeof to === "string" && ABSOLUTE_URL_REGEX.test(to);
 		let parsed = parseToInfo(to, basename);
 		to = parsed.to;
@@ -13465,7 +13465,7 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 			if (!event.defaultPrevented) internalOnClick(event);
 		}
 		let isSpaLink = !(parsed.isExternal || reloadDocument);
-		let link = /* @__PURE__ */ import_react$36.createElement("a", {
+		let link = /* @__PURE__ */ import_react$38.createElement("a", {
 			...rest,
 			...prefetchHandlers,
 			href: (isSpaLink ? maskedHref : void 0) || parsed.absoluteURL || href,
@@ -13474,14 +13474,14 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 			target,
 			"data-discover": !isAbsolute && discover === "render" ? "true" : void 0
 		});
-		return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ import_react$36.createElement(import_react$36.Fragment, null, link, /* @__PURE__ */ import_react$36.createElement(PrefetchPageLinks, { page: href })) : link;
+		return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ import_react$38.createElement(import_react$38.Fragment, null, link, /* @__PURE__ */ import_react$38.createElement(PrefetchPageLinks, { page: href })) : link;
 	});
 	Link.displayName = "Link";
-	NavLink = import_react$36.forwardRef(function NavLinkWithRef({ "aria-current": ariaCurrentProp = "page", caseSensitive = false, className: classNameProp = "", end = false, style: styleProp, to, viewTransition, children, ...rest }, ref) {
+	NavLink = import_react$38.forwardRef(function NavLinkWithRef({ "aria-current": ariaCurrentProp = "page", caseSensitive = false, className: classNameProp = "", end = false, style: styleProp, to, viewTransition, children, ...rest }, ref) {
 		let path = useResolvedPath(to, { relative: rest.relative });
 		let location = useLocation();
-		let routerState = import_react$36.useContext(DataRouterStateContext);
-		let { navigator, basename } = import_react$36.useContext(NavigationContext);
+		let routerState = import_react$38.useContext(DataRouterStateContext);
+		let { navigator, basename } = import_react$38.useContext(NavigationContext);
 		let isTransitioning = routerState != null && useViewTransitionState(path) && viewTransition === true;
 		let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
 		let locationPathname = location.pathname;
@@ -13510,7 +13510,7 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 			isTransitioning ? "transitioning" : null
 		].filter(Boolean).join(" ");
 		let style = typeof styleProp === "function" ? styleProp(renderProps) : styleProp;
-		return /* @__PURE__ */ import_react$36.createElement(Link, {
+		return /* @__PURE__ */ import_react$38.createElement(Link, {
 			...rest,
 			"aria-current": ariaCurrent,
 			className,
@@ -13521,8 +13521,8 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 		}, typeof children === "function" ? children(renderProps) : children);
 	});
 	NavLink.displayName = "NavLink";
-	Form = import_react$36.forwardRef(({ discover = "render", fetcherKey, navigate, reloadDocument, replace: replace2, state, method = defaultMethod, action, onSubmit, relative, preventScrollReset, viewTransition, defaultShouldRevalidate, ...props }, forwardedRef) => {
-		let { useTransitions } = import_react$36.useContext(NavigationContext);
+	Form = import_react$38.forwardRef(({ discover = "render", fetcherKey, navigate, reloadDocument, replace: replace2, state, method = defaultMethod, action, onSubmit, relative, preventScrollReset, viewTransition, defaultShouldRevalidate, ...props }, forwardedRef) => {
+		let { useTransitions } = import_react$38.useContext(NavigationContext);
 		let submit = useSubmit();
 		let formAction = useFormAction(action, { relative });
 		let formMethod = method.toLowerCase() === "get" ? "get" : "post";
@@ -13544,10 +13544,10 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 				viewTransition,
 				defaultShouldRevalidate
 			});
-			if (useTransitions && navigate !== false) import_react$36.startTransition(() => doSubmit());
+			if (useTransitions && navigate !== false) import_react$38.startTransition(() => doSubmit());
 			else doSubmit();
 		};
-		return /* @__PURE__ */ import_react$36.createElement("form", {
+		return /* @__PURE__ */ import_react$38.createElement("form", {
 			ref: forwardedRef,
 			method: formMethod,
 			action: formAction,
@@ -13636,25 +13636,81 @@ var require_jsx_runtime = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region src/context/AuthContext.jsx
 function AuthProvider({ children }) {
-	const [isLoggedIn, setIsLoggedIn] = (0, import_react$26.useState)(false);
-	const [role, setRole] = (0, import_react$26.useState)(null);
-	const [isVerified, setIsVerified] = (0, import_react$26.useState)(false);
-	const login = (0, import_react$26.useCallback)((userRole) => {
-		setIsLoggedIn(true);
-		setRole(userRole || "client");
+	const [isLoggedIn, setIsLoggedIn] = (0, import_react$28.useState)(false);
+	const [role, setRole] = (0, import_react$28.useState)(null);
+	const [isVerified, setIsVerified] = (0, import_react$28.useState)(false);
+	const [user, setUser] = (0, import_react$28.useState)(null);
+	const [token, setToken] = (0, import_react$28.useState)(null);
+	const isVerifiedRef = (0, import_react$28.useRef)(false);
+	(0, import_react$28.useEffect)(() => {
+		const saved = localStorage.getItem("taskpanda_auth");
+		if (saved) try {
+			const parsed = JSON.parse(saved);
+			setIsLoggedIn(true);
+			setRole(parsed.role || "client");
+			setIsVerified(parsed.isVerified || false);
+			isVerifiedRef.current = parsed.isVerified || false;
+			setUser(parsed.user || null);
+			setToken(parsed.token || null);
+		} catch {
+			localStorage.removeItem("taskpanda_auth");
+		}
 	}, []);
-	const logout = (0, import_react$26.useCallback)(() => {
+	const login = (0, import_react$28.useCallback)((userData, authToken) => {
+		const { email, role } = userData;
+		const newUser = {
+			email,
+			role
+		};
+		const newRole = role || "client";
+		setIsLoggedIn(true);
+		setRole(newRole);
+		setUser(newUser);
+		setToken(authToken || null);
+		localStorage.setItem("taskpanda_auth", JSON.stringify({
+			user: newUser,
+			role: newRole,
+			isVerified: isVerifiedRef.current,
+			token: authToken || null
+		}));
+	}, []);
+	const logout = (0, import_react$28.useCallback)(() => {
 		setIsLoggedIn(false);
 		setRole(null);
+		setUser(null);
+		setToken(null);
+		setIsVerified(false);
+		isVerifiedRef.current = false;
+		localStorage.removeItem("taskpanda_auth");
 	}, []);
-	const verify = (0, import_react$26.useCallback)(() => {
-		setIsVerified(true);
-	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(AuthContext.Provider, {
+	const verify = (0, import_react$28.useCallback)((verifiedData) => {
+		const newVerified = true;
+		setIsVerified(newVerified);
+		isVerifiedRef.current = newVerified;
+		if (verifiedData?.user) setUser(verifiedData.user);
+		if (verifiedData?.token) setToken(verifiedData.token);
+		setIsLoggedIn(true);
+		const currentUser = verifiedData?.user || user;
+		const currentRole = currentUser?.role || role || "client";
+		const currentToken = verifiedData?.token || token;
+		localStorage.setItem("taskpanda_auth", JSON.stringify({
+			user: currentUser,
+			role: currentRole,
+			isVerified: true,
+			token: currentToken
+		}));
+	}, [
+		user,
+		role,
+		token
+	]);
+	return /* @__PURE__ */ (0, import_jsx_runtime$42.jsx)(AuthContext.Provider, {
 		value: {
 			isLoggedIn,
 			role,
 			isVerified,
+			user,
+			token,
 			login,
 			logout,
 			verify
@@ -13663,25 +13719,25 @@ function AuthProvider({ children }) {
 	});
 }
 function useAuth() {
-	return (0, import_react$26.useContext)(AuthContext);
+	return (0, import_react$28.useContext)(AuthContext);
 }
-var import_react$26, import_jsx_runtime$40, AuthContext;
+var import_react$28, import_jsx_runtime$42, AuthContext;
 var init_AuthContext = __esmMin((() => {
-	import_react$26 = /* @__PURE__ */ __toESM(require_react());
-	import_jsx_runtime$40 = require_jsx_runtime();
-	AuthContext = (0, import_react$26.createContext)(null);
+	import_react$28 = /* @__PURE__ */ __toESM(require_react());
+	import_jsx_runtime$42 = require_jsx_runtime();
+	AuthContext = (0, import_react$28.createContext)(null);
 }));
 //#endregion
 //#region src/components/Header.jsx
 function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home", role = "client", notifCount = 2 }) {
-	const [dropdownOpen, setDropdownOpen] = (0, import_react$25.useState)(false);
-	const [mobileOpen, setMobileOpen] = (0, import_react$25.useState)(false);
-	const [notifOpen, setNotifOpen] = (0, import_react$25.useState)(false);
+	const [dropdownOpen, setDropdownOpen] = (0, import_react$27.useState)(false);
+	const [mobileOpen, setMobileOpen] = (0, import_react$27.useState)(false);
+	const [notifOpen, setNotifOpen] = (0, import_react$27.useState)(false);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { isLoggedIn, role: authRole, firstName } = useAuth();
-	const notifRef = (0, import_react$25.useRef)(null);
-	(0, import_react$25.useEffect)(() => {
+	const notifRef = (0, import_react$27.useRef)(null);
+	(0, import_react$27.useEffect)(() => {
 		function handleClick(e) {
 			if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false);
 		}
@@ -13690,7 +13746,7 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 			return () => document.removeEventListener("mousedown", handleClick);
 		}
 	}, [notifOpen]);
-	(0, import_react$25.useEffect)(() => {
+	(0, import_react$27.useEffect)(() => {
 		setNotifOpen(false);
 		setDropdownOpen(false);
 		setMobileOpen(false);
@@ -13765,145 +13821,145 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 		}
 	];
 	const displayName = isLoggedIn ? "Miguel" : "Guest";
-	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("header", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("header", {
 		className: "fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+		children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("div", {
 			className: "container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("div", {
 					className: "flex flex-none items-center gap-3",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 						to: "/",
 						className: `text-2xl font-extrabold tracking-tight ${logoColor}`,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 							className: "text-black",
 							children: "Task"
 						}), "Panda"]
 					})
 				}),
-				showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("nav", {
+				showNav && /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("nav", {
 					className: "absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex",
-					children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+					children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 						to: link.path,
 						className: `flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition ${activeTab === link.label ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"}`,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", { children: link.icon }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", { children: link.label })]
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", { children: link.icon }), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", { children: link.label })]
 					}, link.label))
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("div", {
 					className: "flex flex-none items-center gap-6",
 					children: [
-						showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+						showNav && /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("button", {
 							onClick: () => setMobileOpen(!mobileOpen),
 							className: "inline-flex items-center justify-center rounded-lg p-2 text-gray-600 lg:hidden hover:bg-gray-100",
 							"aria-label": "Toggle navigation",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
+							children: /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("svg", {
 								xmlns: "http://www.w3.org/2000/svg",
 								viewBox: "0 0 24 24",
 								fill: "currentColor",
 								className: "h-6 w-6",
-								children: mobileOpen ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
+								children: mobileOpen ? /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("path", {
 									fillRule: "evenodd",
 									d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
 									clipRule: "evenodd"
-								}) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("path", {
 									fillRule: "evenodd",
 									d: "M3 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6zm0 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75zm0 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z",
 									clipRule: "evenodd"
 								})
 							})
 						}),
-						showNav && notifCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+						showNav && notifCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("div", {
 							className: "relative",
 							ref: notifRef,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("button", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("button", {
 								onClick: () => setNotifOpen(!notifOpen),
 								className: "relative inline-flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100",
 								"aria-label": "Notifications",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("svg", {
 									xmlns: "http://www.w3.org/2000/svg",
 									viewBox: "0 0 24 24",
 									fill: "currentColor",
 									className: "h-6 w-6",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("path", {
 										fillRule: "evenodd",
 										d: "M12 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 006 15h12a1 1 0 00.707-1.707L18 11.586V8a6 6 0 00-6-6zM10 20a2 2 0 114 0a2 2 0 01-4 0z",
 										clipRule: "evenodd"
 									})
-								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 									className: "absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white",
 									children: notifCount
 								})]
-							}), notifOpen && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							}), notifOpen && /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("div", {
 								className: "absolute right-0 mt-2 w-72 rounded-xl border border-gray-100 bg-white shadow-lg",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("div", {
 									className: "px-4 py-3 border-b border-gray-100",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h3", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("h3", {
 										className: "text-sm font-semibold text-gray-900",
 										children: "Notifications"
 									})
-								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("div", {
 									className: "max-h-64 overflow-y-auto",
-									children: role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(import_jsx_runtime$39.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+									children: role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(import_jsx_runtime$41.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 										to: "/provider-bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50 border-b border-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("p", {
 											className: "text-sm text-gray-700",
-											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 												className: "font-semibold",
 												children: "Ana Reyes"
 											})]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "Leaking Pipe Fix — 2 min ago"
 										})]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 										to: "/provider-bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("p", {
 											className: "text-sm text-gray-700",
-											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 												className: "font-semibold",
 												children: "Carlos Magsaysay"
 											})]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "Bookshelf Assembly — 15 min ago"
 										})]
-									})] }) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(import_jsx_runtime$39.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+									})] }) : /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(import_jsx_runtime$41.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 										to: "/bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50 border-b border-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("p", {
 											className: "text-sm text-gray-700",
 											children: [
 												"Your booking ",
-												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+												/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 													className: "font-semibold",
 													children: "Circuit Breaker Replacement"
 												}),
 												" was confirmed"
 											]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "2 hours ago"
 										})]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 										to: "/bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("p", {
 											className: "text-sm text-gray-700",
 											children: [
 												"Your booking ",
-												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+												/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 													className: "font-semibold",
 													children: "Desktop Table Repair"
 												}),
 												" is pending"
 											]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "5 hours ago"
 										})]
@@ -13911,13 +13967,13 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 								})]
 							})]
 						}),
-						showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+						showNav && /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("div", {
 							className: "relative",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("button", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("button", {
 								onClick: () => setDropdownOpen(!dropdownOpen),
 								className: "flex items-center gap-3 text-sm",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("span", {
+									/* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("span", {
 										className: "hidden whitespace-nowrap text-gray-600 sm:inline",
 										children: [
 											"Good morning, ",
@@ -13925,40 +13981,40 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 											"!"
 										]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("div", {
 										className: "flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700",
 										children: displayName.charAt(0).toUpperCase()
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
+									/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("svg", {
 										xmlns: "http://www.w3.org/2000/svg",
 										viewBox: "0 0 24 24",
 										fill: "currentColor",
 										className: "h-4 w-4 text-gray-400",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("path", {
 											fillRule: "evenodd",
 											d: "M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z",
 											clipRule: "evenodd"
 										})
 									})
 								]
-							}), dropdownOpen && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							}), dropdownOpen && /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)("div", {
 								className: "absolute right-0 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-1 shadow-lg",
-								children: [role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Link, {
+								children: [role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)(Link, {
 									to: "/provider-dashboard",
 									className: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
 									onClick: () => setDropdownOpen(false),
 									children: "Dashboard"
-								}) : role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Link, {
+								}) : role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)(Link, {
 									to: "/admin",
 									className: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
 									onClick: () => setDropdownOpen(false),
 									children: "Dashboard"
-								}) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Link, {
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)(Link, {
 									to: "/dashboard",
 									className: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
 									onClick: () => setDropdownOpen(false),
 									children: "Dashboard"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("button", {
 									onClick: () => {
 										setDropdownOpen(false);
 										navigate("/");
@@ -13971,34 +14027,34 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 					]
 				})
 			]
-		}), mobileOpen && showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+		}), mobileOpen && showNav && /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("div", {
 			className: "absolute inset-x-0 top-16 z-20 border-b border-gray-200 bg-white px-4 py-3 shadow-lg lg:hidden",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("nav", {
+			children: /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("nav", {
 				className: "flex flex-col gap-1",
-				children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+				children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$41.jsxs)(Link, {
 					to: link.path,
 					onClick: () => setMobileOpen(false),
 					className: `flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition ${activeTab === link.label ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}`,
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", {
 						className: "text-base",
 						children: link.icon
-					}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", { children: link.label })]
+					}), /* @__PURE__ */ (0, import_jsx_runtime$41.jsx)("span", { children: link.label })]
 				}, link.label))
 			})
 		})]
 	});
 }
-var import_react$25, import_jsx_runtime$39;
+var import_react$27, import_jsx_runtime$41;
 var init_Header = __esmMin((() => {
-	import_react$25 = /* @__PURE__ */ __toESM(require_react());
+	import_react$27 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_AuthContext();
-	import_jsx_runtime$39 = require_jsx_runtime();
+	import_jsx_runtime$41 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/components/ClientDashboard.jsx
 function StatusBadge$4({ status }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 		className: `inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${{
 			"Pending Request": "bg-amber-100 text-amber-700 border-amber-200",
 			Confirmed: "bg-green-100 text-green-700 border-green-200",
@@ -14008,14 +14064,14 @@ function StatusBadge$4({ status }) {
 	});
 }
 function StarIcon$2({ filled }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("svg", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("svg", {
 		xmlns: "http://www.w3.org/2000/svg",
 		viewBox: "0 0 24 24",
 		fill: filled ? "currentColor" : "none",
 		stroke: "currentColor",
 		strokeWidth: 1.5,
 		className: "h-3.5 w-3.5",
-		children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", {
 			strokeLinecap: "round",
 			strokeLinejoin: "round",
 			d: "M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
@@ -14025,13 +14081,13 @@ function StarIcon$2({ filled }) {
 function Dashboard() {
 	const navigate = useNavigate();
 	const { isLoggedIn } = useAuth();
-	const [bannerVisible, setBannerVisible] = (0, import_react$24.useState)(true);
-	const [activeTab, setActiveTab] = (0, import_react$24.useState)("All");
-	const [search, setSearch] = (0, import_react$24.useState)("");
-	const [bookingList, setBookingList] = (0, import_react$24.useState)(initialBookings$2);
-	const [activeCategory, setActiveCategory] = (0, import_react$24.useState)("");
-	const scrollRef = (0, import_react$24.useRef)(null);
-	const catScrollRef = (0, import_react$24.useRef)(null);
+	const [bannerVisible, setBannerVisible] = (0, import_react$26.useState)(true);
+	const [activeTab, setActiveTab] = (0, import_react$26.useState)("All");
+	const [search, setSearch] = (0, import_react$26.useState)("");
+	const [bookingList, setBookingList] = (0, import_react$26.useState)(initialBookings$2);
+	const [activeCategory, setActiveCategory] = (0, import_react$26.useState)("");
+	const scrollRef = (0, import_react$26.useRef)(null);
+	const catScrollRef = (0, import_react$26.useRef)(null);
 	const tabs = [
 		"All",
 		"Pending",
@@ -14069,47 +14125,47 @@ function Dashboard() {
 			status: "Cancelled"
 		} : b));
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
-		className: "min-h-screen bg-gray-50 pt-16",
+	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+		className: "min-h-screen bg-gray-50 pt-16 overflow-x-hidden",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(Header, {
+			/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(Header, {
 				showNav: true,
 				activeTab: "Home"
 			}),
-			bannerVisible && /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
-				className: "relative bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
-					className: "flex items-center gap-3 flex-wrap",
+			bannerVisible && /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
+				className: "relative w-full overflow-hidden bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8",
+				children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+					className: "flex w-full min-w-0 items-center gap-3",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 							className: "shrink-0 text-2xl",
 							children: "⚠️"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
-							className: "flex-1",
-							children: [isLoggedIn && /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+							className: "flex-1 min-w-0 overflow-hidden",
+							children: [isLoggedIn && /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 								className: "text-xs font-medium text-gray-600",
 								children: "Welcome back, Client"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 								className: "text-sm font-medium text-gray-800",
 								children: "Recurring Maintenance Reminder: It's been 6 months since your last AC Cleaning - Tap to schedule with Perez Cruz"
 							})]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 							onClick: () => navigate("/explore"),
 							className: "shrink-0 rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-gray-800",
 							children: "Book Now"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 							onClick: () => setBannerVisible(false),
 							className: "shrink-0 rounded p-1 text-gray-700 transition hover:bg-gray-900/10",
 							"aria-label": "Close reminder",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("svg", {
+							children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("svg", {
 								xmlns: "http://www.w3.org/2000/svg",
 								viewBox: "0 0 24 24",
 								fill: "currentColor",
 								className: "h-5 w-5",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", {
+								children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", {
 									fillRule: "evenodd",
 									d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
 									clipRule: "evenodd"
@@ -14119,45 +14175,45 @@ function Dashboard() {
 					]
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
-				className: "mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row lg:px-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
-					className: "flex-1 space-y-8 lg:min-w-0",
+			/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+				className: "mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1fr_340px] lg:px-8",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+					className: "space-y-8",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 							className: "relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-slate-700 to-slate-800 px-6 py-10 sm:px-10 sm:py-12",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
-								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
-								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", { className: "pointer-events-none absolute right-1/4 top-1/4 h-16 w-16 rounded-full bg-white/5" }),
-								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
+								/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
+								/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", { className: "pointer-events-none absolute right-1/4 top-1/4 h-16 w-16 rounded-full bg-white/5" }),
+								/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 									className: "pointer-events-none absolute -bottom-4 -right-2 hidden h-48 w-40 overflow-hidden sm:block md:right-8",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("img", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("img", {
 										src: "/assets/Panda Cropped.png",
 										alt: "TaskPanda mascot",
 										className: "h-full w-full object-contain"
 									})
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 									className: "relative z-10 max-w-lg",
 									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h1", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("h1", {
 											className: "text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl",
 											children: "Find trusted local pros for your home"
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 											className: "mt-4 text-base leading-relaxed text-teal-100/80 sm:text-lg",
 											children: "TaskPanda connects with certified tradespeople and trusted independent local specialists."
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "mt-8 flex items-center overflow-hidden rounded-xl bg-white shadow-lg",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("input", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("input", {
 												type: "text",
 												value: search,
 												onChange: (e) => setSearch(e.target.value),
 												placeholder: "Search for carpentry, plumbing, cleaning, or electrical services...",
 												className: "flex-1 px-5 py-3.5 text-sm text-gray-800 placeholder-gray-400/70 outline-none"
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 												className: "shrink-0 bg-gray-800 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-900",
 												children: "Search"
 											})]
@@ -14166,24 +14222,24 @@ function Dashboard() {
 								})
 							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 							className: "mb-4 flex items-center justify-between",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h2", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("h2", {
 								className: "text-lg font-bold text-gray-900",
 								children: "Explore Categories"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 								className: "flex items-center gap-2",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 										onClick: () => scrollCategories("left"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll left",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("rect", {
 												x: "10",
 												y: "11",
 												width: "12",
@@ -14191,16 +14247,16 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 										onClick: () => scrollCategories("right"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll right",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("rect", {
 												x: "2",
 												y: "11",
 												width: "12",
@@ -14208,7 +14264,7 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("a", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("a", {
 										href: "#",
 										onClick: (e) => {
 											e.preventDefault();
@@ -14219,40 +14275,40 @@ function Dashboard() {
 									})
 								]
 							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 							ref: catScrollRef,
 							className: "flex gap-3 overflow-x-auto pb-2 scrollbar-hide",
 							style: { scrollbarWidth: "none" },
-							children: filteredCategories.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+							children: filteredCategories.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 								onClick: () => navigate(`/explore?service=${encodeURIComponent(cat.name)}`),
 								className: "flex shrink-0 cursor-pointer flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md w-[120px]",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 									className: "text-2xl",
 									children: cat.icon
-								}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 									className: "whitespace-nowrap text-xs font-medium text-gray-700",
 									children: cat.name
 								})]
 							}, cat.name))
 						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 							className: "mb-4 flex items-center justify-between",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h2", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("h2", {
 								className: "text-lg font-bold text-gray-900",
 								children: "Your Favourites"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 								className: "flex items-center gap-2",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 										onClick: () => scroll("left"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll left",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("rect", {
 												x: "10",
 												y: "11",
 												width: "12",
@@ -14260,16 +14316,16 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 										onClick: () => scroll("right"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll right",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("rect", {
 												x: "2",
 												y: "11",
 												width: "12",
@@ -14277,7 +14333,7 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("a", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("a", {
 										href: "#",
 										onClick: (e) => {
 											e.preventDefault();
@@ -14288,38 +14344,38 @@ function Dashboard() {
 									})
 								]
 							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 							ref: scrollRef,
 							className: "flex gap-3 overflow-x-auto pb-2",
 							style: { scrollbarWidth: "none" },
-							children: favourites.map((fav) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+							children: favourites.map((fav) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 								className: "flex min-w-[260px] flex-col rounded-xl border border-gray-100 bg-white p-4 shadow-sm",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 										className: "flex items-center justify-between",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "flex items-center gap-3",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 												className: "flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700",
 												children: fav.name.charAt(0)
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 												className: "text-sm font-semibold text-gray-900",
 												children: fav.name
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 												className: "text-xs text-gray-500",
 												children: fav.cred
 											})] })]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(StatusBadge$4, { status: "Confirmed" })]
+										}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(StatusBadge$4, { status: "Confirmed" })]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 										className: "mt-3 flex items-center gap-1",
 										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(StarIcon$2, { filled: true }),
-											/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+											/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(StarIcon$2, { filled: true }),
+											/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 												className: "text-sm font-medium text-gray-800",
 												children: fav.rating
 											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("span", {
+											/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("span", {
 												className: "text-xs text-gray-400",
 												children: [
 													"(",
@@ -14329,22 +14385,22 @@ function Dashboard() {
 											})
 										]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 										className: "mt-2 text-xs text-gray-500",
 										children: fav.lastHired
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 										className: "mt-3 flex items-center justify-between",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 											className: "text-lg font-bold text-gray-900",
 											children: fav.price
-										}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "flex gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 												onClick: () => navigate("/explore"),
 												className: "rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary-700",
 												children: "Rebook"
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 												type: "button",
 												onClick: () => navigate("/profile"),
 												className: "rounded-lg border border-gray-300 bg-white px-4 py-1.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
@@ -14356,12 +14412,12 @@ function Dashboard() {
 							}, fav.name))
 						})] })
 					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("aside", {
-					className: "w-full shrink-0 lg:w-80",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("aside", {
+					className: "w-full shrink-0 lg:w-[340px]",
+					children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 						className: "sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 								className: "grid grid-cols-2 gap-px bg-gray-100",
 								children: [{
 									label: "Active",
@@ -14371,98 +14427,98 @@ function Dashboard() {
 									label: "Completed",
 									value: tabCounts.Completed,
 									color: "bg-white"
-								}].map((s) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+								}].map((s) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 									className: `${s.color} px-4 py-3 text-center`,
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 										className: "text-lg font-bold text-gray-900",
 										children: s.value
-									}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 										className: "text-[11px] font-medium text-gray-500",
 										children: s.label
 									})]
 								}, s.label))
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 								className: "flex items-center justify-between border-b border-gray-100 px-5 py-4",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h2", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("h2", {
 									className: "text-base font-bold text-gray-900",
 									children: "Active Bookings"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 									onClick: () => navigate("/bookings"),
 									className: "text-sm font-medium text-primary-600 hover:text-primary-800",
 									children: "See All >"
 								})]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 								className: "flex gap-1 border-b border-gray-100 px-5 py-3",
-								children: tabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+								children: tabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 									onClick: () => setActiveTab(tab),
 									className: `relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
-									children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("span", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("span", {
 										className: "flex items-center gap-1.5",
-										children: [tab, /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+										children: [tab, /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 											className: `inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[9px] font-bold ${activeTab === tab ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`,
 											children: tabCounts[tab] ?? 0
 										})]
 									})
 								}, tab))
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 								className: "max-h-[480px] overflow-y-auto p-4",
-								children: filteredBookings.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("p", {
+								children: filteredBookings.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("p", {
 									className: "py-8 text-center text-sm text-gray-400",
 									children: [
 										"No ",
 										activeTab.toLowerCase(),
 										" bookings"
 									]
-								}) : filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+								}) : filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 									className: "mb-3 rounded-xl border border-gray-100 bg-gray-50 p-4",
 									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "flex items-center justify-between",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(StatusBadge$4, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(StatusBadge$4, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
 												className: "text-sm font-semibold text-gray-900",
 												children: booking.price
 											})]
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "mt-3 flex items-center gap-3",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 												className: "flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700",
 												children: booking.worker.charAt(0)
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 												className: "text-sm font-semibold text-gray-900",
 												children: booking.worker
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 												className: "text-xs text-gray-500",
 												children: booking.cred
 											})] })]
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "mt-3 border-t border-gray-200 pt-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 												className: "text-sm font-medium text-gray-800",
 												children: booking.task
-											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
 												className: "text-xs text-gray-500",
 												children: booking.date
 											})]
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
 											className: "mt-3 flex gap-2",
 											children: [
-												/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+												/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 													onClick: () => navigate("/messages"),
 													className: "flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50",
 													children: "Contact"
 												}),
-												booking.status !== "Cancelled" && booking.status !== "Completed" && /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+												booking.status !== "Cancelled" && booking.status !== "Completed" && /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 													onClick: () => cancelBooking(booking.id),
 													className: "flex-1 rounded-lg bg-red-50 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100",
 													children: "Cancel Request"
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+												/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 													type: "button",
 													onClick: () => navigate("/profile"),
 													className: "flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50",
@@ -14480,13 +14536,13 @@ function Dashboard() {
 		]
 	});
 }
-var import_react$24, import_jsx_runtime$38, categories$1, favourites, initialBookings$2;
+var import_react$26, import_jsx_runtime$40, categories$1, favourites, initialBookings$2;
 var init_ClientDashboard = __esmMin((() => {
-	import_react$24 = /* @__PURE__ */ __toESM(require_react());
+	import_react$26 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_AuthContext();
 	init_Header();
-	import_jsx_runtime$38 = require_jsx_runtime();
+	import_jsx_runtime$40 = require_jsx_runtime();
 	categories$1 = [
 		{
 			name: "All Services",
@@ -14565,14 +14621,14 @@ var init_ClientDashboard = __esmMin((() => {
 //#endregion
 //#region src/pages/LandingPage.jsx
 function StarIcon$1({ filled }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("svg", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
 		xmlns: "http://www.w3.org/2000/svg",
 		viewBox: "0 0 24 24",
 		fill: filled ? "currentColor" : "none",
 		stroke: "currentColor",
 		strokeWidth: 1.5,
 		className: "h-3.5 w-3.5",
-		children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("path", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
 			strokeLinecap: "round",
 			strokeLinejoin: "round",
 			d: "M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
@@ -14582,69 +14638,69 @@ function StarIcon$1({ filled }) {
 function LandingPage() {
 	const navigate = useNavigate();
 	const { isVerified } = useAuth();
-	const [howTab, setHowTab] = (0, import_react$23.useState)("client");
-	const [showVerifyPrompt, setShowVerifyPrompt] = (0, import_react$23.useState)(false);
-	return /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+	const [howTab, setHowTab] = (0, import_react$25.useState)("client");
+	const [showVerifyPrompt, setShowVerifyPrompt] = (0, import_react$25.useState)(false);
+	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)(Header, { showNav: false }),
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("section", {
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Header, { showNav: false }),
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("section", {
 				className: "relative overflow-hidden",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 					className: "relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 						className: "grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2 lg:gap-10 lg:py-24",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "max-w-xl animate-hero",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("h1", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("h1", {
 									className: "text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl",
-									children: ["Find trusted local", /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+									children: ["Find trusted local", /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 										className: "block bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent",
 										children: "pros for your home"
 									})]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 									className: "mt-5 text-base leading-relaxed text-gray-600 sm:text-lg animate-fade-in-up delay-200",
 									children: "TaskPanda connects you with certified tradespeople and trusted independent local specialists. Quick, reliable, and hassle-free."
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 									className: "mt-6 flex flex-wrap items-center gap-2 sm:gap-3 animate-fade-in-up delay-300",
-									children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 										onClick: () => navigate("/dashboard"),
 										className: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5",
 										children: "Go to Dashboard"
-									}) : /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)(import_jsx_runtime$37.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									}) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(import_jsx_runtime$39.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 										onClick: () => navigate("/register"),
 										className: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5",
 										children: "Get Started"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 										onClick: () => navigate("/login"),
 										className: "rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5 sm:px-7 sm:py-3.5",
 										children: "Sign In"
 									})] })
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 									className: "mt-6 flex items-center gap-3 text-sm text-gray-500 animate-fade-in-up delay-400",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 										className: "flex -space-x-2",
 										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+											/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 												className: "flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700 ring-2 ring-white",
 												children: "J"
 											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+											/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 												className: "flex h-8 w-8 items-center justify-center rounded-full bg-accent-100 text-xs font-bold text-accent-700 ring-2 ring-white",
 												children: "M"
 											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+											/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 												className: "flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700 ring-2 ring-white",
 												children: "A"
 											})
 										]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("span", { children: [
+									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("span", { children: [
 										"Trusted by ",
-										/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("strong", {
+										/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("strong", {
 											className: "text-gray-900",
 											children: "2,000+"
 										}),
@@ -14653,19 +14709,19 @@ function LandingPage() {
 									] })]
 								})
 							]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 							className: "relative animate-slide-right delay-300",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+							children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 								className: "relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-slate-700 to-slate-800 px-6 py-10 sm:px-10 sm:py-12",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 										className: "relative z-10 max-w-lg",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
 											className: "text-xl font-bold text-white sm:text-2xl",
 											children: "Why TaskPanda?"
-										}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 											className: "mt-6 space-y-3",
 											children: [
 												{
@@ -14680,12 +14736,12 @@ function LandingPage() {
 													icon: "🏡",
 													text: "Trusted by 2,000+ homeowners"
 												}
-											].map((item) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+											].map((item) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 												className: "flex items-center gap-3 rounded-lg bg-white/10 px-4 py-2.5",
-												children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 													className: "text-base",
 													children: item.icon
-												}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+												}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 													className: "text-sm text-teal-50",
 													children: item.text
 												})]
@@ -14698,20 +14754,20 @@ function LandingPage() {
 					})
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("section", {
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("section", {
 				className: "bg-white py-8",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 					className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 						className: "grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4",
-						children: stats$2.map((s, i) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+						children: stats$2.map((s, i) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "flex flex-col items-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-5 text-center transition hover:shadow-md animate-fade-in-up",
 							style: { animationDelay: `${.1 * i}s` },
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 								className: "text-2xl font-extrabold text-gray-900 sm:text-3xl animate-fade-in-up",
 								style: { animationDelay: `${.15 * i}s` },
 								children: s.value
-							}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 								className: "mt-1 text-xs text-gray-500 sm:text-sm",
 								children: s.label
 							})]
@@ -14719,22 +14775,22 @@ function LandingPage() {
 					})
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("section", {
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("section", {
 				className: "py-16",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 					className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 						className: "mb-8 text-center",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
 							className: "text-2xl font-bold text-gray-900",
 							children: "Explore Services"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 							className: "mt-1 text-sm text-gray-500",
 							children: "Browse services from certified local professionals"
 						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+					}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 						className: "flex flex-wrap justify-center gap-3",
-						children: categories$1.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("button", {
+						children: categories$1.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("button", {
 							onClick: () => navigate(`/explore?service=${encodeURIComponent(cat.name)}`),
 							className: "flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up",
 							style: {
@@ -14742,10 +14798,10 @@ function LandingPage() {
 								maxWidth: "120px",
 								animationDelay: `${.05 * categories$1.indexOf(cat)}s`
 							},
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 								className: "text-2xl",
 								children: cat.icon
-							}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 								className: "whitespace-nowrap text-xs font-medium text-gray-700",
 								children: cat.name
 							})]
@@ -14753,53 +14809,53 @@ function LandingPage() {
 					})]
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("section", {
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("section", {
 				className: "bg-white py-16",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 					className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 						className: "mb-10 text-center",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
+							/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
 								className: "text-2xl font-bold text-gray-900 sm:text-3xl",
 								children: "How TaskPanda Works"
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+							/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 								className: "mx-auto mt-2 max-w-lg text-sm text-gray-500",
 								children: "Simple steps for both clients and providers"
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 								className: "mt-4 inline-flex rounded-lg border border-gray-200 bg-gray-50 p-1",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 									onClick: () => setHowTab("client"),
 									className: `rounded-md px-3 py-2 text-sm font-medium transition sm:px-5 sm:py-2 ${howTab === "client" ? "bg-primary-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"} animate-fade-in-up`,
 									children: "For Clients"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 									onClick: () => setHowTab("provider"),
 									className: `rounded-md px-3 py-2 text-sm font-medium transition sm:px-5 sm:py-2 ${howTab === "provider" ? "bg-green-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"} animate-fade-in-up delay-100`,
 									children: "For Providers"
 								})]
 							})
 						]
-					}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+					}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 						className: "grid gap-6 sm:grid-cols-3",
-						children: (howTab === "client" ? howItWorksClient : howItWorksProvider).map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+						children: (howTab === "client" ? howItWorksClient : howItWorksProvider).map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "relative rounded-2xl border border-gray-100 bg-gray-50 p-6 text-center transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up",
 							style: { animationDelay: `${.1 * i}s` },
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 									className: "mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white text-2xl shadow-sm",
 									children: item.icon
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 									className: `mt-4 inline-block rounded-lg px-3 py-1 text-xs font-bold ${howTab === "client" ? "bg-primary-100 text-primary-700" : "bg-green-100 text-green-700"}`,
 									children: item.step
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h3", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h3", {
 									className: "mt-3 text-lg font-bold text-gray-900",
 									children: item.title
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 									className: "mt-2 text-sm leading-relaxed text-gray-600",
 									children: item.description
 								})
@@ -14808,64 +14864,64 @@ function LandingPage() {
 					})]
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("section", {
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("section", {
 				className: "py-16",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 					className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 						className: "mb-8",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
 							className: "text-2xl font-bold text-gray-900",
 							children: "Top-Rated Professionals"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 							className: "mt-1 text-sm text-gray-500",
 							children: "Hand-picked experts trusted by the community"
 						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+					}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 						className: "grid gap-5 sm:grid-cols-2 lg:grid-cols-3",
-						children: providers$1.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+						children: providers$1.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md hover:-translate-y-1 animate-fade-in-up",
 							style: { animationDelay: `${.1 * i}s` },
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 								className: `relative h-28 bg-gradient-to-r ${p.banner}`,
-								children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+								children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 									className: "absolute -bottom-6 left-4",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 										className: `flex h-14 w-14 items-center justify-center rounded-full border-4 border-white text-lg font-bold ${p.color}`,
 										children: p.name.charAt(0)
 									})
 								})
-							}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 								className: "px-4 pb-5 pt-8",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 										className: "flex items-start justify-between",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h3", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h3", {
 											className: "text-sm font-bold text-gray-900",
 											children: p.name
-										}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 											className: "text-xs text-gray-500",
 											children: p.trade
 										})] })
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 										className: "mt-1.5 flex items-center gap-1.5",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 											className: "inline-flex items-center rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600",
 											children: p.cred
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 										className: "mt-3 flex items-center justify-between",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 											className: "flex items-center gap-1",
 											children: [
-												/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)(StarIcon$1, { filled: true }),
-												/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
+												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(StarIcon$1, { filled: true }),
+												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 													className: "text-sm font-semibold text-gray-800",
 													children: p.rating
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("span", {
+												/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("span", {
 													className: "text-xs text-gray-400",
 													children: [
 														"(",
@@ -14874,14 +14930,14 @@ function LandingPage() {
 													]
 												})
 											]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("span", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("span", {
 											className: "text-sm font-bold text-gray-900",
 											children: [p.price, "/hr"]
 										})]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 										className: "mt-4 flex gap-2",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 											onClick: () => {
 												if (!isVerified) {
 													setShowVerifyPrompt(true);
@@ -14891,7 +14947,7 @@ function LandingPage() {
 											},
 											className: "flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4",
 											children: "Book Now"
-										}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 											onClick: () => {
 												navigate(`/provider-profile?name=${encodeURIComponent(p.name)}&trade=${encodeURIComponent(p.trade)}`);
 											},
@@ -14905,37 +14961,37 @@ function LandingPage() {
 					})]
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("section", {
+			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("section", {
 				className: "bg-white py-16",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 					className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 						className: "relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-12 sm:px-12 sm:py-16 animate-fade-in",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 								className: "relative z-10 flex flex-col items-center gap-5 text-center lg:flex-row lg:text-left animate-fade-in-up",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 									className: "flex-1",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
 										className: "text-xl font-extrabold leading-tight tracking-tight text-white sm:text-2xl md:text-3xl lg:text-4xl",
 										children: "Ready to start your project?"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 										className: "mt-2 text-sm text-gray-400 sm:text-base",
 										children: "Join thousands of homeowners who trust TaskPanda to find reliable local professionals. Get started in minutes — no commitments needed."
 									})]
-								}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 									className: "flex flex-col gap-2 sm:flex-row lg:flex-none",
-									children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 										onClick: () => navigate("/dashboard"),
 										className: "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5",
 										children: "Go to Dashboard"
-									}) : /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)(import_jsx_runtime$37.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									}) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(import_jsx_runtime$39.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 										onClick: () => navigate("/register"),
 										className: "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5",
 										children: "Create Free Account"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 										onClick: () => navigate("/login"),
 										className: "rounded-xl border border-gray-600 bg-transparent px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 sm:px-7 sm:py-3.5",
 										children: "Sign In"
@@ -14946,35 +15002,35 @@ function LandingPage() {
 					})
 				})
 			}),
-			showVerifyPrompt && /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+			showVerifyPrompt && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in",
 				onClick: () => setShowVerifyPrompt(false),
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 					className: "w-full max-w-sm scale-100 rounded-2xl bg-white p-8 shadow-xl animate-scale-in",
 					onClick: (e) => e.stopPropagation(),
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 							className: "mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-xl",
 							children: "🪪"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
+						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
 							className: "text-center text-2xl font-bold text-gray-900",
 							children: "Verification Required"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
+						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 							className: "mt-2 text-center text-sm text-gray-500",
 							children: "You need to verify your identity with a valid ID before booking services."
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "mt-6 flex flex-col gap-3",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 								onClick: () => {
 									setShowVerifyPrompt(false);
 									navigate("/profile/verify");
 								},
 								className: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800",
 								children: "Verify Now"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 								onClick: () => setShowVerifyPrompt(false),
 								className: "w-full text-center text-xs text-gray-400 hover:text-gray-600",
 								children: "Continue Without Verifying"
@@ -14986,14 +15042,14 @@ function LandingPage() {
 		]
 	});
 }
-var import_react$23, import_jsx_runtime$37, howItWorksClient, howItWorksProvider, stats$2, providers$1;
+var import_react$25, import_jsx_runtime$39, howItWorksClient, howItWorksProvider, stats$2, providers$1;
 var init_LandingPage = __esmMin((() => {
-	import_react$23 = /* @__PURE__ */ __toESM(require_react());
+	import_react$25 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Header();
 	init_ClientDashboard();
 	init_AuthContext();
-	import_jsx_runtime$37 = require_jsx_runtime();
+	import_jsx_runtime$39 = require_jsx_runtime();
 	howItWorksClient = [
 		{
 			step: "01",
@@ -15088,52 +15144,52 @@ var init_LandingPage = __esmMin((() => {
 //#endregion
 //#region src/components/Mascot.jsx
 function Mascot() {
-	return /* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("div", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 		className: "relative flex h-72 w-56 shrink-0 items-center justify-center overflow-hidden border-b-4 border-primary-200 sm:h-80 sm:w-64",
-		children: /* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("img", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("img", {
 			src: "/assets/Panda Cropped.png",
 			alt: "TaskPanda mascot",
 			className: "h-72 w-auto sm:h-80"
 		})
 	});
 }
-var import_jsx_runtime$36;
+var import_jsx_runtime$38;
 var init_Mascot = __esmMin((() => {
-	import_jsx_runtime$36 = require_jsx_runtime();
+	import_jsx_runtime$38 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/components/Layout.jsx
 function Layout({ theme = "primary", children }) {
 	const a = accentClasses[theme];
-	return /* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
 		className: "text-gray-800 antialiased",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)(Header, { logoColor: theme === "green" ? "text-green-700" : "text-primary-700" }), /* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("main", {
+		children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)(Header, { logoColor: theme === "green" ? "text-green-700" : "text-primary-700" }), /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("main", {
 			className: "grid min-h-screen grid-cols-1 gap-6 lg:h-screen lg:grid-cols-[60%_40%] lg:gap-0",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("section", {
+			children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("section", {
 				className: `${a.body} h-full min-h-0 flex flex-col items-center justify-end gap-6 overflow-visible px-6 pt-16 pb-0 text-center md:pt-20 lg:text-left lg:px-8 lg:pt-12 xl:gap-8 xl:pt-20`,
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
 					className: "mb-10 lg:mb-12",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("h1", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("h1", {
 						className: "font-extrabold leading-tight tracking-tight text-gray-900 text-3xl sm:text-4xl md:text-5xl xl:text-6xl",
 						children: [
 							"Connect with skilled",
-							/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("br", { className: "hidden sm:block" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("br", { className: "hidden sm:block" }),
 							"local tradespeople"
 						]
-					}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("p", {
+					}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
 						className: "mt-6 max-w-md text-lg/relaxed text-gray-600 md:text-xl",
 						children: "TaskPanda bridges local homeowners and independent mechanics, plumbers, electricians, etc. with AI-quick matching."
 					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)(Mascot, {})]
+				}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)(Mascot, {})]
 			}), typeof children === "function" ? children(a) : children]
 		})]
 	});
 }
-var import_jsx_runtime$35, accentClasses;
+var import_jsx_runtime$37, accentClasses;
 var init_Layout = __esmMin((() => {
 	init_Header();
 	init_Mascot();
-	import_jsx_runtime$35 = require_jsx_runtime();
+	import_jsx_runtime$37 = require_jsx_runtime();
 	accentClasses = {
 		primary: {
 			body: "bg-gradient-to-tr from-primary-50 to-primary-100",
@@ -15164,32 +15220,32 @@ var init_Layout = __esmMin((() => {
 function SocialButton({ provider }) {
 	const isGoogle = provider === "google";
 	const isFacebook = provider === "facebook";
-	return /* @__PURE__ */ (0, import_jsx_runtime$34.jsxs)("button", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$36.jsxs)("button", {
 		type: "button",
 		className: "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 " + (isFacebook ? "bg-[#1877F2] text-white border-[#1877F2] hover:bg-[#1565D8] focus:ring-[#1877F2]/30" : "bg-[#f5f5f5] text-gray-800 border-gray-200 hover:bg-gray-100 focus:ring-gray-500/30"),
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime$34.jsxs)("svg", {
+			/* @__PURE__ */ (0, import_jsx_runtime$36.jsxs)("svg", {
 				className: "h-5 w-5",
 				viewBox: "0 0 24 24",
 				"aria-hidden": "true",
-				children: [isGoogle && /* @__PURE__ */ (0, import_jsx_runtime$34.jsxs)(import_jsx_runtime$34.Fragment, { children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("path", {
+				children: [isGoogle && /* @__PURE__ */ (0, import_jsx_runtime$36.jsxs)(import_jsx_runtime$36.Fragment, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("path", {
 						fill: "#4285F4",
 						d: "M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("path", {
+					/* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("path", {
 						fill: "#34A853",
 						d: "M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("path", {
+					/* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("path", {
 						fill: "#FBBC05",
 						d: "M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("path", {
+					/* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("path", {
 						fill: "#EA4335",
 						d: "M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
 					})
-				] }), isFacebook && /* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("path", {
+				] }), isFacebook && /* @__PURE__ */ (0, import_jsx_runtime$36.jsx)("path", {
 					fill: "#fff",
 					d: "M22.675 0h-21.35C.57 0 0 .59 0 1.326v21.348C0 23.41.57 24 1.325 24H12.82v-9.294H9.692V11.01h3.128V8.414c0-3.1 1.894-4.788 4.66-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.696h-3.12V24h6.116c.75 0 1.325-.59 1.325-1.326V1.326C24 .59 23.41 0 22.675 0Z"
 				})]
@@ -15199,26 +15255,41 @@ function SocialButton({ provider }) {
 		]
 	});
 }
-var import_jsx_runtime$34;
+var import_jsx_runtime$36;
 var init_SocialButton = __esmMin((() => {
-	import_jsx_runtime$34 = require_jsx_runtime();
+	import_jsx_runtime$36 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/pages/LoginPage.jsx
 function LoginPage() {
 	const navigate = useNavigate();
 	const { login } = useAuth();
-	const [formData, setFormData] = (0, import_react$22.useState)({
+	const [formData, setFormData] = (0, import_react$24.useState)({
 		email: "",
-		password: ""
+		password: "",
+		remember: false
 	});
-	const [isSubmitting, setIsSubmitting] = (0, import_react$22.useState)(false);
-	const [showPassword, setShowPassword] = (0, import_react$22.useState)(false);
+	const [isSubmitting, setIsSubmitting] = (0, import_react$24.useState)(false);
+	const [showPassword, setShowPassword] = (0, import_react$24.useState)(false);
+	const [serverError, setServerError] = (0, import_react$24.useState)("");
+	const [touched, setTouched] = (0, import_react$24.useState)({});
+	const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+	const errors = {
+		email: !formData.email.trim() ? "Email is required" : !emailValid(formData.email) ? "Please enter a valid email address" : "",
+		password: !formData.password ? "Password is required" : formData.password.length < 6 ? "Password must be at least 6 characters" : ""
+	};
+	const showError = (field) => (touched[field] || serverError) && errors[field];
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setServerError("");
+		setTouched({
+			email: true,
+			password: true
+		});
+		if (errors.email || errors.password) return;
 		setIsSubmitting(true);
 		try {
-			if ((await fetch("/login", {
+			const response = await fetch("/login", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -15226,15 +15297,26 @@ function LoginPage() {
 					password: formData.password,
 					remember: formData.remember
 				})
-			})).ok) {
-				login("client");
+			});
+			const data = await response.json().catch(() => ({}));
+			if (response.ok) {
+				login({
+					email: formData.email,
+					role: data.role || "client"
+				}, data.token);
 				navigate("/");
-			}
-		} catch (err) {
-			console.error(err);
+			} else setServerError(data.message || "Invalid email or password. Please try again.");
+		} catch {
+			setServerError("Network error. Please check your connection and try again.");
 		} finally {
 			setIsSubmitting(false);
 		}
+	};
+	const handleBlur = (field) => {
+		setTouched((prev) => ({
+			...prev,
+			[field]: true
+		}));
 	};
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
@@ -15243,122 +15325,144 @@ function LoginPage() {
 			[name]: type === "checkbox" ? checked : value
 		}));
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(Layout, {
+	return /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)(Layout, {
 		theme: "primary",
-		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("section", {
+		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("section", {
 			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
+			children: /* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
 				className: "w-full max-w-sm space-y-6",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
 						className: "space-y-1 text-center",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("h2", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("h2", {
 							className: "font-bold text-2xl text-gray-900",
 							children: "Welcome Back"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("p", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("p", {
 							className: "text-sm text-gray-600",
 							children: "Sign in to continue to your TaskPanda account"
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("form", {
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("form", {
 						onSubmit: handleSubmit,
 						className: "space-y-4",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("label", {
-									htmlFor: "email",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Email or Username"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("input", {
-									type: "email",
-									id: "email",
-									name: "email",
-									autoComplete: "username",
-									required: true,
-									placeholder: "hello@example.com",
-									value: formData.email,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-								})]
+							(serverError || errors.email) && /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("div", {
+								className: "rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-700",
+								role: "alert",
+								children: serverError || errors.email
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
 								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
-									className: "flex items-center justify-between",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("label", {
-										htmlFor: "password",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("label", {
+										htmlFor: "email",
 										className: "block text-sm font-medium text-gray-700",
-										children: "Password"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("a", {
-										href: "#",
-										className: "text-sm font-medium text-primary-600 hover:text-primary-800",
-										children: "Forgot password?"
-									})]
-								}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
-									className: "relative",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("input", {
-										type: showPassword ? "text" : "password",
-										id: "password",
-										name: "password",
-										autoComplete: "current-password",
+										children: "Email or Username"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("input", {
+										type: "email",
+										id: "email",
+										name: "email",
+										autoComplete: "username",
 										required: true,
-										placeholder: "●●●●●●●●",
-										value: formData.password,
+										placeholder: "hello@example.com",
+										value: formData.email,
 										onChange: handleChange,
-										className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 pr-10 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("button", {
-										type: "button",
-										onClick: () => setShowPassword(!showPassword),
-										className: "absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-2 text-gray-400 transition-colors hover:text-gray-600 focus:outline-none",
-										"aria-label": showPassword ? "Hide password" : "Show password",
-										children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("svg", {
-											xmlns: "http://www.w3.org/2000/svg",
-											fill: "none",
-											viewBox: "0 0 24 24",
-											strokeWidth: 1.5,
-											stroke: "currentColor",
-											className: "h-5 w-5",
-											children: /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("path", {
-												strokeLinecap: "round",
-												strokeLinejoin: "round",
-												d: "M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
-											})
-										}) : /* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("svg", {
-											xmlns: "http://www.w3.org/2000/svg",
-											fill: "none",
-											viewBox: "0 0 24 24",
-											strokeWidth: 1.5,
-											stroke: "currentColor",
-											className: "h-5 w-5",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("path", {
-												strokeLinecap: "round",
-												strokeLinejoin: "round",
-												d: "M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-											}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("path", {
-												strokeLinecap: "round",
-												strokeLinejoin: "round",
-												d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-											})]
-										})
-									})]
-								})]
+										onBlur: () => handleBlur("email"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${showError("email") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"}`
+									}),
+									showError("email") && /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.email
+									})
+								]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
+										className: "flex items-center justify-between",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("label", {
+											htmlFor: "password",
+											className: "block text-sm font-medium text-gray-700",
+											children: "Password"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("button", {
+											type: "button",
+											onClick: () => navigate("/forgot-password"),
+											className: "text-sm font-medium text-primary-600 hover:text-primary-800",
+											children: "Forgot password?"
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
+										className: "relative",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("input", {
+											type: showPassword ? "text" : "password",
+											id: "password",
+											name: "password",
+											autoComplete: "current-password",
+											required: true,
+											placeholder: "●●●●●●●●",
+											value: formData.password,
+											onChange: handleChange,
+											onBlur: () => handleBlur("password"),
+											className: `block w-full rounded-lg border px-4 py-2.5 pr-10 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${showError("password") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"}`
+										}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("button", {
+											type: "button",
+											onClick: () => setShowPassword(!showPassword),
+											className: "absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-2 text-gray-400 transition-colors hover:text-gray-600 focus:outline-none",
+											"aria-label": showPassword ? "Hide password" : "Show password",
+											children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("svg", {
+												xmlns: "http://www.w3.org/2000/svg",
+												fill: "none",
+												viewBox: "0 0 24 24",
+												strokeWidth: 1.5,
+												stroke: "currentColor",
+												className: "h-5 w-5",
+												children: /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("path", {
+													strokeLinecap: "round",
+													strokeLinejoin: "round",
+													d: "M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+												})
+											}) : /* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("svg", {
+												xmlns: "http://www.w3.org/2000/svg",
+												fill: "none",
+												viewBox: "0 0 24 24",
+												strokeWidth: 1.5,
+												stroke: "currentColor",
+												className: "h-5 w-5",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("path", {
+													strokeLinecap: "round",
+													strokeLinejoin: "round",
+													d: "M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+												}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("path", {
+													strokeLinecap: "round",
+													strokeLinejoin: "round",
+													d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+												})]
+											})
+										})]
+									}),
+									showError("password") && /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.password
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("div", {
 								className: "flex items-center justify-between pt-1",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("label", {
+								children: /* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("label", {
 									className: "flex items-center gap-2 text-sm text-gray-600",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("input", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("input", {
 										id: "remember",
 										name: "remember",
 										type: "checkbox",
-										checked: formData.remember || false,
+										checked: formData.remember,
 										onChange: handleChange,
 										className: "h-4 w-4 rounded border-primary-300 text-primary-600 focus:ring-primary-500"
 									}), "Remember me"]
 								})
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("button", {
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("button", {
 								type: "submit",
 								disabled: isSubmitting,
 								className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
@@ -15366,65 +15470,74 @@ function LoginPage() {
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
 						className: "flex items-center gap-3 text-sm text-gray-400",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("span", { className: "h-px flex-1 bg-gray-200" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("span", { children: "Or continue with" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("span", { className: "h-px flex-1 bg-gray-200" })
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("span", { className: "h-px flex-1 bg-gray-200" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("span", { children: "Or continue with" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("span", { className: "h-px flex-1 bg-gray-200" })
 						]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
 						className: "grid grid-cols-2 gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(SocialButton, { provider: "google" }), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(SocialButton, { provider: "facebook" })]
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)(SocialButton, { provider: "google" }), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)(SocialButton, { provider: "facebook" })]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
-						className: "text-center text-sm text-gray-600",
-						children: ["Don't have an account?", /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("a", {
-							href: "/register",
-							className: `font-medium ${a.link}`,
-							children: "Register"
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
 						className: "grid grid-cols-2 gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("button", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("button", {
 							onClick: () => {
-								login("client");
+								login({
+									email: "test@client.com",
+									role: "client"
+								}, null);
 								navigate("/dashboard");
 							},
 							className: "rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500",
 							children: "[Debug] Client Dashboard"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("button", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("button", {
 							onClick: () => {
-								login("provider");
+								login({
+									email: "test@provider.com",
+									role: "provider"
+								}, null);
 								navigate("/provider-dashboard");
 							},
 							className: "rounded-lg border border-dashed border-gray-300 bg-gray-50 py-2 text-xs font-medium text-gray-400 transition hover:border-gray-400 hover:bg-gray-100 hover:text-gray-500",
 							children: "[Debug] Provider Dashboard"
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("button", {
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsx)("button", {
 						onClick: () => {
-							login("admin");
+							login({
+								email: "test@admin.com",
+								role: "admin"
+							}, null);
 							navigate("/admin");
 						},
 						className: "rounded-lg border border-dashed border-primary-300 bg-primary-50 py-2 text-xs font-medium text-primary-600 transition hover:border-primary-400 hover:bg-primary-100",
 						children: "[Debug] Admin Dashboard"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$35.jsxs)("div", {
+						className: "text-center text-sm text-gray-600",
+						children: ["Don't have an account?", /* @__PURE__ */ (0, import_jsx_runtime$35.jsx)(Link, {
+							to: "/register",
+							className: `font-medium ${a.link}`,
+							children: "Register"
+						})]
 					})
 				]
 			})
 		})
 	});
 }
-var import_react$22, import_jsx_runtime$33;
+var import_react$24, import_jsx_runtime$35;
 var init_LoginPage = __esmMin((() => {
-	import_react$22 = /* @__PURE__ */ __toESM(require_react());
+	import_react$24 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
 	init_AuthContext();
-	import_jsx_runtime$33 = require_jsx_runtime();
+	import_jsx_runtime$35 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/components/RoleCard.jsx
@@ -15441,37 +15554,37 @@ function RoleCard({ value, selected, onChange, label, description, color = "prim
 			checked: "has-[:checked]:border-green-600 has-[:checked]:bg-green-50 has-[:checked]:ring-2 has-[:checked]:ring-green-500/40"
 		}
 	}[color];
-	return /* @__PURE__ */ (0, import_jsx_runtime$32.jsxs)("label", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$34.jsxs)("label", {
 		className: `flex cursor-pointer items-start gap-4 rounded-lg border-2 bg-white p-4 shadow-sm transition-all duration-200 ${c.border} ${c.hover} ${c.checked}`,
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("input", {
+		children: [/* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("input", {
 			type: "radio",
 			name: "role",
 			value,
 			checked: selected === value,
 			onChange,
 			className: "sr-only"
-		}), /* @__PURE__ */ (0, import_jsx_runtime$32.jsxs)("span", {
+		}), /* @__PURE__ */ (0, import_jsx_runtime$34.jsxs)("span", {
 			className: "block",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("span", {
+			children: [/* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("span", {
 				className: "block font-medium text-gray-800",
 				children: label
-			}), /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("span", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime$34.jsx)("span", {
 				className: "block text-sm text-gray-500",
 				children: description
 			})]
 		})]
 	});
 }
-var import_jsx_runtime$32;
+var import_jsx_runtime$34;
 var init_RoleCard = __esmMin((() => {
-	import_jsx_runtime$32 = require_jsx_runtime();
+	import_jsx_runtime$34 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/pages/RegisterPage.jsx
 function RegisterPage() {
 	const navigate = useNavigate();
-	const [selectedRole, setSelectedRole] = (0, import_react$21.useState)("");
-	const [isSubmitting, setIsSubmitting] = (0, import_react$21.useState)(false);
+	const [selectedRole, setSelectedRole] = (0, import_react$23.useState)("");
+	const [isSubmitting, setIsSubmitting] = (0, import_react$23.useState)(false);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("[RegisterPage] handleSubmit, selectedRole:", selectedRole);
@@ -15487,34 +15600,34 @@ function RegisterPage() {
 			return;
 		}
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(Layout, {
+	return /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(Layout, {
 		theme: "primary",
-		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("section", {
+		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("section", {
 			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+			children: /* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
 				className: "w-full max-w-sm space-y-6",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
 						className: "space-y-1 text-center",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("h2", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("h2", {
 							className: "font-bold text-2xl text-gray-900",
 							children: "I want to"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("p", {
 							className: "text-sm text-gray-600",
 							children: "Choose how you'll use TaskPanda. You can switch or add a provider account later in settings."
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("form", {
+					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("form", {
 						onSubmit: handleSubmit,
 						className: "space-y-4",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("fieldset", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("fieldset", {
 							className: "space-y-3",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("legend", {
+								/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("legend", {
 									className: "sr-only",
 									children: "Choose your account type"
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(RoleCard, {
+								/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(RoleCard, {
 									value: "client",
 									selected: selectedRole,
 									onChange: (e) => setSelectedRole(e.target.value),
@@ -15522,7 +15635,7 @@ function RegisterPage() {
 									description: "Find and hire local mechanics, plumbers, electricians, and more for your home projects.",
 									color: "primary"
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(RoleCard, {
+								/* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(RoleCard, {
 									value: "provider",
 									selected: selectedRole,
 									onChange: (e) => setSelectedRole(e.target.value),
@@ -15531,17 +15644,17 @@ function RegisterPage() {
 									color: "green"
 								})
 							]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("button", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)("button", {
 							type: "submit",
 							disabled: !selectedRole || isSubmitting,
 							className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
 							children: isSubmitting ? "Processing..." : "Next"
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$33.jsxs)("div", {
 						className: "text-center text-sm text-gray-600",
-						children: ["Already registered?", /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("a", {
-							href: "/login",
+						children: ["Already registered?", /* @__PURE__ */ (0, import_jsx_runtime$33.jsx)(Link, {
+							to: "/login",
 							className: `font-medium ${a.link}`,
 							children: "Log in here"
 						})]
@@ -15551,12 +15664,1267 @@ function RegisterPage() {
 		})
 	});
 }
-var import_react$21, import_jsx_runtime$31;
+var import_react$23, import_jsx_runtime$33;
 var init_RegisterPage = __esmMin((() => {
-	import_react$21 = /* @__PURE__ */ __toESM(require_react());
+	import_react$23 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_RoleCard();
+	import_jsx_runtime$33 = require_jsx_runtime();
+}));
+//#endregion
+//#region src/components/ProfessionSelector.jsx
+function ProfessionSelector({ value = [], onChange, placeholder = "Type or select a profession..." }) {
+	const [query, setQuery] = (0, import_react$22.useState)("");
+	const [isOpen, setIsOpen] = (0, import_react$22.useState)(false);
+	const containerRef = (0, import_react$22.useRef)(null);
+	const suggestions = (0, import_react$22.useMemo)(() => {
+		const q = query.trim().toLowerCase();
+		let results;
+		if (!q) results = PROFESSIONS.filter((p) => !value.includes(p));
+		else results = PROFESSIONS.filter((p) => p.toLowerCase().includes(q) && !value.includes(p));
+		if (q && !value.includes(q.charAt(0).toUpperCase() + q.slice(1)) && !value.includes(q)) {
+			const custom = q.charAt(0).toUpperCase() + q.slice(1);
+			if (!results.includes(custom)) results.unshift(custom);
+		}
+		return results;
+	}, [query, value]);
+	const addProfession = (profession) => {
+		const trimmed = profession.trim();
+		if (!trimmed || value.includes(trimmed)) return;
+		onChange([...value, trimmed]);
+		setQuery("");
+		setIsOpen(false);
+	};
+	const removeProfession = (profession) => {
+		onChange(value.filter((p) => p !== profession));
+	};
+	const handleKeyDown = (e) => {
+		if (e.key === "Backspace" && query === "" && value.length > 0) {
+			e.preventDefault();
+			removeProfession(value[value.length - 1]);
+			return;
+		}
+		if (e.key === "Enter") {
+			e.preventDefault();
+			if (query.trim()) addProfession(query.trim());
+			return;
+		}
+		if (e.key === "ArrowDown" && suggestions.length > 0) {
+			e.preventDefault();
+			setIsOpen(true);
+			return;
+		}
+	};
+	(0, import_react$22.useEffect)(() => {
+		const handleClickOutside = (e) => {
+			if (containerRef.current && !containerRef.current.contains(e.target)) setIsOpen(false);
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime$32.jsxs)("div", {
+		ref: containerRef,
+		className: "relative",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime$32.jsxs)("div", {
+				className: `flex flex-wrap items-center gap-1.5 min-h-[44px] w-full rounded-lg border bg-green-50/50 px-3 py-2 text-sm text-gray-800 transition-colors cursor-text ${isOpen ? "border-green-500 ring-2 ring-green-500/30" : "border-green-200 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"}`,
+				onClick: () => {
+					setIsOpen(true);
+				},
+				children: [value.map((profession) => /* @__PURE__ */ (0, import_jsx_runtime$32.jsxs)("span", {
+					className: "inline-flex items-center gap-1 bg-green-100 text-green-800 rounded-md px-2 py-1 text-xs font-medium",
+					children: [profession, /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("button", {
+						type: "button",
+						tabIndex: -1,
+						onClick: (e) => {
+							e.stopPropagation();
+							removeProfession(profession);
+						},
+						className: "ml-0.5 text-green-600 hover:text-green-900 focus:outline-none",
+						"aria-label": `Remove ${profession}`,
+						children: "×"
+					})]
+				}, profession)), /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("input", {
+					type: "text",
+					value: query,
+					onChange: (e) => {
+						setQuery(e.target.value);
+						setIsOpen(true);
+					},
+					onFocus: () => setIsOpen(true),
+					onKeyDown: handleKeyDown,
+					placeholder: value.length === 0 ? placeholder : "",
+					className: "flex-1 min-w-[120px] bg-transparent outline-none placeholder-gray-400/70 text-sm py-0.5"
+				})]
+			}),
+			isOpen && suggestions.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("ul", {
+				className: "absolute z-10 mt-1 w-full max-h-52 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg py-1",
+				children: suggestions.map((s) => /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("button", {
+					type: "button",
+					tabIndex: -1,
+					onClick: () => addProfession(s),
+					onMouseDown: (e) => e.preventDefault(),
+					className: "w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition-colors",
+					children: s
+				}) }, s))
+			}),
+			isOpen && query.trim() && suggestions.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime$32.jsx)("div", {
+				className: "absolute z-10 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg px-3 py-2 text-sm text-gray-400",
+				children: "No suggestions found"
+			})
+		]
+	});
+}
+var import_react$22, import_jsx_runtime$32, PROFESSIONS;
+var init_ProfessionSelector = __esmMin((() => {
+	import_react$22 = /* @__PURE__ */ __toESM(require_react());
+	import_jsx_runtime$32 = require_jsx_runtime();
+	PROFESSIONS = [
+		"3D Modeler",
+		"Accountant",
+		"Acupuncturist",
+		"Aerospace Engineer",
+		"Agricultural Inspector",
+		"Air Conditioning Technician",
+		"Architect",
+		"Archivist",
+		"Artist",
+		"Asbestos Inspector",
+		"Automotive Body Painter",
+		"Automotive Mechanic",
+		"Automotive Technician",
+		"Baker",
+		"Banquet Server",
+		"Barista",
+		"Barber",
+		"Bartender",
+		"Basement Finishing Specialist",
+		"Battery Technician",
+		"Behavioral Therapist",
+		"Bicycle Repair Technician",
+		"Biologist",
+		"Biochemist",
+		"Biohazard Cleanup Specialist",
+		"Biomedical Engineer",
+		"Biostatistician",
+		"Blinds Installer",
+		"Boat Mechanic",
+		"Bookkeeper",
+		"Bowling Alley Attendant",
+		"Box Maker",
+		"Bricklayer",
+		"Broadcast Engineer",
+		"Broadcast Technician",
+		"Broker",
+		"Brush Painter",
+		"Building Inspector",
+		"Building Maintenance Worker",
+		"Builder",
+		"Bus Driver",
+		"Butcher",
+		"Cabinet Maker",
+		"Cake Decorator",
+		"Camerman",
+		"Candidate Care",
+		"Carpenter",
+		"Carpet Cleaner",
+		"Carpet Installer",
+		"Cartographer",
+		"Cashier",
+		"Catering Assistant",
+		"Caterer",
+		"Ceiling Installer",
+		"Chef",
+		"Childcare Provider",
+		"Chimney Sweep",
+		"Civil Engineer",
+		"Clergy",
+		"Clerk",
+		"Climate Consultant",
+		"Clothing Manufacturer",
+		"Coiffure",
+		"Commercial Driver",
+		"Commercial Electrician",
+		"Commercial Photographer",
+		"Commercial Plumber",
+		"Commissioner",
+		"Communications Specialist",
+		"Community Health Worker",
+		"Compressor Operator",
+		"Concrete Finisher",
+		"Construction Foreman",
+		"Construction Inspector",
+		"Construction Manager",
+		"Construction Worker",
+		"Conservator",
+		"Content Writer",
+		"Contractor",
+		"Cook",
+		"Copy Editor",
+		"Copywriter",
+		"Cost Estimator",
+		"Cotton Picker",
+		"Counter Worker",
+		"Courier",
+		"Custodian",
+		"Dancer",
+		"Data Entry Clerk",
+		"Data Scientist",
+		"Deck Builder",
+		"Deckhand",
+		"Decorator",
+		"Defensive Driving Instructor",
+		"Delivery Driver",
+		"Demolition Worker",
+		"Dental Assistant",
+		"Dental Hygienist",
+		"Dentist",
+		"Diesel Mechanic",
+		"Dietitian",
+		"Digital Artist",
+		"Digital Content Creator",
+		"Digital Marketer",
+		"Director",
+		"Disability Support Worker",
+		"Dispatch Clerk",
+		"Disney Imagineer",
+		"DJ",
+		"Doctor",
+		"Document Controller",
+		"Dog Groomer",
+		"Dog Walker",
+		"Drainage Engineer",
+		"Drywall Installer",
+		"Drywall Parker",
+		"Dump Truck Driver",
+		"Dust Control Operator",
+		"Dyer",
+		"Editor",
+		"Education Administrator",
+		"Educational Psychologist",
+		"Elevator Installer",
+		"Engineer",
+		"Engineering Technician",
+		"Entertainment Attendant",
+		"Equipment Operator",
+		"Estate Agent",
+		"Event Coordinator",
+		"Event Planner",
+		"Event Promoter",
+		"Executive Assistant",
+		"Executive Chef",
+		"Executive Producer",
+		"Expediter",
+		"Farmer",
+		"Farmworker",
+		"Fashion Designer",
+		"Fastener Specialist",
+		"Fence Builder",
+		"Fencer",
+		"Festival Coordinator",
+		"Firefighter",
+		"Fish Cooker",
+		"Fish Hatchery Manager",
+		"Fishing Guide",
+		"Fitter",
+		"Fixer",
+		"Flagger",
+		"Florist",
+		"Fly Ash Operator",
+		"Food Inspector",
+		"Food Scientist",
+		"Forklift Operator",
+		"Framing Carpenter",
+		"Freezer Technician",
+		"Furrier",
+		"Game Developer",
+		"Game Warden",
+		"Gas Plant Operator",
+		"Gas Technician",
+		"General Contractor",
+		"General Manager",
+		"Generator Technician",
+		"Geologist",
+		"Glass Installer",
+		"Glazier",
+		"Goldsmith",
+		"Goldworker",
+		"Graduate Assistant",
+		"Graduate Teacher",
+		"Grant Writer",
+		"Graphic Artist",
+		"Graphic Designer",
+		"Groundskeeper",
+		"Guitar Maker",
+		"Hairdresser",
+		"Hair Stylist",
+		"Handyman",
+		"Haul Truck Driver",
+		"Haute Couture Designer",
+		"Hazardous Material Inspector",
+		"Health Aide",
+		"Health Care Aide",
+		"Health Care Assistant",
+		"Health Information Technician",
+		"Hearse Driver",
+		"Heat Treating Operator",
+		"Helicopter Pilot",
+		"Herbalist",
+		"High School Teacher",
+		"Hippotherapist",
+		"Historic Preservationist",
+		"Home Care Aide",
+		"Home Inspector",
+		"Home Stager",
+		"Homemaker",
+		"Honor Guard",
+		"Host / Hostess",
+		"Hot Water Technician",
+		"House Cleaner",
+		"House Sitter",
+		"HVAC Contractor",
+		"HVAC Technician",
+		"Hydraulic Engineer",
+		"Hydraulic Installer",
+		"ICT Teacher",
+		"Ice Cream Maker",
+		"Ice Machine Technician",
+		"Illustrator",
+		"Immigration Consultant",
+		"Importer",
+		"Industrial Engineer",
+		"Industrial Photographer",
+		"Industrial Technician",
+		"Information Technology Manager",
+		"Inmate Counselor",
+		"Instrument Technician",
+		"Insurance Adjuster",
+		"Insurance Agent",
+		"Interior Designer",
+		"International Business Agent",
+		"Interpreter",
+		"Interpreter for the Deaf",
+		"Investment Analyst",
+		"Investment Banker",
+		"Irrigation Installer",
+		"Irrigator",
+		"IT Consultant",
+		"IT Coordinator",
+		"IT Manager",
+		"Janitor",
+		"Jazz Musician",
+		"Jeweler",
+		"Jewelry Designer",
+		"Jingle Writer",
+		"Journeyman",
+		"Justice of the Peace",
+		"Juvenile Counselor",
+		"Kaizen Consultant",
+		"Karaoke Host",
+		"Kayak Guide",
+		"Keynote Speaker",
+		"Kidney Dialysis Technician",
+		"Kinesiologist",
+		"Kitchen Helper",
+		"Kitchen Porter",
+		"Knife Grinder",
+		"Laboratory Assistant",
+		"Laboratory Technician",
+		"Land Developer",
+		"Land Economist",
+		"Landfill Operator",
+		"Landlord",
+		"Landscape Architect",
+		"Landscape Designer",
+		"Landscaper",
+		"Laser Operator",
+		"Laundry Worker",
+		"Law Clerk",
+		"Lawyer",
+		"Layout Worker",
+		"Lawn Care Worker",
+		"Lawn Mower Repair Person",
+		"Leather Worker",
+		"Legal Assistant",
+		"Librarian",
+		"License Bureau Agent",
+		"License Inspector",
+		"Lie Detector Technician",
+		"Life Coach",
+		"Lift Truck Driver",
+		"Lighting Designer",
+		"Lighting Installer",
+		"Lineman",
+		"Linguist",
+		"Lion Tamer",
+		"Listings Clerk",
+		"Literacy Tutor",
+		"Locomotive Engineer",
+		"Locksmith",
+		"Log Truck Driver",
+		"Logistics Coordinator",
+		"Logistics Manager",
+		"Landscape Maintenance",
+		"Lounge Singer",
+		"Lumberjack",
+		"Machine Operator",
+		"Machinist",
+		"Mail Carrier",
+		"Maintenance Worker",
+		"Maid",
+		"Makeup Artist",
+		"Manager",
+		"Mango Inspector",
+		"Manicurist",
+		"Marine Engineer",
+		"Marine Surveyor",
+		"Marriage and Family Therapist",
+		"Master Electrician",
+		"Master Mechanic",
+		"Master Plumber",
+		"Master Welder",
+		"Mathematician",
+		"Maturation Technician",
+		"Meat Inspector",
+		"Meat Processor",
+		"Medical Coder",
+		"Medical Record Technician",
+		"Medical Representative",
+		"Medical Secretary",
+		"Medical Transcriptionist",
+		"Medicare Counselor",
+		"Mental Health Counselor",
+		"Mental Health Technician",
+		"Merchandiser",
+		"Metal Fabricator",
+		"Metal Worker",
+		"Meteorologist",
+		"Meter Reader",
+		"Microbiologist",
+		"Military Officer",
+		"Millwright",
+		"Miner",
+		"Ministry Associate",
+		"Minister",
+		"Mint Worker",
+		"Missile Technician",
+		"Mobile Mechanic",
+		"Mobile Notary",
+		"Mobile Home Installer",
+		"Model",
+		"Model Builder",
+		"Molecular Biologist",
+		"Mortician",
+		"Mortgage Broker",
+		"Mortgage Loan Officer",
+		"Morgue Technician",
+		"Motorcycle Mechanic",
+		"Motorcycle Rider",
+		"Motorboat Operator",
+		"Mountaineer",
+		"Mover",
+		"Moving Helper",
+		"Mower",
+		"Mural Painter",
+		"Museum Curator",
+		"Museum Guide",
+		"Music Director",
+		"Musician",
+		"Nail Technician",
+		"Nanny",
+		"Narrator",
+		"Neurologist",
+		"New Media Artist",
+		"Newspaper Carrier",
+		"Nursery Worker",
+		"Nurse",
+		"Nursing Assistant",
+		"Nuclear Engineer",
+		"Nuclear Technician",
+		"Nutritionist",
+		"Nursery Worker",
+		"Office Clerk",
+		"Office Coordinator",
+		"Oil Driller",
+		"Oil Field Worker",
+		"Oil Change Technician",
+		"Online Tutor",
+		"Opthalmologist",
+		"Optician",
+		"Optometrist",
+		"Orchard Worker",
+		"Order Picker",
+		"Orderly",
+		"Organ Builder",
+		"Organist",
+		"Orienteering Guide",
+		"Ornithologist",
+		"Outreach Worker",
+		"Package Handler",
+		"Packer",
+		"Packing Crew Worker",
+		"Pallet Jack Operator",
+		"Palm Reader",
+		"Panning Operator",
+		"Paperhanger",
+		"Parcel Delivery Driver",
+		"Parcels Supervisor",
+		"Parking Attendant",
+		"Parking Enforcement Officer",
+		"Parking Lot Attendant",
+		"Part-Time Clerk",
+		"Pastor",
+		"Pathologist",
+		"Patient Care Technician",
+		"Patient Transporter",
+		"Pattern Maker",
+		"Payroll Clerk",
+		"Peace Officer",
+		"Pediatrician",
+		"Pedicure Technician",
+		"Penman",
+		"Personal Assistant",
+		"Personal Chef",
+		"Personal Trainer",
+		"Pet Groomer",
+		"Pet Sitter",
+		"Pharmacist",
+		"Pharmacy Technician",
+		"Phlebotomist",
+		"Photographer",
+		"Photography Assistant",
+		"Photolithographer",
+		"Piano Tuner",
+		"Picture Framer",
+		"Pile Driver Operator",
+		"Pilates Instructor",
+		"Pipe Fitting Installer",
+		"Pipe Layer",
+		"Pipe Turner",
+		"Pitcher",
+		"Plastic Surgeon",
+		"Plastic Worker",
+		"Plasterer",
+		"Plate Maker",
+		"Plumber",
+		"Plumbing Inspector",
+		"Plumbing Technician",
+		"Plumber's Helper",
+		"Plumber's Apprentice",
+		"Poker Dealer",
+		"Police Officer",
+		"Politician",
+		"Pool Attendant",
+		"Pool Builder",
+		"Pool Cleaner",
+		"Pool Maintenance Worker",
+		"Pool Operator",
+		"Porter",
+		"Postal Carrier",
+		"Postal Clerk",
+		"Postal Worker",
+		"Postman",
+		"Potter",
+		"Poultry Farmer",
+		"Poultry Worker",
+		"Power Plant Operator",
+		"Powerline Worker",
+		"Precious Metal Worker",
+		"Preset Engineer",
+		"Prevention Specialist",
+		"Primary School Teacher",
+		"Printer Operator",
+		"Prison Guard",
+		"Prison Warden",
+		"Private Detective",
+		"Private Duty Nurse",
+		"Private Pilot",
+		"Private School Teacher",
+		"Private Security Officer",
+		"Probation Officer",
+		"Process Engineer",
+		"Producer",
+		"Professor",
+		"Program Coordinator",
+		"Project Coordinator",
+		"Project Manager",
+		"Promoter",
+		"Prosthetist",
+		"Protective Service Officer",
+		"Provider",
+		"Psychiatrist",
+		"Psychologist",
+		"Psychometrist",
+		"Psychotherapist",
+		"Public Relations Manager",
+		"Public Relations Specialist",
+		"Public Relations Writer",
+		"Public Safety Officer",
+		"Public Service Dispatcher",
+		"Pump Operator",
+		"Purchasing Agent",
+		"Purchasing Assistant",
+		"Purchasing Buyer",
+		"Purchasing Clerk",
+		"Purchasing Manager",
+		"Radiographer",
+		"Radiologic Technologist",
+		"Radiation Therapist",
+		"Radio Announcer",
+		"Radio Engineer",
+		"Radio Technician",
+		"Radio Operator",
+		"Radio Person",
+		"Radiologist",
+		"Railroad Conductor",
+		"Railroad Engineer",
+		"Railroad Worker",
+		"Rancher",
+		"Range Manager",
+		"Real Estate Appraiser",
+		"Real Estate Agent",
+		"Real Estate Assistant",
+		"Real Estate Broker",
+		"Real Estate Developer",
+		"Real Estate Inspector",
+		"Real Estate Manager",
+		"Receptionist",
+		"Reefer Operator",
+		"Referee",
+		"Refrigerator Technician",
+		"Refrigeration Mechanic",
+		"Regional Manager",
+		"Register Operator",
+		"Rehabilitation Counselor",
+		"Reinsurance Analyst",
+		"Relations Officer",
+		"Research Assistant",
+		"Research Associate",
+		"Research Fellow",
+		"Research Scientist",
+		"Respiratory Therapist",
+		"Restaurant Manager",
+		"Restaurant Worker",
+		"Retail Clerk",
+		"Retail Manager",
+		"Retail Salesperson",
+		"Reverend",
+		"Rigger",
+		"Risk Analyst",
+		"Risk Manager",
+		"Road Builder",
+		"Road Crew Worker",
+		"Road Inspector",
+		"Road Maintenance Worker",
+		"Road Worker",
+		"Robotics Engineer",
+		"Roof Inspector",
+		"Roofer",
+		"Room Attendant",
+		"Route Driver",
+		"Route Manager",
+		"Route Salesperson",
+		"Route Supervisor",
+		"Roustabout",
+		"Rowing Coach",
+		"RN",
+		"Roofer's Helper",
+		"Room Sorter",
+		"Ropemaker",
+		"Roustabout",
+		"Ruby Worker",
+		"Rural Carrier",
+		"Safety Engineer",
+		"Safety Inspector",
+		"Safety Officer",
+		"Sales Agent",
+		"Sales Associate",
+		"Sales Clerk",
+		"Sales Manager",
+		"Sales Representative",
+		"Saleswoman",
+		"Sandwich Artist",
+		"Satellite Engineer",
+		"Satisfier",
+		"Savings Officer",
+		"Scaler",
+		"Scenic Designer",
+		"School Bus Driver",
+		"School Counselor",
+		"School Janitor",
+		"School Nurse",
+		"School Psychologist",
+		"School Secretary",
+		"School Teacher",
+		"Scientific Glassblower",
+		"Scientific Officer",
+		"Scrap Metal Worker",
+		"Screen Printer",
+		"Scrub Nurse",
+		"Security Guard",
+		"Security Officer",
+		"Security Specialist",
+		"Septic Tank Cleaner",
+		"Serif Designer",
+		"Server",
+		"Sewing Machine Operator",
+		"Sewing Instructor",
+		"Shipper",
+		"Shipping Clerk",
+		"Shipping Coordinator",
+		"Shipping Manager",
+		"Shoemaker",
+		"Shorthand Reporter",
+		"Shower Attendant",
+		"Signal & Telecommunications Worker",
+		"Sign Painter",
+		"Signmaker",
+		"Silversmith",
+		"Simultaneous Interpreter",
+		"Singer",
+		"Site Safety Officer",
+		"Site Supervisor",
+		"Ski Instructor",
+		"Skilled Nursing Facility Nurse",
+		"Skin Care Specialist",
+		"Ski Patrol",
+		"Skilled Nursing Assistant",
+		"Skilled Nursing Worker",
+		"Slaughterer",
+		"Sleep Technician",
+		"Slimming Consultant",
+		"Small Engine Mechanic",
+		"Smart Home Installer",
+		"Smelter",
+		"Social Media Manager",
+		"Social Media Specialist",
+		"Social Work Assistant",
+		"Social Worker",
+		"Soda Jerk",
+		"Solicitor",
+		"Sous Chef",
+		"Spatial Designer",
+		"Spanish Teacher",
+		"Special Events Planner",
+		"Special Education Teacher",
+		"Speech Therapist",
+		"Spice Grinder",
+		"Spiritual Director",
+		"Spotter",
+		"Spread Operator",
+		"Spring Maker",
+		"Spy",
+		"Square Dance Caller",
+		"Stage Director",
+		"Stage Manager",
+		"Stair Builder",
+		"Stenographer",
+		"Stepfamily Counselor",
+		"Stock Clerk",
+		"Stock Handler",
+		"Stock Loader",
+		"Stock Manager",
+		"Stockbroker",
+		"Storage Technician",
+		"Stove Repairman",
+		"Subcontractor",
+		"Subway Operator",
+		"Sculptor",
+		"Survey Assistant",
+		"Surveyor",
+		"Survival Specialist",
+		"Survivalist",
+		"Surgical Nurse",
+		"Surgical Technician",
+		"Surgical Assistant",
+		"Surgeon",
+		"Surveyor",
+		"Survivalist",
+		"Sushi Chef",
+		"Surveillance Officer",
+		"Surplus Store Manager",
+		"Swami",
+		"Swimming Coach",
+		"Swimming Instructor",
+		"Swimmer",
+		"Sympathetic Magic Practitioner",
+		"Syndicated Columnist",
+		"Systems Administrator",
+		"Systems Analyst",
+		"Systems Engineer",
+		"Systems Manager",
+		"Systems Scientist",
+		"Systems Specialist",
+		"Systems Technician",
+		"Systems Tester",
+		"Systems User",
+		"Systems Vendor",
+		"Systems Worker",
+		"Systems Writer",
+		"Tabla Maker",
+		"Tailor",
+		"Talent Acquirer",
+		"Talent Agent",
+		"Talent Coordinator",
+		"Talent Developer",
+		"Talent Director",
+		"Talent Manager",
+		"Talent Scout",
+		"Talent Searcher",
+		"Talent Seeker",
+		"Talent Sponsor",
+		"Talent Sourcer",
+		"Tax Preparer",
+		"Taxi Driver",
+		"Taxidermist",
+		"Tea Blender",
+		"Teacher",
+		"Teacher Assistant",
+		"Teamster",
+		"Technical Director",
+		"Technical Editor",
+		"Technical Engineer",
+		"Technical Writer",
+		"Technician",
+		"Teller",
+		"Tennis Instructor",
+		"Tent Maker",
+		"Theatrical Technician",
+		"Therapist",
+		"Thesis Advisor",
+		"Tiler",
+		"Timer",
+		"Tissue Processor",
+		"Toastmaster",
+		"Tobacco Sorter",
+		"Tool Grinder",
+		"Tool Inspector",
+		"Toolmaker",
+		"Tour Guide",
+		"Tourist Guide",
+		"Tow Truck Driver",
+		"Tow Driver",
+		"Tracker",
+		"Traffic Director",
+		"Traffic Engineer",
+		"Traffic Officer",
+		"Traffic Signal Technician",
+		"Traffic Surveyor",
+		"Traffic Technician",
+		"Traffic Warden",
+		"Train Attendant",
+		"Train Driver",
+		"Train Engineer",
+		"Train Conductor",
+		"Trainer",
+		"Transit Driver",
+		"Transit Inspector",
+		"Transit Officer",
+		"Transit Planner",
+		"Transit Scheduler",
+		"Transit Supervisor",
+		"Translator",
+		"Transport Driver",
+		"Transport Manager",
+		"Transport Operator",
+		"Transportation Analyst",
+		"Transportation Coordinator",
+		"Transportation Director",
+		"Transportation Engineer",
+		"Transportation Manager",
+		"Transportation Planner",
+		"Transportation Supervisor",
+		"Trapper",
+		"Travel Agent",
+		"Travel Consultant",
+		"Travel Guide",
+		"Travel Writer",
+		"Triage Nurse",
+		"Trick Artist",
+		"Trimmer",
+		"Truck Driver",
+		"Truck Mechanic",
+		"Trucking Dispatcher",
+		"Trucking Manager",
+		"Trucking Owner",
+		"Tub Tile Installer",
+		"Turner",
+		"Tutor",
+		"Typewriter Repair Person",
+		"Typist",
+		"Upholsterer",
+		"Umpire",
+		"Uniform Distribution Coordinator",
+		"University Administrator",
+		"University Professor",
+		"Unpacker",
+		"Upholstery Worker",
+		"Usher",
+		"Urologist",
+		"Valet",
+		"Valet Parking Attendant",
+		"Van Driver",
+		"Veteran Service Officer",
+		"Veterinarian",
+		"Veterinary Assistant",
+		"Veterinary Technician",
+		"Veterinary Nurse",
+		"Video Editor",
+		"Video Game Designer",
+		"Video Game Developer",
+		"Video Producer",
+		"Video Tape Duplicator",
+		"Videographer",
+		"Village Administrator",
+		"Vintner",
+		"Violin Maker",
+		"Vision Therapist",
+		"Visual Artist",
+		"Visual Designer",
+		"Vocational Nurse",
+		"Vocational Rehabilitation Counselor",
+		"Volleyball Coach",
+		"Volunteer",
+		"Vulnerability Assessment Analyst",
+		"Vulcanizer",
+		"Waiter",
+		"Waitress",
+		"Wall Paper Installer",
+		"Warehouse Associate",
+		"Warehouse Clerk",
+		"Warehouse Coordinator",
+		"Warehouse Manager",
+		"Warehouse Worker",
+		"Wardrobe Assistant",
+		"Waste Management Worker",
+		"Water Driller",
+		"Water Meter Reader",
+		"Water Plant Operator",
+		"Water Treatment Plant Operator",
+		"Waterfront Worker",
+		"Weather Forecasting Assistant",
+		"Weather Observer",
+		"Wedding Planner",
+		"Weightlifting Coach",
+		"Well Driller",
+		"Welder",
+		"Welding Engineer",
+		"Welding Inspector",
+		"Welding Technician",
+		"Welder's Helper",
+		"Welfare Officer",
+		"Wig Maker",
+		"Window Cleaner",
+		"Window Dresser",
+		"Window Installer",
+		"Wine Steward",
+		"Wing Commander",
+		"Winkler",
+		"Wipe Operator",
+		"Wireless Network Technician",
+		"Wireless Technician",
+		"Woman Doctor",
+		"Word Processing Operator",
+		"Work Coach",
+		"Work Comp Clerk",
+		"Work Comp Nurse",
+		"Work From Home Agent",
+		"Workplace Safety Officer",
+		"Writer",
+		"X-Ray Technician",
+		"Xenobiologist",
+		"Yacht Broker",
+		"Yacht Captain",
+		"Yacht Crew Member",
+		"Yard Master",
+		"Yarn Maker",
+		"Yoga Instructor",
+		"Youth Counselor",
+		"Youth Leader",
+		"Zebra Trainer",
+		"Zoo Curator",
+		"Zookeeper",
+		"Zoologist",
+		"Zoom Operator"
+	];
+}));
+//#endregion
+//#region src/pages/WorkerRegisterPage.jsx
+function WorkerRegisterPage() {
+	console.log("[WorkerRegisterPage] MOUNTED");
+	const navigate = useNavigate();
+	const [formData, setFormData] = (0, import_react$21.useState)({
+		username: "",
+		email: "",
+		professions: [],
+		password: "",
+		"confirm-password": ""
+	});
+	const [error, setError] = (0, import_react$21.useState)("");
+	const [touched, setTouched] = (0, import_react$21.useState)({});
+	const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+	const errors = {
+		username: !formData.username.trim() ? "Username is required" : formData.username.trim().length < 3 ? "Username must be at least 3 characters" : "",
+		email: !formData.email.trim() ? "Email is required" : !emailValid(formData.email) ? "Please enter a valid email address" : "",
+		professions: formData.professions.length === 0 ? "Select at least one profession" : "",
+		password: !formData.password ? "Password is required" : formData.password.length < 6 ? "Password must be at least 6 characters" : "",
+		"confirm-password": !formData["confirm-password"] ? "Please confirm your password" : formData["confirm-password"] !== formData.password ? "Passwords do not match" : ""
+	};
+	const showFieldError = (field) => touched[field] && errors[field];
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value
+		}));
+	};
+	const handleBlur = (field) => {
+		setTouched((prev) => ({
+			...prev,
+			[field]: true
+		}));
+	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setError("");
+		setTouched({
+			username: true,
+			email: true,
+			professions: true,
+			password: true,
+			"confirm-password": true
+		});
+		if (Object.values(errors).some((err) => err)) return;
+		sessionStorage.setItem("workerStep1", JSON.stringify({
+			username: formData.username,
+			email: formData.email,
+			professions: formData.professions,
+			password: formData.password
+		}));
+		navigate("/worker-register/location");
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(Layout, {
+		theme: "green",
+		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(import_jsx_runtime$31.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("section", {
+			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
+			children: /* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+				className: "w-full max-w-sm space-y-6",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(Link, {
+							to: "/register",
+							className: "inline-flex items-center justify-center rounded-lg border border-green-200 bg-green-50 p-2 text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500/40",
+							"aria-label": "Back to role selection",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("svg", {
+								className: "h-5 w-5",
+								viewBox: "0 0 24 24",
+								fill: "none",
+								xmlns: "http://www.w3.org/2000/svg",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("path", {
+									d: "M15.75 19.5L8.25 12l7.5-7.5",
+									stroke: "currentColor",
+									strokeWidth: "2",
+									strokeLinecap: "round",
+									strokeLinejoin: "round"
+								})
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("span", {
+							className: "text-sm font-medium text-gray-500",
+							children: "Back to role selection"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+						className: "space-y-1 text-center",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("h2", {
+							className: "font-bold text-2xl text-green-800",
+							children: "Become a TaskPanda Worker"
+						}), /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+							className: "text-sm text-gray-500",
+							children: "Set up your provider profile, showcase your trade skills, and start finding local jobs."
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("form", {
+						onSubmit: handleSubmit,
+						className: "space-y-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("label", {
+										htmlFor: "username",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Username"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("input", {
+										type: "text",
+										id: "username",
+										name: "username",
+										autoComplete: "username",
+										required: true,
+										placeholder: "johndoe",
+										value: formData.username,
+										onChange: handleChange,
+										onBlur: () => handleBlur("username"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${showFieldError("username") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"}`
+									}),
+									showFieldError("username") && /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.username
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("label", {
+										htmlFor: "email",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Email Address"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("input", {
+										type: "email",
+										id: "email",
+										name: "email",
+										autoComplete: "email",
+										required: true,
+										placeholder: "hello@example.com",
+										value: formData.email,
+										onChange: handleChange,
+										onBlur: () => handleBlur("email"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${showFieldError("email") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"}`
+									}),
+									showFieldError("email") && /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.email
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("label", {
+										htmlFor: "professions",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Profession / Trade"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(ProfessionSelector, {
+										value: formData.professions,
+										onChange: (professions) => {
+											setFormData((prev) => ({
+												...prev,
+												professions
+											}));
+											setTouched((prev) => ({
+												...prev,
+												professions: true
+											}));
+										},
+										placeholder: "e.g. Carpenter, Electrician, Plumber"
+									}),
+									showFieldError("professions") && /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.professions
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("label", {
+										htmlFor: "password",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Password"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("input", {
+										type: "password",
+										id: "password",
+										name: "password",
+										autoComplete: "new-password",
+										required: true,
+										placeholder: "●●●●●●●●",
+										value: formData.password,
+										onChange: handleChange,
+										onBlur: () => handleBlur("password"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${showFieldError("password") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"}`
+									}),
+									showFieldError("password") && /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.password
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("label", {
+										htmlFor: "confirm-password",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Confirm Password"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("input", {
+										type: "password",
+										id: "confirm-password",
+										name: "confirm-password",
+										autoComplete: "new-password",
+										required: true,
+										placeholder: "●●●●●●●●",
+										value: formData["confirm-password"],
+										onChange: handleChange,
+										onBlur: () => handleBlur("confirm-password"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${showFieldError("confirm-password") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"}`
+									}),
+									showFieldError("confirm-password") && /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors["confirm-password"]
+									})
+								]
+							}),
+							(error || errors.professions) && /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("div", {
+								className: "rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-700",
+								role: "alert",
+								children: error || errors.professions
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("button", {
+								type: "submit",
+								className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
+								children: "Sign up"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+						className: "flex items-center gap-3 text-sm text-gray-400",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("span", { className: "h-px flex-1 bg-gray-200" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("span", { children: "Or Sign up with" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)("span", { className: "h-px flex-1 bg-gray-200" })
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+						className: "grid grid-cols-2 gap-3",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(SocialButton, { provider: "google" }), /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(SocialButton, { provider: "facebook" })]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$31.jsxs)("div", {
+						className: "text-center text-sm text-gray-600",
+						children: ["Already have an account?", /* @__PURE__ */ (0, import_jsx_runtime$31.jsx)(Link, {
+							to: "/login",
+							className: `font-medium ${a.link}`,
+							children: "Log in here"
+						})]
+					})
+				]
+			})
+		}) })
+	});
+}
+var import_react$21, import_jsx_runtime$31;
+var init_WorkerRegisterPage = __esmMin((() => {
+	import_react$21 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
+	init_Layout();
+	init_SocialButton();
+	init_ProfessionSelector();
 	import_jsx_runtime$31 = require_jsx_runtime();
 }));
 //#endregion
@@ -15705,270 +17073,13 @@ var init_TermsModal = __esmMin((() => {
 	];
 }));
 //#endregion
-//#region src/pages/WorkerRegisterPage.jsx
-function WorkerRegisterPage() {
-	console.log("[WorkerRegisterPage] MOUNTED");
-	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$19.useState)({
-		username: "",
-		email: "",
-		profession: "",
-		password: "",
-		"confirm-password": ""
-	});
-	const [error, setError] = (0, import_react$19.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$19.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$19.useState)(false);
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value
-		}));
-	};
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		setError("");
-		if (!agreedToTerms) {
-			setError("You must agree to the Terms of Service and Privacy Policy");
-			return;
-		}
-		if (formData.password !== formData["confirm-password"]) {
-			setError("Passwords do not match");
-			return;
-		}
-		sessionStorage.setItem("workerStep1", JSON.stringify({
-			username: formData.username,
-			email: formData.email,
-			profession: formData.profession,
-			password: formData.password
-		}));
-		navigate("/worker-register/location");
-	};
-	return /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)(Layout, {
-		theme: "green",
-		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)(import_jsx_runtime$29.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("section", {
-			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-				className: "w-full max-w-sm space-y-6",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-						className: "flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("a", {
-							href: "/register",
-							className: "inline-flex items-center justify-center rounded-lg border border-green-200 bg-green-50 p-2 text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500/40",
-							"aria-label": "Back to role selection",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("svg", {
-								className: "h-5 w-5",
-								viewBox: "0 0 24 24",
-								fill: "none",
-								xmlns: "http://www.w3.org/2000/svg",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("path", {
-									d: "M15.75 19.5L8.25 12l7.5-7.5",
-									stroke: "currentColor",
-									strokeWidth: "2",
-									strokeLinecap: "round",
-									strokeLinejoin: "round"
-								})
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("span", {
-							className: "text-sm font-medium text-gray-500",
-							children: "Back to role selection"
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-						className: "space-y-1 text-center",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("h2", {
-							className: "font-bold text-2xl text-green-800",
-							children: "Become a TaskPanda Worker"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("p", {
-							className: "text-sm text-gray-500",
-							children: "Set up your provider profile, showcase your trade skills, and start finding local jobs."
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("form", {
-						onSubmit: handleSubmit,
-						className: "space-y-4",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
-									htmlFor: "username",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Username"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("input", {
-									type: "text",
-									id: "username",
-									name: "username",
-									autoComplete: "username",
-									required: true,
-									placeholder: "johndoe",
-									value: formData.username,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
-									htmlFor: "email",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Email Address"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("input", {
-									type: "email",
-									id: "email",
-									name: "email",
-									autoComplete: "email",
-									required: true,
-									placeholder: "hello@example.com",
-									value: formData.email,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
-									htmlFor: "profession",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Profession / Trade"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("input", {
-									type: "text",
-									id: "profession",
-									name: "profession",
-									autoComplete: "off",
-									required: true,
-									placeholder: "e.g. Carpenter, Electrician, Plumber",
-									value: formData.profession,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
-									htmlFor: "password",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Password"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("input", {
-									type: "password",
-									id: "password",
-									name: "password",
-									autoComplete: "new-password",
-									required: true,
-									placeholder: "●●●●●●●●",
-									value: formData.password,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
-									htmlFor: "confirm-password",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Confirm Password"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("input", {
-									type: "password",
-									id: "confirm-password",
-									name: "confirm-password",
-									autoComplete: "new-password",
-									required: true,
-									placeholder: "●●●●●●●●",
-									value: formData["confirm-password"],
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
-								})]
-							}),
-							error && /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("p", {
-								className: "text-sm text-red-600",
-								children: error
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-								className: "flex items-start gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("input", {
-									type: "checkbox",
-									id: "agreeTerms",
-									checked: agreedToTerms,
-									onChange: (e) => setAgreedToTerms(e.target.checked),
-									className: "mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("label", {
-									htmlFor: "agreeTerms",
-									className: "text-sm text-gray-600",
-									children: [
-										"I agree to the",
-										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("button", {
-											type: "button",
-											onClick: () => setShowTerms(true),
-											className: "font-medium text-green-600 hover:text-green-800 underline",
-											children: "Terms of Service"
-										}),
-										" ",
-										"and",
-										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("button", {
-											type: "button",
-											onClick: () => setShowTerms(true),
-											className: "font-medium text-green-600 hover:text-green-800 underline",
-											children: "Privacy Policy"
-										})
-									]
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("button", {
-								type: "submit",
-								disabled: !agreedToTerms,
-								className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
-								children: "Sign up"
-							})
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-						className: "flex items-center gap-3 text-sm text-gray-400",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("span", { className: "h-px flex-1 bg-gray-200" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("span", { children: "Or Sign up with" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("span", { className: "h-px flex-1 bg-gray-200" })
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-						className: "grid grid-cols-2 gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)(SocialButton, { provider: "google" }), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)(SocialButton, { provider: "facebook" })]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
-						className: "text-center text-sm text-gray-600",
-						children: ["Already have an account?", /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("a", {
-							href: "/login",
-							className: `font-medium ${a.link}`,
-							children: "Log in here"
-						})]
-					})
-				]
-			})
-		}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)(TermsModal, {
-			open: showTerms,
-			onClose: () => setShowTerms(false)
-		})] })
-	});
-}
-var import_react$19, import_jsx_runtime$29;
-var init_WorkerRegisterPage = __esmMin((() => {
-	import_react$19 = /* @__PURE__ */ __toESM(require_react());
-	init_dist();
-	init_Layout();
-	init_SocialButton();
-	init_TermsModal();
-	import_jsx_runtime$29 = require_jsx_runtime();
-}));
-//#endregion
 //#region src/components/PHLocationPicker.jsx
 function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
-	const [ph, setPh] = (0, import_react$18.useState)(null);
-	const [provinces, setProvinces] = (0, import_react$18.useState)([]);
-	const [cities, setCities] = (0, import_react$18.useState)([]);
-	const [barangays, setBarangays] = (0, import_react$18.useState)([]);
-	const [loading, setLoading] = (0, import_react$18.useState)({
+	const [ph, setPh] = (0, import_react$19.useState)(null);
+	const [provinces, setProvinces] = (0, import_react$19.useState)([]);
+	const [cities, setCities] = (0, import_react$19.useState)([]);
+	const [barangays, setBarangays] = (0, import_react$19.useState)([]);
+	const [loading, setLoading] = (0, import_react$19.useState)({
 		province: false,
 		city: false,
 		barangay: false
@@ -15976,10 +17087,10 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 	const borderClass = accent === "green" ? "border-green-200" : "border-primary-200";
 	const bgClass = accent === "green" ? "bg-green-50/50" : "bg-primary-50/50";
 	const focusClass = accent === "green" ? "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30" : "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30";
-	(0, import_react$18.useEffect)(() => {
-		__vitePreload(() => import("./ph-addresses-locations-CWk0tzZt.js").then(setPh), []);
+	(0, import_react$19.useEffect)(() => {
+		__vitePreload(() => import("./ph-addresses-locations-BYd9Z23t.js").then(setPh), []);
 	}, []);
-	const handleProvinceChange = (0, import_react$18.useCallback)((e) => {
+	const handleProvinceChange = (0, import_react$19.useCallback)((e) => {
 		const provinceCode = e.target.value;
 		const provinceName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
@@ -16002,7 +17113,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 			}));
 		}
 	}, [ph, setFormData]);
-	const handleCityChange = (0, import_react$18.useCallback)((e) => {
+	const handleCityChange = (0, import_react$19.useCallback)((e) => {
 		const cityCode = e.target.value;
 		const cityName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
@@ -16024,14 +17135,14 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 			}));
 		}
 	}, [ph, setFormData]);
-	const handleBarangayChange = (0, import_react$18.useCallback)((e) => {
+	const handleBarangayChange = (0, import_react$19.useCallback)((e) => {
 		const barangayName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
 			...prev,
 			barangay: barangayName
 		}));
 	}, [setFormData]);
-	(0, import_react$18.useEffect)(() => {
+	(0, import_react$19.useEffect)(() => {
 		if (!ph) return;
 		setLoading((prev) => ({
 			...prev,
@@ -16045,16 +17156,16 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 		}));
 	}, [ph]);
 	const selectClass = `block w-full rounded-lg ${borderClass} ${bgClass} px-4 py-2.5 text-sm text-gray-800 ${focusClass} transition-colors`;
-	return /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
 		className: "space-y-4",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+			/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
 				className: "space-y-2",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("label", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
 					htmlFor: "province",
 					className: "block text-sm font-medium text-gray-700",
 					children: "Province"
-				}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("select", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("select", {
 					id: "province",
 					name: "province",
 					value: formData.provinceCode || "",
@@ -16062,22 +17173,22 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 					disabled: loading.province || !ph,
 					required: true,
 					className: `${selectClass} disabled:cursor-not-allowed disabled:opacity-50`,
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("option", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("option", {
 						value: "",
 						children: "Select Province"
-					}), provinces.map((p) => /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("option", {
+					}), provinces.map((p) => /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("option", {
 						value: p.code,
 						children: p.name
 					}, p.code))]
 				})]
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+			/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
 				className: "space-y-2",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("label", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
 					htmlFor: "city",
 					className: "block text-sm font-medium text-gray-700",
 					children: "City / Municipality"
-				}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("select", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("select", {
 					id: "city",
 					name: "city",
 					value: formData.cityCode || "",
@@ -16085,22 +17196,22 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 					disabled: !formData.provinceCode || loading.city || !ph,
 					required: true,
 					className: `${selectClass} disabled:cursor-not-allowed disabled:opacity-50`,
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("option", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("option", {
 						value: "",
 						children: "Select City / Municipality"
-					}), cities.map((c) => /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("option", {
+					}), cities.map((c) => /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("option", {
 						value: c.code,
 						children: c.name
 					}, c.code))]
 				})]
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+			/* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("div", {
 				className: "space-y-2",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("label", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("label", {
 					htmlFor: "barangay",
 					className: "block text-sm font-medium text-gray-700",
 					children: "Barangay"
-				}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("select", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("select", {
 					id: "barangay",
 					name: "barangay",
 					value: formData.barangay || "",
@@ -16108,10 +17219,10 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 					disabled: !formData.cityCode || loading.barangay || !ph,
 					required: true,
 					className: `${selectClass} disabled:cursor-not-allowed disabled:opacity-50`,
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("option", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("option", {
 						value: "",
 						children: "Select Barangay"
-					}), barangays.map((b) => /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("option", {
+					}), barangays.map((b) => /* @__PURE__ */ (0, import_jsx_runtime$29.jsx)("option", {
 						value: b.code,
 						children: b.name
 					}, b.code))]
@@ -16120,10 +17231,10 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 		]
 	});
 }
-var import_react$18, import_jsx_runtime$28;
+var import_react$19, import_jsx_runtime$29;
 var init_PHLocationPicker = __esmMin((() => {
-	import_react$18 = /* @__PURE__ */ __toESM(require_react());
-	import_jsx_runtime$28 = require_jsx_runtime();
+	import_react$19 = /* @__PURE__ */ __toESM(require_react());
+	import_jsx_runtime$29 = require_jsx_runtime();
 	init_preload_helper();
 }));
 //#endregion
@@ -16131,7 +17242,7 @@ var init_PHLocationPicker = __esmMin((() => {
 function WorkerRegisterLocation() {
 	console.log("[WorkerRegisterLocation] MOUNTED");
 	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$17.useState)({
+	const [formData, setFormData] = (0, import_react$18.useState)({
 		provinceCode: "",
 		cityCode: "",
 		province: "",
@@ -16139,9 +17250,9 @@ function WorkerRegisterLocation() {
 		barangay: "",
 		address: ""
 	});
-	const [error, setError] = (0, import_react$17.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$17.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$17.useState)(false);
+	const [error, setError] = (0, import_react$18.useState)("");
+	const [agreedToTerms, setAgreedToTerms] = (0, import_react$18.useState)(false);
+	const [showTerms, setShowTerms] = (0, import_react$18.useState)(false);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setError("");
@@ -16170,32 +17281,34 @@ function WorkerRegisterLocation() {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(payload)
-		}).then((res) => {
+		}).then(async (res) => {
+			const data = await res.json().catch(() => ({}));
 			sessionStorage.removeItem("workerStep1");
-			navigate("/login");
+			if (res.ok) navigate("/login");
+			else setError(data.message || "Registration failed. Please try again.");
 		}).catch(() => {
 			setError("Network error. Please try again.");
 		});
 	};
-	return /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)(Layout, {
+	return /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(Layout, {
 		theme: "green",
-		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)(import_jsx_runtime$27.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("section", {
+		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)(import_jsx_runtime$28.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("section", {
 			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+			children: /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
 				className: "w-full max-w-sm space-y-6",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
 						className: "flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)(Link, {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(Link, {
 							to: "/worker-register",
 							className: "inline-flex items-center justify-center rounded-lg border border-green-200 bg-green-50 p-2 text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500/40",
 							"aria-label": "Back to step 1",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("svg", {
+							children: /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("svg", {
 								className: "h-5 w-5",
 								viewBox: "0 0 24 24",
 								fill: "none",
 								xmlns: "http://www.w3.org/2000/svg",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("path", {
+								children: /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("path", {
 									d: "M15.75 19.5L8.25 12l7.5-7.5",
 									stroke: "currentColor",
 									strokeWidth: "2",
@@ -16203,37 +17316,37 @@ function WorkerRegisterLocation() {
 									strokeLinejoin: "round"
 								})
 							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("span", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("span", {
 							className: "text-sm font-medium text-gray-500",
 							children: "Back to step 1"
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
 						className: "space-y-1 text-center",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("h2", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("h2", {
 							className: "font-bold text-2xl text-green-800",
 							children: "Where Are You Located?"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("p", {
 							className: "text-sm text-gray-500",
 							children: "Tell us your service area so we can match you with nearby clients."
 						})]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("form", {
+					/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("form", {
 						onSubmit: handleSubmit,
 						className: "space-y-4",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)(PHLocationPicker, {
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(PHLocationPicker, {
 								formData,
 								setFormData,
 								accent: "green"
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
 								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("label", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("label", {
 									htmlFor: "address",
 									className: "block text-sm font-medium text-gray-700",
 									children: "Street Address"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("input", {
 									type: "text",
 									id: "address",
 									name: "address",
@@ -16247,25 +17360,25 @@ function WorkerRegisterLocation() {
 									className: "block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
 								})]
 							}),
-							error && /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+							error && /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("p", {
 								className: "text-sm text-red-600",
 								children: error
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
 								className: "flex items-start gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("input", {
 									type: "checkbox",
 									id: "agreeTerms2",
 									checked: agreedToTerms,
 									onChange: (e) => setAgreedToTerms(e.target.checked),
 									className: "mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("label", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("label", {
 									htmlFor: "agreeTerms2",
 									className: "text-sm text-gray-600",
 									children: [
 										"I agree to the",
 										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+										/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("button", {
 											type: "button",
 											onClick: () => setShowTerms(true),
 											className: "font-medium text-green-600 hover:text-green-800 underline",
@@ -16274,7 +17387,7 @@ function WorkerRegisterLocation() {
 										" ",
 										"and",
 										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+										/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("button", {
 											type: "button",
 											onClick: () => setShowTerms(true),
 											className: "font-medium text-green-600 hover:text-green-800 underline",
@@ -16283,11 +17396,302 @@ function WorkerRegisterLocation() {
 									]
 								})]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("button", {
 								type: "submit",
 								disabled: !agreedToTerms,
 								className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
 								children: "Complete Sign up"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+						className: "flex items-center gap-3 text-sm text-gray-400",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("span", { className: "h-px flex-1 bg-gray-200" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("span", { children: "Or Sign up with" }),
+							/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)("span", { className: "h-px flex-1 bg-gray-200" })
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+						className: "grid grid-cols-2 gap-3",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(SocialButton, { provider: "google" }), /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(SocialButton, { provider: "facebook" })]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$28.jsxs)("div", {
+						className: "text-center text-sm text-gray-600",
+						children: ["Already have an account?", /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(Link, {
+							to: "/login",
+							className: `font-medium ${a.link}`,
+							children: "Log in here"
+						})]
+					})
+				]
+			})
+		}), /* @__PURE__ */ (0, import_jsx_runtime$28.jsx)(TermsModal, {
+			open: showTerms,
+			onClose: () => setShowTerms(false)
+		})] })
+	});
+}
+var import_react$18, import_jsx_runtime$28;
+var init_WorkerRegisterLocation = __esmMin((() => {
+	import_react$18 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
+	init_Layout();
+	init_SocialButton();
+	init_TermsModal();
+	init_PHLocationPicker();
+	import_jsx_runtime$28 = require_jsx_runtime();
+}));
+//#endregion
+//#region src/pages/ClientRegisterPage.jsx
+function ClientRegisterPage() {
+	console.log("[ClientRegisterPage] MOUNTED");
+	const navigate = useNavigate();
+	const [formData, setFormData] = (0, import_react$17.useState)({
+		fullName: "",
+		email: "",
+		password: "",
+		confirmPassword: ""
+	});
+	const [error, setError] = (0, import_react$17.useState)("");
+	const [agreedToTerms, setAgreedToTerms] = (0, import_react$17.useState)(false);
+	const [showTerms, setShowTerms] = (0, import_react$17.useState)(false);
+	const [touched, setTouched] = (0, import_react$17.useState)({});
+	const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+	const errors = {
+		fullName: !formData.fullName.trim() ? "Full name is required" : formData.fullName.trim().length < 2 ? "Name must be at least 2 characters" : "",
+		email: !formData.email.trim() ? "Email is required" : !emailValid(formData.email) ? "Please enter a valid email address" : "",
+		password: !formData.password ? "Password is required" : formData.password.length < 6 ? "Password must be at least 6 characters" : "",
+		confirmPassword: !formData.confirmPassword ? "Please confirm your password" : formData.confirmPassword !== formData.password ? "Passwords do not match" : ""
+	};
+	const showFieldError = (field) => touched[field] && errors[field];
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value
+		}));
+	};
+	const handleBlur = (field) => {
+		setTouched((prev) => ({
+			...prev,
+			[field]: true
+		}));
+	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setError("");
+		setTouched({
+			fullName: true,
+			email: true,
+			password: true,
+			confirmPassword: true
+		});
+		if (Object.values(errors).some((err) => err)) return;
+		if (!agreedToTerms) {
+			setError("You must agree to the Terms of Service and Privacy Policy");
+			return;
+		}
+		sessionStorage.setItem("clientStep1", JSON.stringify({
+			fullName: formData.fullName,
+			email: formData.email,
+			password: formData.password
+		}));
+		navigate("/client-register/location");
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)(Layout, {
+		theme: "primary",
+		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)(import_jsx_runtime$27.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("section", {
+			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
+			children: /* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+				className: "w-full max-w-sm space-y-6",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+						className: "mb-1 flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+							type: "button",
+							onClick: () => navigate("/register"),
+							className: "inline-flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 p-2 text-primary-700 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-500/40",
+							"aria-label": "Back to role selection",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("svg", {
+								className: "h-5 w-5",
+								viewBox: "0 0 24 24",
+								fill: "none",
+								xmlns: "http://www.w3.org/2000/svg",
+								"aria-hidden": "true",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("path", {
+									d: "M15.75 19.5L8.25 12l7.5-7.5",
+									stroke: "currentColor",
+									strokeWidth: "2",
+									strokeLinecap: "round",
+									strokeLinejoin: "round"
+								})
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("span", {
+							className: "text-sm font-medium text-gray-500",
+							children: "Back to role selection"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+						className: "space-y-1 text-center",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("h2", {
+							className: "font-bold text-2xl text-gray-900",
+							children: "Create your client account"
+						}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+							className: "text-sm text-gray-600",
+							children: "Sign up to start finding and hiring trusted mechanics, plumbers, electricians, and more for your home."
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("form", {
+						onSubmit: handleSubmit,
+						className: "space-y-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("label", {
+										htmlFor: "fullName",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Full Name"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+										type: "text",
+										id: "fullName",
+										name: "fullName",
+										autoComplete: "name",
+										required: true,
+										placeholder: "Jane Smith",
+										value: formData.fullName,
+										onChange: handleChange,
+										onBlur: () => handleBlur("fullName"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${showFieldError("fullName") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"}`
+									}),
+									showFieldError("fullName") && /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.fullName
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("label", {
+										htmlFor: "email",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Email Address"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+										type: "email",
+										id: "email",
+										name: "email",
+										autoComplete: "email",
+										required: true,
+										placeholder: "hello@example.com",
+										value: formData.email,
+										onChange: handleChange,
+										onBlur: () => handleBlur("email"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${showFieldError("email") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"}`
+									}),
+									showFieldError("email") && /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.email
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("label", {
+										htmlFor: "password",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Password"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+										type: "password",
+										id: "password",
+										name: "password",
+										autoComplete: "new-password",
+										required: true,
+										placeholder: "Create a password",
+										value: formData.password,
+										onChange: handleChange,
+										onBlur: () => handleBlur("password"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${showFieldError("password") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"}`
+									}),
+									showFieldError("password") && /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.password
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("label", {
+										htmlFor: "confirmPassword",
+										className: "block text-sm font-medium text-gray-700",
+										children: "Confirm Password"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+										type: "password",
+										id: "confirmPassword",
+										name: "confirmPassword",
+										autoComplete: "new-password",
+										required: true,
+										placeholder: "Repeat your password",
+										value: formData.confirmPassword,
+										onChange: handleChange,
+										onBlur: () => handleBlur("confirmPassword"),
+										className: `block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/30 ${showFieldError("confirmPassword") ? "border-red-400 focus:border-red-500 focus:ring-red-500/30" : "border-primary-200 bg-primary-50/50 focus:border-primary-500 focus:ring-primary-500/30"}`
+									}),
+									showFieldError("confirmPassword") && /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("p", {
+										className: "text-xs text-red-600",
+										children: errors.confirmPassword
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("div", {
+								className: "rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-700",
+								role: "alert",
+								children: error
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
+								className: "flex items-start gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("input", {
+									type: "checkbox",
+									id: "agreeTerms",
+									checked: agreedToTerms,
+									onChange: (e) => setAgreedToTerms(e.target.checked),
+									className: "mt-1 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("label", {
+									htmlFor: "agreeTerms",
+									className: "text-sm text-gray-600",
+									children: [
+										"I agree to the",
+										" ",
+										/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+											type: "button",
+											onClick: () => setShowTerms(true),
+											className: "font-medium text-primary-600 hover:text-primary-800 underline",
+											children: "Terms of Service"
+										}),
+										" ",
+										"and",
+										" ",
+										/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+											type: "button",
+											onClick: () => setShowTerms(true),
+											className: "font-medium text-primary-600 hover:text-primary-800 underline",
+											children: "Privacy Policy"
+										})
+									]
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("button", {
+								type: "submit",
+								disabled: !agreedToTerms,
+								className: `w-full rounded-lg bg-gradient-to-r ${a.button} px-4 py-2.5 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 lg:col-span-2`,
+								children: "Next"
 							})
 						]
 					}),
@@ -16305,11 +17709,15 @@ function WorkerRegisterLocation() {
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime$27.jsxs)("div", {
 						className: "text-center text-sm text-gray-600",
-						children: ["Already have an account?", /* @__PURE__ */ (0, import_jsx_runtime$27.jsx)("a", {
-							href: "/login",
-							className: `font-medium ${a.link}`,
-							children: "Log in here"
-						})]
+						children: [
+							"Already have an account?",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime$27.jsx)(Link, {
+								to: "/login",
+								className: `font-medium ${a.link}`,
+								children: "Log in here"
+							})
+						]
 					})
 				]
 			})
@@ -16320,36 +17728,29 @@ function WorkerRegisterLocation() {
 	});
 }
 var import_react$17, import_jsx_runtime$27;
-var init_WorkerRegisterLocation = __esmMin((() => {
+var init_ClientRegisterPage = __esmMin((() => {
 	import_react$17 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
 	init_TermsModal();
-	init_PHLocationPicker();
 	import_jsx_runtime$27 = require_jsx_runtime();
 }));
 //#endregion
-//#region src/pages/ClientRegisterPage.jsx
-function ClientRegisterPage() {
-	console.log("[ClientRegisterPage] MOUNTED");
+//#region src/pages/ClientRegisterLocation.jsx
+function ClientRegisterLocation() {
 	const navigate = useNavigate();
 	const [formData, setFormData] = (0, import_react$16.useState)({
-		fullName: "",
-		email: "",
-		password: "",
-		confirmPassword: ""
+		provinceCode: "",
+		cityCode: "",
+		province: "",
+		city: "",
+		barangay: "",
+		address: ""
 	});
 	const [error, setError] = (0, import_react$16.useState)("");
 	const [agreedToTerms, setAgreedToTerms] = (0, import_react$16.useState)(false);
 	const [showTerms, setShowTerms] = (0, import_react$16.useState)(false);
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value
-		}));
-	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setError("");
@@ -16357,16 +17758,35 @@ function ClientRegisterPage() {
 			setError("You must agree to the Terms of Service and Privacy Policy");
 			return;
 		}
-		if (formData.password !== formData.confirmPassword) {
-			setError("Passwords do not match");
+		if (!formData.province || !formData.city || !formData.barangay) {
+			setError("Please select your complete location.");
 			return;
 		}
-		sessionStorage.setItem("clientStep1", JSON.stringify({
-			fullName: formData.fullName,
-			email: formData.email,
-			password: formData.password
-		}));
-		navigate("/client-register/location");
+		const step1Raw = sessionStorage.getItem("clientStep1");
+		if (!step1Raw) {
+			setError("Session expired. Please start registration again.");
+			return;
+		}
+		const payload = {
+			...JSON.parse(step1Raw),
+			province: formData.province,
+			city: formData.city,
+			barangay: formData.barangay,
+			address: formData.address,
+			role: "client"
+		};
+		fetch("/register", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(payload)
+		}).then(async (res) => {
+			const data = await res.json().catch(() => ({}));
+			sessionStorage.removeItem("clientStep1");
+			if (res.ok) navigate("/login");
+			else setError(data.message || "Registration failed. Please try again.");
+		}).catch(() => {
+			setError("Network error. Please try again.");
+		});
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)(Layout, {
 		theme: "primary",
@@ -16376,18 +17796,16 @@ function ClientRegisterPage() {
 				className: "w-full max-w-sm space-y-6",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("div", {
-						className: "mb-1 flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("button", {
-							type: "button",
-							onClick: () => navigate("/register"),
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)(Link, {
+							to: "/client-register",
 							className: "inline-flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 p-2 text-primary-700 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-500/40",
-							"aria-label": "Back to role selection",
+							"aria-label": "Back to step 1",
 							children: /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("svg", {
 								className: "h-5 w-5",
 								viewBox: "0 0 24 24",
 								fill: "none",
 								xmlns: "http://www.w3.org/2000/svg",
-								"aria-hidden": "true",
 								children: /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("path", {
 									d: "M15.75 19.5L8.25 12l7.5-7.5",
 									stroke: "currentColor",
@@ -16398,97 +17816,50 @@ function ClientRegisterPage() {
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("span", {
 							className: "text-sm font-medium text-gray-500",
-							children: "Back to role selection"
+							children: "Back to step 1"
 						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("div", {
 						className: "space-y-1 text-center",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("h2", {
 							className: "font-bold text-2xl text-gray-900",
-							children: "Create your client account"
+							children: "Where Are You Located?"
 						}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("p", {
-							className: "text-sm text-gray-600",
-							children: "Sign up to start finding and hiring trusted mechanics, plumbers, electricians, and more for your home."
+							className: "text-sm text-gray-500",
+							children: "Tell us your address so we can match you with nearby providers."
 						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("form", {
 						onSubmit: handleSubmit,
 						className: "space-y-4",
 						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)(PHLocationPicker, {
+								formData,
+								setFormData,
+								accent: "primary"
+							}),
 							/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("div", {
 								className: "space-y-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("label", {
-									htmlFor: "fullName",
+									htmlFor: "address",
 									className: "block text-sm font-medium text-gray-700",
-									children: "Full Name"
+									children: "Street Address"
 								}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("input", {
 									type: "text",
-									id: "fullName",
-									name: "fullName",
-									autoComplete: "name",
-									required: true,
-									placeholder: "Jane Smith",
-									value: formData.fullName,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("label", {
-									htmlFor: "email",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Email Address"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("input", {
-									type: "email",
-									id: "email",
-									name: "email",
-									autoComplete: "email",
-									required: true,
-									placeholder: "hello@example.com",
-									value: formData.email,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("label", {
-									htmlFor: "password",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Password"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("input", {
-									type: "password",
-									id: "password",
-									name: "password",
-									autoComplete: "new-password",
-									required: true,
-									placeholder: "Create a password",
-									value: formData.password,
-									onChange: handleChange,
-									className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("label", {
-									htmlFor: "confirmPassword",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Confirm Password"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("input", {
-									type: "password",
-									id: "confirmPassword",
-									name: "confirmPassword",
-									autoComplete: "new-password",
-									required: true,
-									placeholder: "Repeat your password",
-									value: formData.confirmPassword,
-									onChange: handleChange,
+									id: "address",
+									name: "address",
+									autoComplete: "street-address",
+									placeholder: "Block, Lot, Unit (optional)",
+									value: formData.address,
+									onChange: (e) => setFormData((prev) => ({
+										...prev,
+										address: e.target.value
+									})),
 									className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
 								})]
 							}),
 							error && /* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("p", {
-								className: "text-sm text-red-600 lg:col-span-2",
+								className: "text-sm text-red-600",
 								role: "alert",
 								children: error
 							}),
@@ -16496,12 +17867,12 @@ function ClientRegisterPage() {
 								className: "flex items-start gap-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("input", {
 									type: "checkbox",
-									id: "agreeTerms",
+									id: "agreeTerms2",
 									checked: agreedToTerms,
 									onChange: (e) => setAgreedToTerms(e.target.checked),
 									className: "mt-1 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
 								}), /* @__PURE__ */ (0, import_jsx_runtime$26.jsxs)("label", {
-									htmlFor: "agreeTerms",
+									htmlFor: "agreeTerms2",
 									className: "text-sm text-gray-600",
 									children: [
 										"I agree to the",
@@ -16527,8 +17898,8 @@ function ClientRegisterPage() {
 							/* @__PURE__ */ (0, import_jsx_runtime$26.jsx)("button", {
 								type: "submit",
 								disabled: !agreedToTerms,
-								className: `w-full rounded-lg bg-gradient-to-r ${a.button} px-4 py-2.5 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 lg:col-span-2`,
-								children: "Next"
+								className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
+								children: "Complete Sign up"
 							})
 						]
 					}),
@@ -16565,230 +17936,24 @@ function ClientRegisterPage() {
 	});
 }
 var import_react$16, import_jsx_runtime$26;
-var init_ClientRegisterPage = __esmMin((() => {
+var init_ClientRegisterLocation = __esmMin((() => {
 	import_react$16 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
 	init_TermsModal();
-	import_jsx_runtime$26 = require_jsx_runtime();
-}));
-//#endregion
-//#region src/pages/ClientRegisterLocation.jsx
-function ClientRegisterLocation() {
-	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$15.useState)({
-		provinceCode: "",
-		cityCode: "",
-		province: "",
-		city: "",
-		barangay: "",
-		address: ""
-	});
-	const [error, setError] = (0, import_react$15.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$15.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$15.useState)(false);
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		setError("");
-		if (!agreedToTerms) {
-			setError("You must agree to the Terms of Service and Privacy Policy");
-			return;
-		}
-		if (!formData.province || !formData.city || !formData.barangay) {
-			setError("Please select your complete location.");
-			return;
-		}
-		const step1Raw = sessionStorage.getItem("clientStep1");
-		if (!step1Raw) {
-			setError("Session expired. Please start registration again.");
-			return;
-		}
-		const payload = {
-			...JSON.parse(step1Raw),
-			province: formData.province,
-			city: formData.city,
-			barangay: formData.barangay,
-			address: formData.address,
-			role: "client"
-		};
-		fetch("/api/register", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(payload)
-		}).then((res) => {
-			sessionStorage.removeItem("clientStep1");
-			navigate("/login");
-		}).catch(() => {
-			setError("Network error. Please try again.");
-		});
-	};
-	return /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(Layout, {
-		theme: "primary",
-		children: (a) => /* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)(import_jsx_runtime$25.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("section", {
-			className: "flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-				className: "w-full max-w-sm space-y-6",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-						className: "flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(Link, {
-							to: "/client-register",
-							className: "inline-flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 p-2 text-primary-700 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-500/40",
-							"aria-label": "Back to step 1",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("svg", {
-								className: "h-5 w-5",
-								viewBox: "0 0 24 24",
-								fill: "none",
-								xmlns: "http://www.w3.org/2000/svg",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("path", {
-									d: "M15.75 19.5L8.25 12l7.5-7.5",
-									stroke: "currentColor",
-									strokeWidth: "2",
-									strokeLinecap: "round",
-									strokeLinejoin: "round"
-								})
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("span", {
-							className: "text-sm font-medium text-gray-500",
-							children: "Back to step 1"
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-						className: "space-y-1 text-center",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("h2", {
-							className: "font-bold text-2xl text-gray-900",
-							children: "Where Are You Located?"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("p", {
-							className: "text-sm text-gray-500",
-							children: "Tell us your address so we can match you with nearby providers."
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("form", {
-						onSubmit: handleSubmit,
-						className: "space-y-4",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(PHLocationPicker, {
-								formData,
-								setFormData,
-								accent: "primary"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-								className: "space-y-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("label", {
-									htmlFor: "address",
-									className: "block text-sm font-medium text-gray-700",
-									children: "Street Address"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("input", {
-									type: "text",
-									id: "address",
-									name: "address",
-									autoComplete: "street-address",
-									placeholder: "Block, Lot, Unit (optional)",
-									value: formData.address,
-									onChange: (e) => setFormData((prev) => ({
-										...prev,
-										address: e.target.value
-									})),
-									className: "block w-full rounded-lg border border-primary-200 bg-primary-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-								})]
-							}),
-							error && /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("p", {
-								className: "text-sm text-red-600",
-								role: "alert",
-								children: error
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-								className: "flex items-start gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("input", {
-									type: "checkbox",
-									id: "agreeTerms2",
-									checked: agreedToTerms,
-									onChange: (e) => setAgreedToTerms(e.target.checked),
-									className: "mt-1 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("label", {
-									htmlFor: "agreeTerms2",
-									className: "text-sm text-gray-600",
-									children: [
-										"I agree to the",
-										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("button", {
-											type: "button",
-											onClick: () => setShowTerms(true),
-											className: "font-medium text-primary-600 hover:text-primary-800 underline",
-											children: "Terms of Service"
-										}),
-										" ",
-										"and",
-										" ",
-										/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("button", {
-											type: "button",
-											onClick: () => setShowTerms(true),
-											className: "font-medium text-primary-600 hover:text-primary-800 underline",
-											children: "Privacy Policy"
-										})
-									]
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("button", {
-								type: "submit",
-								disabled: !agreedToTerms,
-								className: `w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
-								children: "Complete Sign up"
-							})
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-						className: "flex items-center gap-3 text-sm text-gray-400",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("span", { className: "h-px flex-1 bg-gray-200" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("span", { children: "Or Sign up with" }),
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)("span", { className: "h-px flex-1 bg-gray-200" })
-						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-						className: "grid grid-cols-2 gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(SocialButton, { provider: "google" }), /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(SocialButton, { provider: "facebook" })]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$25.jsxs)("div", {
-						className: "text-center text-sm text-gray-600",
-						children: [
-							"Already have an account?",
-							" ",
-							/* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(Link, {
-								to: "/login",
-								className: `font-medium ${a.link}`,
-								children: "Log in here"
-							})
-						]
-					})
-				]
-			})
-		}), /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(TermsModal, {
-			open: showTerms,
-			onClose: () => setShowTerms(false)
-		})] })
-	});
-}
-var import_react$15, import_jsx_runtime$25;
-var init_ClientRegisterLocation = __esmMin((() => {
-	import_react$15 = /* @__PURE__ */ __toESM(require_react());
-	init_dist();
-	init_Layout();
-	init_SocialButton();
-	init_TermsModal();
 	init_PHLocationPicker();
-	import_jsx_runtime$25 = require_jsx_runtime();
+	import_jsx_runtime$26 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/pages/ClientDashboardPage.jsx
 function ClientDashboardPage() {
-	return /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)(Dashboard, {});
+	return /* @__PURE__ */ (0, import_jsx_runtime$25.jsx)(Dashboard, {});
 }
-var import_jsx_runtime$24;
+var import_jsx_runtime$25;
 var init_ClientDashboardPage = __esmMin((() => {
 	init_ClientDashboard();
-	import_jsx_runtime$24 = require_jsx_runtime();
+	import_jsx_runtime$25 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/components/ProviderDashboard.jsx
@@ -16816,7 +17981,7 @@ function parsePrice$1(priceStr) {
 	return isNaN(num) ? 0 : num;
 }
 function StatusBadge$3({ status }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 		className: `inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${{
 			"Pending Request": "bg-amber-100 text-amber-700 border-amber-200",
 			Confirmed: "bg-green-100 text-green-700 border-green-200",
@@ -16829,22 +17994,22 @@ function StatusBadge$3({ status }) {
 function ProviderDashboard() {
 	const navigate = useNavigate();
 	const { isLoggedIn, role } = useAuth();
-	const [jobs, setJobs] = (0, import_react$14.useState)(initialJobs);
-	const [requests, setRequests] = (0, import_react$14.useState)(initialRequests$1);
-	const [activeTab, setActiveTab] = (0, import_react$14.useState)("All");
-	const [expandedJob, setExpandedJob] = (0, import_react$14.useState)(null);
-	const sortedRequests = (0, import_react$14.useMemo)(() => {
+	const [jobs, setJobs] = (0, import_react$15.useState)(initialJobs);
+	const [requests, setRequests] = (0, import_react$15.useState)(initialRequests$1);
+	const [activeTab, setActiveTab] = (0, import_react$15.useState)("All");
+	const [expandedJob, setExpandedJob] = (0, import_react$15.useState)(null);
+	const sortedRequests = (0, import_react$15.useMemo)(() => {
 		return [...requests].sort((a, b) => parseDate$1(b.date) - parseDate$1(a.date));
 	}, [requests]);
-	const sortedJobs = (0, import_react$14.useMemo)(() => {
+	const sortedJobs = (0, import_react$15.useMemo)(() => {
 		return [...jobs].sort((a, b) => parseDate$1(b.date) - parseDate$1(a.date));
 	}, [jobs]);
-	const filteredJobs = (0, import_react$14.useMemo)(() => {
+	const filteredJobs = (0, import_react$15.useMemo)(() => {
 		if (activeTab === "Active") return sortedJobs.filter((j) => j.status !== "Completed");
 		if (activeTab === "Completed") return sortedJobs.filter((j) => j.status === "Completed");
 		return sortedJobs;
 	}, [sortedJobs, activeTab]);
-	const stats = (0, import_react$14.useMemo)(() => {
+	const stats = (0, import_react$15.useMemo)(() => {
 		return {
 			rating: "4.9",
 			reviews: "128 reviews",
@@ -16853,7 +18018,7 @@ function ProviderDashboard() {
 			earnings: `₱${jobs.filter((j) => j.status === "Completed").reduce((sum, j) => sum + parsePrice$1(j.price), 0).toLocaleString()}`
 		};
 	}, [jobs]);
-	const jobTabs = (0, import_react$14.useMemo)(() => {
+	const jobTabs = (0, import_react$15.useMemo)(() => {
 		const all = jobs.length;
 		const active = jobs.filter((j) => j.status !== "Completed").length;
 		const completed = jobs.filter((j) => j.status === "Completed").length;
@@ -16885,116 +18050,116 @@ function ProviderDashboard() {
 	function rejectRequest(id) {
 		setRequests((prev) => prev.filter((r) => r.id !== id));
 	}
-	return /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16 pb-12",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(Header, {
+		children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)(Header, {
 			showNav: true,
 			activeTab: "Home",
 			role: "provider",
 			notifCount: requests.length
-		}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+		}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 			className: "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 					className: "mb-6",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h1", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("h1", {
 						className: "text-2xl font-bold text-gray-900",
 						children: "Provider Dashboard"
-					}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+					}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 						className: "mt-1 text-sm text-gray-500",
 						children: "Manage your jobs, requests, and earnings"
 					})]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 					className: "grid grid-cols-2 gap-4 lg:grid-cols-4",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-xl bg-white p-4 shadow-sm",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 									className: "flex items-center gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xl",
 										children: "⭐"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xs text-gray-500",
 										children: "Rating"
 									})]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-2 text-2xl font-bold text-gray-900",
 									children: stats.rating
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-0.5 text-xs text-gray-400",
 									children: stats.reviews
 								})
 							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-xl bg-white p-4 shadow-sm",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 									className: "flex items-center gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xl",
 										children: "🔧"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xs text-gray-500",
 										children: "Active Jobs"
 									})]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-2 text-2xl font-bold text-gray-900",
 									children: stats.activeJobs
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-0.5 text-xs text-gray-400",
 									children: "In progress"
 								})
 							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-xl bg-white p-4 shadow-sm",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 									className: "flex items-center gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xl",
 										children: "✅"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xs text-gray-500",
 										children: "Completed"
 									})]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-2 text-2xl font-bold text-gray-900",
 									children: stats.completedJobs
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-0.5 text-xs text-gray-400",
 									children: "All time"
 								})
 							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-xl bg-white p-4 shadow-sm",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 									className: "flex items-center gap-2",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xl",
 										children: "💰"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-xs text-gray-500",
 										children: "Earnings"
 									})]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-2 text-2xl font-bold text-gray-900",
 									children: stats.earnings
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-0.5 text-xs text-gray-400",
 									children: "From completed jobs"
 								})
@@ -17002,74 +18167,74 @@ function ProviderDashboard() {
 						})
 					]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 					className: "mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 						className: "space-y-6 lg:col-span-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-2xl bg-white shadow-sm",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 								className: "border-b border-gray-100 px-5 py-4",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("h2", {
+								children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("h2", {
 									className: "text-base font-semibold text-gray-900",
-									children: ["Incoming Requests", requests.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: ["Incoming Requests", requests.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "ml-2 inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-amber-100 px-1.5 text-xs font-medium text-amber-700",
 										children: requests.length
 									})]
 								})
-							}), requests.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+							}), requests.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 								className: "py-12 text-center",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 									className: "text-3xl",
 									children: "📭"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "mt-2 text-sm text-gray-400",
 									children: "No incoming requests"
 								})]
-							}) : /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+							}) : /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 								className: "divide-y divide-gray-100",
-								children: sortedRequests.map((req) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								children: sortedRequests.map((req) => /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 									className: "px-5 py-4",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 										className: "flex items-start justify-between gap-3",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 											className: "min-w-0 flex-1",
 											children: [
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+												/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 													className: "flex items-center gap-2",
-													children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+													children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 														className: "text-sm font-semibold text-gray-900",
 														children: req.client
-													}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(StatusBadge$3, { status: "Pending Request" })]
+													}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)(StatusBadge$3, { status: "Pending Request" })]
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+												/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 													className: "mt-1 text-sm font-medium text-gray-700",
 													children: req.task
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+												/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 													className: "mt-1 text-xs text-gray-500",
 													children: req.description
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("p", {
+												/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("p", {
 													className: "mt-2 flex items-center gap-3 text-xs text-gray-400",
 													children: [
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: req.address }),
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: req.date }),
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: req.time }),
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+														/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: req.address }),
+														/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: req.date }),
+														/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: req.time }),
+														/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 															className: "font-medium text-gray-600",
 															children: req.price
 														})
 													]
 												})
 											]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 											className: "flex shrink-0 flex-col gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("button", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("button", {
 												onClick: () => acceptRequest(req.id),
 												className: "rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-primary-700",
 												children: "Accept"
-											}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("button", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("button", {
 												onClick: () => rejectRequest(req.id),
 												className: "rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50",
 												children: "Reject"
@@ -17078,36 +18243,36 @@ function ProviderDashboard() {
 									})
 								}, req.id))
 							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-2xl bg-white shadow-sm",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 									className: "border-b border-gray-100 px-5 py-4",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h2", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("h2", {
 										className: "text-base font-semibold text-gray-900",
 										children: "My Jobs"
 									})
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 									className: "flex gap-1 border-b border-gray-100 px-5 py-2",
-									children: jobTabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("button", {
+									children: jobTabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("button", {
 										onClick: () => setActiveTab(tab.label),
 										className: `relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${activeTab === tab.label ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
-										children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("span", {
 											className: "flex items-center gap-1.5",
-											children: [tab.label, /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+											children: [tab.label, /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 												className: `inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[9px] font-bold ${activeTab === tab.label ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`,
 												children: tab.count
 											})]
 										})
 									}, tab.label))
 								}),
-								filteredJobs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+								filteredJobs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 									className: "py-12 text-center",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-3xl",
 										children: "📋"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("p", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("p", {
 										className: "mt-2 text-sm text-gray-400",
 										children: [
 											"No ",
@@ -17115,40 +18280,40 @@ function ProviderDashboard() {
 											" jobs"
 										]
 									})]
-								}) : /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 									className: "divide-y divide-gray-100",
-									children: filteredJobs.map((job) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+									children: filteredJobs.map((job) => /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 										className: "px-5 py-4",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 											className: "flex items-start justify-between gap-3",
-											children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+											children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 												className: "min-w-0 flex-1",
 												children: [
-													/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+													/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 														className: "flex items-center gap-2",
-														children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+														children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 															className: "text-sm font-semibold text-gray-900",
 															children: job.client
-														}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(StatusBadge$3, { status: job.status })]
+														}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)(StatusBadge$3, { status: job.status })]
 													}),
-													/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+													/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 														className: "mt-1 text-sm font-medium text-gray-700",
 														children: job.task
 													}),
-													/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("button", {
+													/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("button", {
 														onClick: () => setExpandedJob(expandedJob === job.id ? null : job.id),
 														className: "mt-1 text-xs font-medium text-primary-600 transition hover:text-primary-800",
 														children: expandedJob === job.id ? "Hide details" : "View details"
 													}),
-													expandedJob === job.id && /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+													expandedJob === job.id && /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 														className: "mt-2 rounded-lg bg-gray-50 p-3 text-xs text-gray-500",
-														children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", { children: job.description }), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+														children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", { children: job.description }), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 															className: "mt-2 flex items-center gap-3",
 															children: [
-																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["📍 ", job.address] }),
-																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["📅 ", job.date] }),
-																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["🕐 ", job.time] }),
-																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["💵 ", job.price] })
+																/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("span", { children: ["📍 ", job.address] }),
+																/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("span", { children: ["📅 ", job.date] }),
+																/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("span", { children: ["🕐 ", job.time] }),
+																/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("span", { children: ["💵 ", job.price] })
 															]
 														})]
 													})
@@ -17159,71 +18324,71 @@ function ProviderDashboard() {
 								})
 							]
 						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+					}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 						className: "space-y-6",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-2xl bg-white p-5 shadow-sm text-center",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 									className: "mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700 ring-4 ring-primary-50",
 									children: isLoggedIn ? "J" : "?"
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h3", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("h3", {
 									className: "mt-3 text-base font-bold text-gray-900",
 									children: isLoggedIn ? "Johhny Cruz" : "Guest"
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("p", {
 									className: "text-xs text-gray-500",
 									children: role === "provider" ? "TESDA NC II Carpenter" : "Provider"
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 									className: "mt-3 flex items-center justify-center gap-1 text-sm",
 									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: "⭐" }),
-										/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: "⭐" }),
+										/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 											className: "font-semibold text-gray-900",
 											children: "4.9"
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 											className: "text-gray-400",
 											children: "(128)"
 										})
 									]
 								})
 							]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("div", {
 							className: "rounded-2xl bg-white shadow-sm",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("div", {
 									className: "border-b border-gray-100 px-5 py-3",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h3", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("h3", {
 										className: "text-sm font-semibold text-gray-900",
 										children: "Quick Actions"
 									})
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("button", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("button", {
 									onClick: () => navigate("/provider-messages"),
 									className: "flex w-full items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-base",
 										children: "💬"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: "Messages" })]
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: "Messages" })]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("button", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("button", {
 									onClick: () => navigate("/provider-bookings"),
 									className: "flex w-full items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-base",
 										children: "📋"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: "All Bookings" })]
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: "All Bookings" })]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("button", {
+								/* @__PURE__ */ (0, import_jsx_runtime$24.jsxs)("button", {
 									onClick: () => navigate("/provider-profile"),
 									className: "flex w-full items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", {
 										className: "text-base",
 										children: "👤"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: "My Profile" })]
+									}), /* @__PURE__ */ (0, import_jsx_runtime$24.jsx)("span", { children: "My Profile" })]
 								})
 							]
 						})]
@@ -17233,13 +18398,13 @@ function ProviderDashboard() {
 		})]
 	});
 }
-var import_react$14, import_jsx_runtime$23, initialJobs, initialRequests$1;
+var import_react$15, import_jsx_runtime$24, initialJobs, initialRequests$1;
 var init_ProviderDashboard = __esmMin((() => {
-	import_react$14 = /* @__PURE__ */ __toESM(require_react());
+	import_react$15 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_AuthContext();
 	init_Header();
-	import_jsx_runtime$23 = require_jsx_runtime();
+	import_jsx_runtime$24 = require_jsx_runtime();
 	initialJobs = [{
 		id: 1,
 		client: "Miguel Torres",
@@ -17284,83 +18449,83 @@ var init_ProviderDashboard = __esmMin((() => {
 //#endregion
 //#region src/pages/ProviderDashboardPage.jsx
 function ProviderDashboardPage() {
-	return /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)(ProviderDashboard, {});
+	return /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(ProviderDashboard, {});
 }
-var import_jsx_runtime$22;
+var import_jsx_runtime$23;
 var init_ProviderDashboardPage = __esmMin((() => {
 	init_ProviderDashboard();
-	import_jsx_runtime$22 = require_jsx_runtime();
+	import_jsx_runtime$23 = require_jsx_runtime();
 }));
 //#endregion
 //#region src/components/ProviderModal.jsx
-function ProviderModal({ provider, onClose }) {
+function ProviderModal({ provider, onClose, onBookNow }) {
 	if (!provider) return null;
-	return /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("div", {
 		className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
 		onClick: onClose,
-		children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsxs)("div", {
 			className: "w-full max-w-md rounded-2xl bg-white shadow-xl",
 			onClick: (e) => e.stopPropagation(),
-			children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+			children: [/* @__PURE__ */ (0, import_jsx_runtime$22.jsxs)("div", {
 				className: "relative",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("div", {
 					className: `relative h-28 bg-gradient-to-r ${provider.banner}`,
-					children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("div", {
 						className: "absolute -bottom-10 left-6",
-						children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+						children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("div", {
 							className: `flex h-20 w-20 items-center justify-center rounded-full border-4 border-white text-2xl font-bold ${provider.color}`,
 							children: provider.name.charAt(0)
 						})
 					})
-				}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("button", {
 					onClick: onClose,
 					className: "absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-500 transition hover:bg-white hover:text-gray-700",
 					"aria-label": "Close",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("svg", {
 						xmlns: "http://www.w3.org/2000/svg",
 						viewBox: "0 0 24 24",
 						fill: "currentColor",
 						className: "h-5 w-5",
-						children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+						children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("path", {
 							fillRule: "evenodd",
 							d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L13.06 12l-5.47 5.47a.75.75 0 01-1.06 0L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
 							clipRule: "evenodd"
 						})
 					})
 				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime$22.jsxs)("div", {
 				className: "px-6 pt-12 pb-6",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("h2", {
+					/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("h2", {
 						className: "text-xl font-bold text-gray-900",
 						children: provider.name
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("p", {
+					/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("p", {
 						className: "text-sm text-gray-500",
 						children: provider.trade
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("div", {
 						className: "mt-1.5 flex items-center gap-1.5",
-						children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("span", {
+						children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("span", {
 							className: "inline-flex items-center rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600",
 							children: provider.cred
 						})
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$22.jsxs)("div", {
 						className: "mt-3 flex items-center gap-1",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+							/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("svg", {
 								xmlns: "http://www.w3.org/2000/svg",
 								viewBox: "0 0 24 24",
 								fill: "currentColor",
 								className: "h-4 w-4 text-yellow-500",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", { d: "M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.006z" })
+								children: /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("path", { d: "M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.006z" })
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("span", {
+							/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("span", {
 								className: "text-sm font-semibold text-gray-800",
 								children: provider.rating
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("span", {
+							/* @__PURE__ */ (0, import_jsx_runtime$22.jsxs)("span", {
 								className: "text-xs text-gray-400",
 								children: [
 									"(",
@@ -17370,16 +18535,17 @@ function ProviderModal({ provider, onClose }) {
 							})
 						]
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("p", {
+					/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("p", {
 						className: "mt-4 text-sm leading-relaxed text-gray-600",
 						children: provider.bio
 					}),
-					/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+					/* @__PURE__ */ (0, import_jsx_runtime$22.jsxs)("div", {
 						className: "mt-5 flex gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("button", {
+							onClick: onBookNow,
 							className: "flex-1 rounded-lg bg-gray-900 py-2 text-sm font-semibold text-white transition hover:bg-gray-800",
 							children: "Book Now"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$22.jsx)("button", {
 							onClick: onClose,
 							className: "flex-1 rounded-lg border border-gray-300 bg-white py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
 							children: "Close"
@@ -17390,10 +18556,343 @@ function ProviderModal({ provider, onClose }) {
 		})
 	});
 }
-var import_jsx_runtime$21;
+var import_jsx_runtime$22;
 var init_ProviderModal = __esmMin((() => {
 	require_react();
+	import_jsx_runtime$22 = require_jsx_runtime();
+}));
+//#endregion
+//#region src/components/RequestBookingModal.jsx
+function CalendarPicker({ selectedDate, onSelect, onClose }) {
+	const [viewDate, setViewDate] = (0, import_react$13.useState)(selectedDate ? new Date(selectedDate) : /* @__PURE__ */ new Date());
+	const year = viewDate.getFullYear();
+	const month = viewDate.getMonth();
+	const firstDay = new Date(year, month, 1).getDay();
+	const daysInMonth = new Date(year, month + 1, 0).getDate();
+	const prevMonth = () => setViewDate(new Date(year, month - 1, 1));
+	const nextMonth = () => setViewDate(new Date(year, month + 1, 1));
+	const today = /* @__PURE__ */ new Date();
+	today.setHours(0, 0, 0, 0);
+	const days = [];
+	for (let i = 0; i < firstDay; i++) days.push(null);
+	for (let d = 1; d <= daysInMonth; d++) days.push(d);
+	return /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+		className: "rounded-lg border border-gray-200 bg-white p-3 shadow-lg",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+			className: "flex items-center justify-between mb-2",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+					onClick: prevMonth,
+					className: "rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600",
+					"aria-label": "Previous month",
+					children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+						xmlns: "http://www.w3.org/2000/svg",
+						fill: "none",
+						viewBox: "0 0 24 24",
+						strokeWidth: 2,
+						stroke: "currentColor",
+						className: "h-4 w-4",
+						children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+							strokeLinecap: "round",
+							strokeLinejoin: "round",
+							d: "M15.75 19.5L8.25 12l7.5-7.5"
+						})
+					})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("span", {
+					className: "text-sm font-semibold text-gray-800",
+					children: [
+						MONTHS[month],
+						" ",
+						year
+					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+					onClick: nextMonth,
+					className: "rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600",
+					"aria-label": "Next month",
+					children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+						xmlns: "http://www.w3.org/2000/svg",
+						fill: "none",
+						viewBox: "0 0 24 24",
+						strokeWidth: 2,
+						stroke: "currentColor",
+						className: "h-4 w-4",
+						children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+							strokeLinecap: "round",
+							strokeLinejoin: "round",
+							d: "M8.25 4.5l7.5 7.5-7.5 7.5"
+						})
+					})
+				})
+			]
+		}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+			className: "grid grid-cols-7 gap-0.5",
+			children: [WEEKDAYS.map((d) => /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+				className: "text-center text-[10px] font-medium text-gray-400 py-1",
+				children: d
+			}, d)), days.map((d, i) => {
+				if (d === null) return /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {}, `empty-${i}`);
+				const dateObj = new Date(year, month, d);
+				const isToday = dateObj.getTime() === today.getTime();
+				const isSelected = selectedDate && dateObj.getTime() === new Date(selectedDate).setHours(0, 0, 0, 0);
+				return /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+					onClick: () => {
+						onSelect(dateObj.toISOString().split("T")[0]);
+						onClose();
+					},
+					className: `rounded-full py-1 text-sm transition ${isSelected ? "bg-gray-900 text-white font-semibold" : isToday ? "bg-gray-100 text-gray-900 font-semibold" : "text-gray-700 hover:bg-gray-50"}`,
+					children: d
+				}, d);
+			})]
+		})]
+	});
+}
+function RequestBookingModal({ provider, onClose }) {
+	const [taskDescription, setTaskDescription] = (0, import_react$13.useState)("");
+	const [selectedDate, setSelectedDate] = (0, import_react$13.useState)("");
+	const [showCalendar, setShowCalendar] = (0, import_react$13.useState)(false);
+	const [selectedFiles, setSelectedFiles] = (0, import_react$13.useState)([]);
+	const fileInputRef = (0, import_react$13.useRef)(null);
+	if (!provider) return null;
+	const initials = provider.initials || "SP";
+	const name = provider.name || "Sweetie Palm";
+	const trade = provider.trade || "Carpentry Services";
+	const handleFileChange = (e) => {
+		const files = Array.from(e.target.files);
+		if (files.length > 0) setSelectedFiles((prev) => [...prev, ...files]);
+	};
+	const removeFile = (index) => {
+		setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+	};
+	const formatDate = (dateStr) => {
+		if (!dateStr) return "Select Date";
+		const [y, m, d] = dateStr.split("-");
+		return `${MONTHS[parseInt(m) - 1]} ${parseInt(d)}, ${y}`;
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+		className: "fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4",
+		onClick: onClose,
+		children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+			className: "w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl",
+			onClick: (e) => e.stopPropagation(),
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+					className: "flex items-center justify-between px-6 pt-5 pb-4",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("h2", {
+						className: "text-lg font-bold text-gray-900",
+						children: "Request Booking"
+					}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+						onClick: onClose,
+						className: "flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-gray-600",
+						"aria-label": "Close",
+						children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+							xmlns: "http://www.w3.org/2000/svg",
+							fill: "none",
+							viewBox: "0 0 24 24",
+							strokeWidth: 2,
+							stroke: "currentColor",
+							className: "h-5 w-5",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+								strokeLinecap: "round",
+								strokeLinejoin: "round",
+								d: "M6 18L18 6M6 6l12 12"
+							})
+						})
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+					className: "mx-6 mb-5 flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+						className: "flex h-11 w-11 items-center justify-center rounded-full bg-gray-800 text-sm font-bold text-white",
+						children: initials
+					}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("p", {
+						className: "text-sm font-semibold text-gray-900",
+						children: name
+					}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("p", {
+						className: "text-xs text-gray-500",
+						children: trade
+					})] })]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+					className: "px-6 pb-6 space-y-5",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("label", {
+							htmlFor: "task",
+							className: "mb-1.5 block text-sm font-medium text-gray-700",
+							children: "What do you need help with?"
+						}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("textarea", {
+							id: "task",
+							rows: 4,
+							value: taskDescription,
+							onChange: (e) => setTaskDescription(e.target.value),
+							placeholder: "Describe the exact task (e.g., Assemble a new desktop table, fix broken cabinet hinges...)",
+							className: "block w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-800 placeholder-gray-400 transition focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
+						})] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("label", {
+								className: "mb-1.5 block text-sm font-medium text-gray-700",
+								children: "Add Photos (Optional)"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+								className: "flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 px-4 py-6 transition hover:border-primary-400 hover:bg-primary-50/30",
+								onClick: () => fileInputRef.current?.click(),
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+										xmlns: "http://www.w3.org/2000/svg",
+										fill: "none",
+										viewBox: "0 0 24 24",
+										strokeWidth: 1.5,
+										stroke: "currentColor",
+										className: "mb-2 h-8 w-8 text-gray-400",
+										children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+											strokeLinecap: "round",
+											strokeLinejoin: "round",
+											d: "M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+										})
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("p", {
+										className: "text-sm font-medium text-gray-600",
+										children: "Click to upload or take a photo"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("p", {
+										className: "mt-1 text-xs text-gray-400",
+										children: "PNG, JPG up to 10MB"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("input", {
+										ref: fileInputRef,
+										type: "file",
+										accept: "image/png,image/jpeg,image/jpg",
+										multiple: true,
+										className: "hidden",
+										onChange: handleFileChange
+									})
+								]
+							}),
+							selectedFiles.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+								className: "mt-2 space-y-1.5",
+								children: selectedFiles.map((file, i) => /* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+									className: "flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("span", {
+										className: "truncate text-xs font-medium text-gray-700",
+										children: file.name
+									}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+										onClick: () => removeFile(i),
+										className: "ml-2 text-gray-400 hover:text-red-500",
+										"aria-label": `Remove ${file.name}`,
+										children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+											xmlns: "http://www.w3.org/2000/svg",
+											fill: "none",
+											viewBox: "0 0 24 24",
+											strokeWidth: 2,
+											stroke: "currentColor",
+											className: "h-4 w-4",
+											children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+												strokeLinecap: "round",
+												strokeLinejoin: "round",
+												d: "M6 18L18 6M6 6l12 12"
+											})
+										})
+									})]
+								}, i))
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+							className: "relative",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("label", {
+									className: "mb-1.5 block text-sm font-medium text-gray-700",
+									children: "Select Date"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("button", {
+									type: "button",
+									onClick: () => setShowCalendar(!showCalendar),
+									className: `flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-sm text-left transition ${selectedDate ? "border-primary-500 bg-primary-50/50 text-gray-900" : "border-gray-300 bg-white text-gray-400"} focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30`,
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("span", {
+										className: "flex items-center gap-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+											xmlns: "http://www.w3.org/2000/svg",
+											fill: "none",
+											viewBox: "0 0 24 24",
+											strokeWidth: 1.5,
+											stroke: "currentColor",
+											className: "h-4 w-4",
+											children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+												strokeLinecap: "round",
+												strokeLinejoin: "round",
+												d: "M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+											})
+										}), formatDate(selectedDate)]
+									}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("svg", {
+										xmlns: "http://www.w3.org/2000/svg",
+										fill: "none",
+										viewBox: "0 0 24 24",
+										strokeWidth: 1.5,
+										stroke: "currentColor",
+										className: `h-4 w-4 transition ${showCalendar ? "rotate-180" : ""}`,
+										children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("path", {
+											strokeLinecap: "round",
+											strokeLinejoin: "round",
+											d: "M19.5 8.25l-7.5 7.5-7.5-7.5"
+										})
+									})]
+								}),
+								showCalendar && /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("div", {
+									className: "absolute z-10 mt-1 w-full",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)(CalendarPicker, {
+										selectedDate,
+										onSelect: setSelectedDate,
+										onClose: () => setShowCalendar(false)
+									})
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$21.jsxs)("div", {
+							className: "flex gap-3 pt-2",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+								type: "button",
+								onClick: onClose,
+								className: "flex-1 rounded-lg border border-gray-300 bg-white py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
+								children: "Cancel"
+							}), /* @__PURE__ */ (0, import_jsx_runtime$21.jsx)("button", {
+								type: "button",
+								className: "flex-1 rounded-lg bg-gray-900 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800",
+								children: "Request Booking ->"
+							})]
+						})
+					]
+				})
+			]
+		})
+	});
+}
+var import_react$13, import_jsx_runtime$21, MONTHS, WEEKDAYS;
+var init_RequestBookingModal = __esmMin((() => {
+	import_react$13 = /* @__PURE__ */ __toESM(require_react());
 	import_jsx_runtime$21 = require_jsx_runtime();
+	MONTHS = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December"
+	];
+	WEEKDAYS = [
+		"Sun",
+		"Mon",
+		"Tue",
+		"Wed",
+		"Thu",
+		"Fri",
+		"Sat"
+	];
 }));
 //#endregion
 //#region src/components/Explore.jsx
@@ -17440,6 +18939,7 @@ function CheckBox({ label, count, checked, onChange }) {
 function Explore() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [viewingProvider, setViewingProvider] = (0, import_react$12.useState)(null);
+	const [showBooking, setShowBooking] = (0, import_react$12.useState)(false);
 	const [searchService, setSearchService] = (0, import_react$12.useState)("");
 	const [searchLocation, setSearchLocation] = (0, import_react$12.useState)("");
 	const [showAllCats, setShowAllCats] = (0, import_react$12.useState)(false);
@@ -17909,9 +19409,14 @@ function Explore() {
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(ProviderModal, {
 						provider: viewingProvider,
-						onClose: () => setViewingProvider(null)
+						onClose: () => setViewingProvider(null),
+						onBookNow: () => setShowBooking(true)
 					})
 				]
+			}),
+			showBooking && /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(RequestBookingModal, {
+				provider: viewingProvider,
+				onClose: () => setShowBooking(false)
 			})
 		]
 	});
@@ -17922,6 +19427,7 @@ var init_Explore = __esmMin((() => {
 	init_dist();
 	init_Header();
 	init_ProviderModal();
+	init_RequestBookingModal();
 	import_jsx_runtime$20 = require_jsx_runtime();
 	filterCategories = [
 		{ name: "AC Repair" },
@@ -23380,4 +24886,4 @@ var init_input = __esmMin((() => {}));
 //#endregion
 export { __esmMin as t };
 
-//# sourceMappingURL=main-C_ypqgqV.js.map
+//# sourceMappingURL=main-BLXQqnw9.js.map

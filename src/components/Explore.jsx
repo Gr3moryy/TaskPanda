@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "./Header.jsx";
 import ProviderModal from "./ProviderModal.jsx";
+import RequestBookingModal from "./RequestBookingModal.jsx";
 
 const filterCategories = [
   { name: "AC Repair" },
@@ -170,6 +171,7 @@ function CheckBox({ label, count, checked, onChange }) {
 export default function Explore() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [viewingProvider, setViewingProvider] = useState(null);
+  const [showBooking, setShowBooking] = useState(false);
   const [searchService, setSearchService] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
   const [showAllCats, setShowAllCats] = useState(false);
@@ -648,8 +650,11 @@ export default function Explore() {
             </div>
           )}
         </div>
-        <ProviderModal provider={viewingProvider} onClose={() => setViewingProvider(null)} />
+        <ProviderModal provider={viewingProvider} onClose={() => setViewingProvider(null)} onBookNow={() => setShowBooking(true)} />
       </div>
+      {showBooking && (
+        <RequestBookingModal provider={viewingProvider} onClose={() => setShowBooking(false)} />
+      )}
     </div>
   );
 }

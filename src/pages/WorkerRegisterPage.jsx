@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import SocialButton from "../components/SocialButton.jsx";
-import TermsModal from "../components/TermsModal.jsx";
+import ProfessionSelector from "../components/ProfessionSelector.jsx";
 
 export default function WorkerRegisterPage() {
   console.log("[WorkerRegisterPage] MOUNTED");
@@ -10,37 +10,68 @@ export default function WorkerRegisterPage() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    profession: "",
+    professions: [],
     password: "",
     "confirm-password": "",
   });
   const [error, setError] = useState("");
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
+  const [touched, setTouched] = useState({});
+
+  const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const errors = {
+    username: !formData.username.trim()
+      ? "Username is required"
+      : formData.username.trim().length < 3
+      ? "Username must be at least 3 characters"
+      : "",
+    email: !formData.email.trim()
+      ? "Email is required"
+      : !emailValid(formData.email)
+      ? "Please enter a valid email address"
+      : "",
+    professions: formData.professions.length === 0
+      ? "Select at least one profession"
+      : "",
+    password: !formData.password
+      ? "Password is required"
+      : formData.password.length < 6
+      ? "Password must be at least 6 characters"
+      : "",
+    "confirm-password": !formData["confirm-password"]
+      ? "Please confirm your password"
+      : formData["confirm-password"] !== formData.password
+      ? "Passwords do not match"
+      : "",
+  };
+
+  const showFieldError = (field) => touched[field] && errors[field];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-
-    if (!agreedToTerms) {
-      setError("You must agree to the Terms of Service and Privacy Policy");
-      return;
-    }
-
-    if (formData.password !== formData["confirm-password"]) {
-      setError("Passwords do not match");
-      return;
-    }
+    setTouched({
+      username: true,
+      email: true,
+      professions: true,
+      password: true,
+      "confirm-password": true,
+    });
+    if (Object.values(errors).some((err) => err)) return;
 
     sessionStorage.setItem("workerStep1", JSON.stringify({
       username: formData.username,
       email: formData.email,
-      profession: formData.profession,
+      professions: formData.professions,
       password: formData.password,
     }));
     navigate("/worker-register/location");
@@ -53,8 +84,8 @@ export default function WorkerRegisterPage() {
         <section className="flex items-center justify-center bg-white px-6 pt-16 pb-6 lg:h-full sm:px-8 md:pt-20">
           <div className="w-full max-w-sm space-y-6">
             <div className="flex items-center gap-2">
-              <a
-                href="/register"
+              <Link
+                to="/register"
                 className="inline-flex items-center justify-center rounded-lg border border-green-200 bg-green-50 p-2 text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500/40"
                 aria-label="Back to role selection"
               >
@@ -71,8 +102,8 @@ export default function WorkerRegisterPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                </svg>
-              </a>
+                 </svg>
+               </Link>
               <span className="text-sm font-medium text-gray-500">
                 Back to role selection
               </span>
@@ -102,8 +133,16 @@ export default function WorkerRegisterPage() {
                   placeholder="johndoe"
                   value={formData.username}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                  onBlur={() => handleBlur("username")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${
+                    showFieldError("username")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"
+                  }`}
                 />
+                {showFieldError("username") && (
+                  <p className="text-xs text-red-600">{errors.username}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -119,25 +158,33 @@ export default function WorkerRegisterPage() {
                   placeholder="hello@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                  onBlur={() => handleBlur("email")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${
+                    showFieldError("email")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"
+                  }`}
                 />
+                {showFieldError("email") && (
+                  <p className="text-xs text-red-600">{errors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="profession" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="professions" className="block text-sm font-medium text-gray-700">
                   Profession / Trade
                 </label>
-                <input
-                  type="text"
-                  id="profession"
-                  name="profession"
-                  autoComplete="off"
-                  required
+                <ProfessionSelector
+                  value={formData.professions}
+                  onChange={(professions) => {
+                    setFormData((prev) => ({ ...prev, professions }));
+                    setTouched((prev) => ({ ...prev, professions: true }));
+                  }}
                   placeholder="e.g. Carpenter, Electrician, Plumber"
-                  value={formData.profession}
-                  onChange={handleChange}
-                  className="block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
                 />
+                {showFieldError("professions") && (
+                  <p className="text-xs text-red-600">{errors.professions}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -153,8 +200,16 @@ export default function WorkerRegisterPage() {
                   placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                  onBlur={() => handleBlur("password")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${
+                    showFieldError("password")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"
+                  }`}
                 />
+                {showFieldError("password") && (
+                  <p className="text-xs text-red-600">{errors.password}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -170,47 +225,28 @@ export default function WorkerRegisterPage() {
                   placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                   value={formData["confirm-password"]}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-green-200 bg-green-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                  onBlur={() => handleBlur("confirm-password")}
+                  className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${
+                    showFieldError("confirm-password")
+                      ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
+                      : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"
+                  }`}
                 />
+                {showFieldError("confirm-password") && (
+                  <p className="text-xs text-red-600">{errors["confirm-password"]}</p>
+                )}
               </div>
 
-              {error && (
-                <p className="text-sm text-red-600">{error}</p>
+              {(error || errors.professions) && (
+                <div className="rounded-lg bg-red-50 px-4 py-2.5 text-sm text-red-700" role="alert">
+                  {error || errors.professions}
+                </div>
               )}
 
-              <div className="flex items-start gap-2">
-                <input
-                  type="checkbox"
-                  id="agreeTerms"
-                  checked={agreedToTerms}
-                  onChange={(e) => setAgreedToTerms(e.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                />
-                <label htmlFor="agreeTerms" className="text-sm text-gray-600">
-                  I agree to the{" "}
-                  <button
-                    type="button"
-                    onClick={() => setShowTerms(true)}
-                    className="font-medium text-green-600 hover:text-green-800 underline"
-                  >
-                    Terms of Service
-                  </button>{" "}
-                  and{" "}
-                  <button
-                    type="button"
-                    onClick={() => setShowTerms(true)}
-                    className="font-medium text-green-600 hover:text-green-800 underline"
-                  >
-                    Privacy Policy
-                  </button>
-                </label>
-              </div>
-
-          <button
-            type="submit"
-            disabled={!agreedToTerms}
-            className={`w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
-          >
+              <button
+                type="submit"
+                className={`w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+              >
             Sign up
           </button>
             </form>
@@ -228,13 +264,12 @@ export default function WorkerRegisterPage() {
 
             <div className="text-center text-sm text-gray-600">
               Already have an account?
-              <a href="/login" className={`font-medium ${a.link}`}>
+              <Link to="/login" className={`font-medium ${a.link}`}>
                 Log in here
-              </a>
+              </Link>
             </div>
           </div>
         </section>
-        <TermsModal open={showTerms} onClose={() => setShowTerms(false)} />
       </>
       )}
     </Layout>
