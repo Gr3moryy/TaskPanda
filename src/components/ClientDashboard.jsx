@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
 import Header from "./Header.jsx";
-import { useNavigate } from "react-router-dom";
 
 export const categories = [
   { name: "All Services", icon: "🏠" },
@@ -31,7 +32,7 @@ const favourites = [
   },
 ];
 
-const bookings = [
+const initialBookings = [
   {
     id: 1,
     status: "Pending Request",
@@ -49,6 +50,15 @@ const bookings = [
     task: "Circuit Breaker Replacement",
     date: "Sep 10, 2026 - 02:00 PM",
     price: "P800",
+  },
+  {
+    id: 3,
+    status: "Completed",
+    worker: "Pedro Cruz",
+    cred: "TESDA NC II Plumbing",
+    task: "Leaky Faucet Fix",
+    date: "Aug 28, 2026 - 10:00 AM",
+    price: "P350",
   },
 ];
 
@@ -90,13 +100,29 @@ function StarIcon({ filled }) {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
   const [bannerVisible, setBannerVisible] = useState(true);
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
+  const [bookingList, setBookingList] = useState(initialBookings);
+  const [activeCategory, setActiveCategory] = useState("");
   const scrollRef = useRef(null);
   const catScrollRef = useRef(null);
 
-  const tabs = ["All", "Pending", "Confirmed"];
+  const tabs = ["All", "Pending", "Confirmed", "Completed"];
+
+  const tabCounts = {
+    All: bookingList.length,
+    Pending: bookingList.filter(
+      (b) => b.status === "Pending Request"
+    ).length,
+    Confirmed: bookingList.filter(
+      (b) => b.status === "Confirmed"
+    ).length,
+    Completed: bookingList.filter(
+      (b) => b.status === "Completed"
+    ).length,
+  };
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -118,12 +144,25 @@ export default function Dashboard() {
 
   const filteredBookings =
     activeTab === "All"
-      ? bookings
-      : bookings.filter((b) => {
+      ? bookingList.filter((b) => b.status !== "Cancelled")
+      : bookingList.filter((b) => {
           if (activeTab === "Pending") return b.status === "Pending Request";
           if (activeTab === "Confirmed") return b.status === "Confirmed";
+          if (activeTab === "Completed") return b.status === "Completed";
           return true;
         });
+
+  const filteredCategories = categories.filter((cat) =>
+    search.trim()
+      ? cat.name.toLowerCase().includes(search.toLowerCase())
+      : true
+  );
+
+  const cancelBooking = (id) => {
+    setBookingList((prev) =>
+      prev.map((b) => (b.id === id ? { ...b, status: "Cancelled" } : b))
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 pt-16">
@@ -131,13 +170,21 @@ export default function Dashboard() {
 
       {bannerVisible && (
         <div className="relative bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <span className="shrink-0 text-2xl">⚠️</span>
-            <p className="flex-1 text-sm font-medium text-gray-800">
-              Recurring Maintenance Reminder: It&apos;s been 6 months since your
-              last AC Cleaning - Tap to schedule with Perez Cruz
-            </p>
-            <button className="shrink-0 rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-gray-800">
+            <div className="flex-1">
+              {isLoggedIn && (
+                <p className="text-xs font-medium text-gray-600">Welcome back, Client</p>
+              )}
+              <p className="text-sm font-medium text-gray-800">
+                Recurring Maintenance Reminder: It&apos;s been 6 months since your
+                last AC Cleaning - Tap to schedule with Perez Cruz
+              </p>
+            </div>
+            <button
+              onClick={() => navigate("/explore")}
+              className="shrink-0 rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+            >
               Book Now
             </button>
             <button
@@ -193,7 +240,6 @@ export default function Dashboard() {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search for carpentry, plumbing, cleaning, or electrical services..."
                   className="flex-1 px-5 py-3.5 text-sm text-gray-800 placeholder-gray-400/70 outline-none"
-                  ref={scrollRef}
                 />
                 <button className="shrink-0 bg-gray-800 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-900">
                   Search
@@ -238,6 +284,10 @@ export default function Dashboard() {
                 </button>
                 <a
                   href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/explore");
+                  }}
                   className="text-sm font-medium text-primary-600 hover:text-primary-800"
                 >
                   View All
@@ -249,9 +299,10 @@ export default function Dashboard() {
               className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"
               style={{ scrollbarWidth: "none" }}
             >
-              {categories.map((cat) => (
+              {filteredCategories.map((cat) => (
                 <div
                   key={cat.name}
+                  onClick={() => navigate(`/explore?service=${encodeURIComponent(cat.name)}`)}
                   className="flex shrink-0 cursor-pointer flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md w-[120px]"
                 >
                   <span className="text-2xl">{cat.icon}</span>
@@ -299,6 +350,10 @@ export default function Dashboard() {
                 </button>
                 <a
                   href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/explore");
+                  }}
                   className="text-sm font-medium text-primary-600 hover:text-primary-800"
                 >
                   View All
@@ -344,7 +399,10 @@ export default function Dashboard() {
                       {fav.price}
                     </span>
                     <div className="flex gap-2">
-                      <button className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary-700">
+                      <button
+                        onClick={() => navigate("/explore")}
+                        className="rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary-700"
+                      >
                         Rebook
                       </button>
                       <button
@@ -364,29 +422,52 @@ export default function Dashboard() {
 
         <aside className="w-full shrink-0 lg:w-80">
           <div className="sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm">
+            {/* Summary */}
+            <div className="grid grid-cols-2 gap-px bg-gray-100">
+              {[
+                { label: "Active", value: tabCounts.Pending + tabCounts.Confirmed, color: "bg-white" },
+                { label: "Completed", value: tabCounts.Completed, color: "bg-white" },
+              ].map((s) => (
+                <div key={s.label} className={`${s.color} px-4 py-3 text-center`}>
+                  <p className="text-lg font-bold text-gray-900">{s.value}</p>
+                  <p className="text-[11px] font-medium text-gray-500">{s.label}</p>
+                </div>
+              ))}
+            </div>
             <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
               <h2 className="text-base font-bold text-gray-900">
                 Active Bookings
               </h2>
-              <a
-                href="#"
+              <button
+                onClick={() => navigate("/bookings")}
                 className="text-sm font-medium text-primary-600 hover:text-primary-800"
               >
                 See All &gt;
-              </a>
+              </button>
             </div>
             <div className="flex gap-1 border-b border-gray-100 px-5 py-3">
               {tabs.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`rounded-lg px-4 py-1.5 text-sm font-medium transition ${
+                  className={`relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${
                     activeTab === tab
                       ? "bg-gray-900 text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
                 >
-                  {tab}
+                  <span className="flex items-center gap-1.5">
+                    {tab}
+                    <span
+                      className={`inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[9px] font-bold ${
+                        activeTab === tab
+                          ? "bg-white/20 text-white"
+                          : "bg-gray-200 text-gray-500"
+                      }`}
+                    >
+                      {tabCounts[tab] ?? 0}
+                    </span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -425,12 +506,20 @@ export default function Dashboard() {
                       <p className="text-xs text-gray-500">{booking.date}</p>
                     </div>
                     <div className="mt-3 flex gap-2">
-                      <button className="flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50">
+                      <button
+                        onClick={() => navigate("/messages")}
+                        className="flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
+                      >
                         Contact
                       </button>
-                      <button className="flex-1 rounded-lg bg-red-50 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100">
-                        Cancel Request
-                      </button>
+                      {booking.status !== "Cancelled" && booking.status !== "Completed" && (
+                        <button
+                          onClick={() => cancelBooking(booking.id)}
+                          className="flex-1 rounded-lg bg-red-50 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100"
+                        >
+                          Cancel Request
+                        </button>
+                      )}
                       <button
                         type="button"
                         onClick={() => navigate("/profile")}

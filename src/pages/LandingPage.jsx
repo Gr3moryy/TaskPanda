@@ -115,7 +115,6 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const { isVerified } = useAuth();
   const [howTab, setHowTab] = useState("client");
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [showVerifyPrompt, setShowVerifyPrompt] = useState(false);
 
   return (
@@ -139,18 +138,29 @@ export default function LandingPage() {
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-3 animate-fade-in-up delay-300">
-                <button
-                  onClick={() => navigate("/register")}
-                  className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
-                >
-                  Get Started
-                </button>
-                <button
-                  onClick={() => navigate("/login")}
-                  className="rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
-                >
-                  Sign In
-                </button>
+                {isVerified ? (
+                  <button
+                    onClick={() => navigate("/dashboard")}
+                    className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
+                  >
+                    Go to Dashboard
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => navigate("/register")}
+                      className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
+                    >
+                      Get Started
+                    </button>
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5 sm:px-7 sm:py-3.5"
+                    >
+                      Sign In
+                    </button>
+                  </>
+                )}
               </div>
 
               <div className="mt-6 flex items-center gap-3 text-sm text-gray-500 animate-fade-in-up delay-400">
@@ -242,11 +252,11 @@ export default function LandingPage() {
           <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
               <button
-                key={cat.name}
-                onClick={() => navigate("/explore")}
-                className="flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up"
-                style={{ width: "100px", maxWidth: "120px", animationDelay: `${0.05 * categories.indexOf(cat)}s` }}
-              >
+                  key={cat.name}
+                  onClick={() => navigate(`/explore?service=${encodeURIComponent(cat.name)}`)}
+                  className="flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up"
+                  style={{ width: "100px", maxWidth: "120px", animationDelay: `${0.05 * categories.indexOf(cat)}s` }}
+                >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className="whitespace-nowrap text-xs font-medium text-gray-700">
                   {cat.name}
@@ -382,23 +392,19 @@ export default function LandingPage() {
                         setShowVerifyPrompt(true);
                         return;
                       }
-                      setShowAuthModal(true);
+                      navigate(`/provider-profile?name=${encodeURIComponent(p.name)}&trade=${encodeURIComponent(p.trade)}`);
                     }}
-                    className="flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4"
+                    className="flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4"
                   >
                     Book Now
                   </button>
                   <button
                     onClick={() => {
-                      if (!isVerified) {
-                        setShowVerifyPrompt(true);
-                        return;
-                      }
-                      setShowAuthModal(true);
+                      navigate(`/provider-profile?name=${encodeURIComponent(p.name)}&trade=${encodeURIComponent(p.trade)}`);
                     }}
-                    className="flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4"
+                    className="flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4"
                   >
-                    Book Now
+                    View Profile
                   </button>
                   </div>
                 </div>
@@ -426,71 +432,34 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row lg:flex-none">
-              <button
-                    onClick={() => navigate("/register")}
+                {isVerified ? (
+                  <button
+                    onClick={() => navigate("/dashboard")}
                     className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5"
                   >
-                    Create Free Account
+                    Go to Dashboard
                   </button>
-                  <button
-                    onClick={() => navigate("/login")}
-                    className="rounded-xl border border-gray-600 bg-transparent px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 sm:px-7 sm:py-3.5"
-                  >
-                    Sign In
-                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => navigate("/register")}
+                      className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5"
+                    >
+                      Create Free Account
+                    </button>
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="rounded-xl border border-gray-600 bg-transparent px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 sm:px-7 sm:py-3.5"
+                    >
+                      Sign In
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {showAuthModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in"
-          onClick={() => setShowAuthModal(false)}
-        >
-          <div
-            className="w-full max-w-sm scale-100 rounded-2xl bg-white p-8 shadow-xl animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-xl">
-              🔐
-            </div>
-            <h2 className="text-center text-2xl font-bold text-gray-900">
-              Welcome Back
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-500">
-              Login or create an account to continue
-            </p>
-            <div className="mt-6 flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setShowAuthModal(false);
-                  navigate("/login");
-                }}
-                className="rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => {
-                  setShowAuthModal(false);
-                  navigate("/register");
-                }}
-                className="rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
-              >
-                Register
-              </button>
-            </div>
-            <button
-              onClick={() => setShowAuthModal(false)}
-              className="mt-4 w-full text-center text-xs text-gray-400 hover:text-gray-600"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
 
       {showVerifyPrompt && (
         <div
@@ -524,7 +493,7 @@ export default function LandingPage() {
                 onClick={() => setShowVerifyPrompt(false)}
                 className="w-full text-center text-xs text-gray-400 hover:text-gray-600"
               >
-                Close
+                Continue Without Verifying
               </button>
             </div>
           </div>

@@ -12074,7 +12074,7 @@ function hasInvalidProtocol(location) {
 	}
 }
 function useIsRSCRouterContext() {
-	return import_react$26.useContext(RSCRouterContext);
+	return import_react$27.useContext(RSCRouterContext);
 }
 function decodeRedirectErrorDigest(digest) {
 	if (digest.startsWith(`${ERROR_DIGEST_BASE}:${ERROR_DIGEST_REDIRECT}:{`)) try {
@@ -12090,7 +12090,7 @@ function decodeRouteErrorResponseDigest(digest) {
 }
 function useHref(to, { relative } = {}) {
 	invariant(useInRouterContext(), `useHref() may be used only in the context of a <Router> component.`);
-	let { basename, navigator } = import_react$27.useContext(NavigationContext);
+	let { basename, navigator } = import_react$28.useContext(NavigationContext);
 	let { hash, pathname, search } = useResolvedPath(to, { relative });
 	let joinedPathname = pathname;
 	if (basename !== "/") joinedPathname = pathname === "/" ? basename : joinPaths([basename, pathname]);
@@ -12101,31 +12101,31 @@ function useHref(to, { relative } = {}) {
 	});
 }
 function useInRouterContext() {
-	return import_react$27.useContext(LocationContext) != null;
+	return import_react$28.useContext(LocationContext) != null;
 }
 function useLocation() {
 	invariant(useInRouterContext(), `useLocation() may be used only in the context of a <Router> component.`);
-	return import_react$27.useContext(LocationContext).location;
+	return import_react$28.useContext(LocationContext).location;
 }
 function useIsomorphicLayoutEffect(cb) {
-	if (!import_react$27.useContext(NavigationContext).static) import_react$27.useLayoutEffect(cb);
+	if (!import_react$28.useContext(NavigationContext).static) import_react$28.useLayoutEffect(cb);
 }
 function useNavigate() {
-	let { isDataRoute } = import_react$27.useContext(RouteContext);
+	let { isDataRoute } = import_react$28.useContext(RouteContext);
 	return isDataRoute ? useNavigateStable() : useNavigateUnstable();
 }
 function useNavigateUnstable() {
 	invariant(useInRouterContext(), `useNavigate() may be used only in the context of a <Router> component.`);
-	let dataRouterContext = import_react$27.useContext(DataRouterContext);
-	let { basename, navigator } = import_react$27.useContext(NavigationContext);
-	let { matches } = import_react$27.useContext(RouteContext);
+	let dataRouterContext = import_react$28.useContext(DataRouterContext);
+	let { basename, navigator } = import_react$28.useContext(NavigationContext);
+	let { matches } = import_react$28.useContext(RouteContext);
 	let { pathname: locationPathname } = useLocation();
 	let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
-	let activeRef = import_react$27.useRef(false);
+	let activeRef = import_react$28.useRef(false);
 	useIsomorphicLayoutEffect(() => {
 		activeRef.current = true;
 	});
-	return import_react$27.useCallback((to, options = {}) => {
+	return import_react$28.useCallback((to, options = {}) => {
 		warning(activeRef.current, navigateEffectWarning);
 		if (!activeRef.current) return;
 		if (typeof to === "number") {
@@ -12145,10 +12145,10 @@ function useNavigateUnstable() {
 	]);
 }
 function useResolvedPath(to, { relative } = {}) {
-	let { matches } = import_react$27.useContext(RouteContext);
+	let { matches } = import_react$28.useContext(RouteContext);
 	let { pathname: locationPathname } = useLocation();
 	let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
-	return import_react$27.useMemo(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [
+	return import_react$28.useMemo(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [
 		to,
 		routePathnamesJson,
 		locationPathname,
@@ -12160,8 +12160,8 @@ function useRoutes(routes, locationArg) {
 }
 function useRoutesImpl(routes, locationArg, dataRouterOpts) {
 	invariant(useInRouterContext(), `useRoutes() may be used only in the context of a <Router> component.`);
-	let { navigator } = import_react$27.useContext(NavigationContext);
-	let { matches: parentMatches } = import_react$27.useContext(RouteContext);
+	let { navigator } = import_react$28.useContext(NavigationContext);
+	let { matches: parentMatches } = import_react$28.useContext(RouteContext);
 	let routeMatch = parentMatches[parentMatches.length - 1];
 	let parentParams = routeMatch ? routeMatch.params : {};
 	let parentPathname = routeMatch ? routeMatch.pathname : "/";
@@ -12194,7 +12194,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
 		pathname: joinPaths([parentPathnameBase, navigator.encodeLocation ? navigator.encodeLocation(match.pathname.replace(/%/g, "%25").replace(/\?/g, "%3F").replace(/#/g, "%23")).pathname : match.pathname]),
 		pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([parentPathnameBase, navigator.encodeLocation ? navigator.encodeLocation(match.pathnameBase.replace(/%/g, "%25").replace(/\?/g, "%3F").replace(/#/g, "%23")).pathname : match.pathnameBase])
 	})), parentMatches, dataRouterOpts);
-	if (locationArg && renderedMatches) return /* @__PURE__ */ import_react$27.createElement(LocationContext.Provider, { value: {
+	if (locationArg && renderedMatches) return /* @__PURE__ */ import_react$28.createElement(LocationContext.Provider, { value: {
 		location: {
 			pathname: "/",
 			search: "",
@@ -12223,11 +12223,11 @@ function DefaultErrorComponent() {
 	};
 	let devInfo = null;
 	console.error("Error handled by React Router default ErrorBoundary:", error);
-	devInfo = /* @__PURE__ */ import_react$27.createElement(import_react$27.Fragment, null, /* @__PURE__ */ import_react$27.createElement("p", null, "💿 Hey developer 👋"), /* @__PURE__ */ import_react$27.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ import_react$27.createElement("code", { style: codeStyles }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ import_react$27.createElement("code", { style: codeStyles }, "errorElement"), " prop on your route."));
-	return /* @__PURE__ */ import_react$27.createElement(import_react$27.Fragment, null, /* @__PURE__ */ import_react$27.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ import_react$27.createElement("h3", { style: { fontStyle: "italic" } }, message), stack ? /* @__PURE__ */ import_react$27.createElement("pre", { style: preStyles }, stack) : null, devInfo);
+	devInfo = /* @__PURE__ */ import_react$28.createElement(import_react$28.Fragment, null, /* @__PURE__ */ import_react$28.createElement("p", null, "💿 Hey developer 👋"), /* @__PURE__ */ import_react$28.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ import_react$28.createElement("code", { style: codeStyles }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ import_react$28.createElement("code", { style: codeStyles }, "errorElement"), " prop on your route."));
+	return /* @__PURE__ */ import_react$28.createElement(import_react$28.Fragment, null, /* @__PURE__ */ import_react$28.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ import_react$28.createElement("h3", { style: { fontStyle: "italic" } }, message), stack ? /* @__PURE__ */ import_react$28.createElement("pre", { style: preStyles }, stack) : null, devInfo);
 }
 function RSCErrorHandler({ children, error }) {
-	let { basename, navigator } = import_react$27.useContext(NavigationContext);
+	let { basename, navigator } = import_react$28.useContext(NavigationContext);
 	if (typeof error === "object" && error && "digest" in error && typeof error.digest === "string") {
 		let redirect2 = decodeRedirectErrorDigest(error.digest);
 		if (redirect2) {
@@ -12245,7 +12245,7 @@ function RSCErrorHandler({ children, error }) {
 					throw redirectPromise;
 				}
 			}
-			return /* @__PURE__ */ import_react$27.createElement("meta", {
+			return /* @__PURE__ */ import_react$28.createElement("meta", {
 				httpEquiv: "refresh",
 				content: `0;url=${target}`
 			});
@@ -12254,9 +12254,9 @@ function RSCErrorHandler({ children, error }) {
 	return children;
 }
 function RenderedRoute({ routeContext, match, children }) {
-	let dataRouterContext = import_react$27.useContext(DataRouterContext);
+	let dataRouterContext = import_react$28.useContext(DataRouterContext);
 	if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
-	return /* @__PURE__ */ import_react$27.createElement(RouteContext.Provider, { value: routeContext }, children);
+	return /* @__PURE__ */ import_react$28.createElement(RouteContext.Provider, { value: routeContext }, children);
 }
 function _renderMatches(matches, parentMatches = [], dataRouterOpts) {
 	let dataRouterState = dataRouterOpts?.state;
@@ -12325,10 +12325,10 @@ function _renderMatches(matches, parentMatches = [], dataRouterOpts) {
 			let children;
 			if (error) children = errorElement;
 			else if (shouldRenderHydrateFallback) children = hydrateFallbackElement;
-			else if (match.route.Component) children = /* @__PURE__ */ import_react$27.createElement(match.route.Component, null);
+			else if (match.route.Component) children = /* @__PURE__ */ import_react$28.createElement(match.route.Component, null);
 			else if (match.route.element) children = match.route.element;
 			else children = outlet;
-			return /* @__PURE__ */ import_react$27.createElement(RenderedRoute, {
+			return /* @__PURE__ */ import_react$28.createElement(RenderedRoute, {
 				match,
 				routeContext: {
 					outlet,
@@ -12338,7 +12338,7 @@ function _renderMatches(matches, parentMatches = [], dataRouterOpts) {
 				children
 			});
 		};
-		return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ import_react$27.createElement(RenderErrorBoundary, {
+		return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ import_react$28.createElement(RenderErrorBoundary, {
 			location: dataRouterState.location,
 			revalidation: dataRouterState.revalidation,
 			component: errorElement,
@@ -12357,17 +12357,17 @@ function getDataRouterConsoleError(hookName) {
 	return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
 }
 function useDataRouterContext(hookName) {
-	let ctx = import_react$27.useContext(DataRouterContext);
+	let ctx = import_react$28.useContext(DataRouterContext);
 	invariant(ctx, getDataRouterConsoleError(hookName));
 	return ctx;
 }
 function useDataRouterState(hookName) {
-	let state = import_react$27.useContext(DataRouterStateContext);
+	let state = import_react$28.useContext(DataRouterStateContext);
 	invariant(state, getDataRouterConsoleError(hookName));
 	return state;
 }
 function useRouteContext(hookName) {
-	let route = import_react$27.useContext(RouteContext);
+	let route = import_react$28.useContext(RouteContext);
 	invariant(route, getDataRouterConsoleError(hookName));
 	return route;
 }
@@ -12382,17 +12382,17 @@ function useRouteId() {
 }
 function useNavigation() {
 	let state = useDataRouterState("useNavigation");
-	return import_react$27.useMemo(() => {
+	return import_react$28.useMemo(() => {
 		let { matches, historyAction, ...rest } = state.navigation;
 		return rest;
 	}, [state.navigation]);
 }
 function useMatches() {
 	let { matches, loaderData } = useDataRouterState("useMatches");
-	return import_react$27.useMemo(() => matches.map((m) => convertRouteMatchToUiMatch(m, loaderData)), [matches, loaderData]);
+	return import_react$28.useMemo(() => matches.map((m) => convertRouteMatchToUiMatch(m, loaderData)), [matches, loaderData]);
 }
 function useRouteError() {
-	let error = import_react$27.useContext(RouteErrorContext);
+	let error = import_react$28.useContext(RouteErrorContext);
 	let state = useDataRouterState("useRouteError");
 	let routeId = useCurrentRouteId("useRouteError");
 	if (error !== void 0) return error;
@@ -12401,11 +12401,11 @@ function useRouteError() {
 function useNavigateStable() {
 	let { router } = useDataRouterContext("useNavigate");
 	let id = useCurrentRouteId("useNavigate");
-	let activeRef = import_react$27.useRef(false);
+	let activeRef = import_react$28.useRef(false);
 	useIsomorphicLayoutEffect(() => {
 		activeRef.current = true;
 	});
-	return import_react$27.useCallback(async (to, options = {}) => {
+	return import_react$28.useCallback(async (to, options = {}) => {
 		warning(activeRef.current, navigateEffectWarning);
 		if (!activeRef.current) return;
 		if (typeof to === "number") await router.navigate(to);
@@ -12436,7 +12436,7 @@ function Route(props) {
 function Router({ basename: basenameProp = "/", children = null, location: locationProp, navigationType = "POP", navigator, static: staticProp = false, useTransitions }) {
 	invariant(!useInRouterContext(), `You cannot render a <Router> inside another <Router>. You should never have more than one in your app.`);
 	let basename = basenameProp.replace(/^\/*/, "/");
-	let navigationContext = import_react$28.useMemo(() => ({
+	let navigationContext = import_react$29.useMemo(() => ({
 		basename,
 		navigator,
 		static: staticProp,
@@ -12450,7 +12450,7 @@ function Router({ basename: basenameProp = "/", children = null, location: locat
 	]);
 	if (typeof locationProp === "string") locationProp = parsePath(locationProp);
 	let { pathname = "/", search = "", hash = "", state = null, key = "default", mask } = locationProp;
-	let locationContext = import_react$28.useMemo(() => {
+	let locationContext = import_react$29.useMemo(() => {
 		let trailingPathname = stripBasename(pathname, basename);
 		if (trailingPathname == null) return null;
 		return {
@@ -12476,7 +12476,7 @@ function Router({ basename: basenameProp = "/", children = null, location: locat
 	]);
 	warning(locationContext != null, `<Router basename="${basename}"> is not able to match the URL "${pathname}${search}${hash}" because it does not start with the basename, so the <Router> won't render anything.`);
 	if (locationContext == null) return null;
-	return /* @__PURE__ */ import_react$28.createElement(NavigationContext.Provider, { value: navigationContext }, /* @__PURE__ */ import_react$28.createElement(LocationContext.Provider, {
+	return /* @__PURE__ */ import_react$29.createElement(NavigationContext.Provider, { value: navigationContext }, /* @__PURE__ */ import_react$29.createElement(LocationContext.Provider, {
 		children,
 		value: locationContext
 	}));
@@ -12486,10 +12486,10 @@ function Routes({ children, location }) {
 }
 function createRoutesFromChildren(children, parentPath = []) {
 	let routes = [];
-	import_react$28.Children.forEach(children, (element, index) => {
-		if (!import_react$28.isValidElement(element)) return;
+	import_react$29.Children.forEach(children, (element, index) => {
+		if (!import_react$29.isValidElement(element)) return;
 		let treePath = [...parentPath, index];
-		if (element.type === import_react$28.Fragment) {
+		if (element.type === import_react$29.Fragment) {
 			routes.push.apply(routes, createRoutesFromChildren(element.props.children, treePath));
 			return;
 		}
@@ -12739,27 +12739,27 @@ function dedupeLinkDescriptors(descriptors, preloads) {
 	}, []);
 }
 function useDataRouterContext2() {
-	let context = import_react$31.useContext(DataRouterContext);
+	let context = import_react$32.useContext(DataRouterContext);
 	invariant2(context, "You must render this element inside a <DataRouterContext.Provider> element");
 	return context;
 }
 function useDataRouterStateContext() {
-	let context = import_react$31.useContext(DataRouterStateContext);
+	let context = import_react$32.useContext(DataRouterStateContext);
 	invariant2(context, "You must render this element inside a <DataRouterStateContext.Provider> element");
 	return context;
 }
 function useFrameworkContext() {
-	let context = import_react$31.useContext(FrameworkContext);
+	let context = import_react$32.useContext(FrameworkContext);
 	invariant2(context, "You must render this element inside a <HydratedRouter> element");
 	return context;
 }
 function usePrefetchBehavior(prefetch, theirElementProps) {
-	let frameworkContext = import_react$31.useContext(FrameworkContext);
-	let [maybePrefetch, setMaybePrefetch] = import_react$31.useState(false);
-	let [shouldPrefetch, setShouldPrefetch] = import_react$31.useState(false);
+	let frameworkContext = import_react$32.useContext(FrameworkContext);
+	let [maybePrefetch, setMaybePrefetch] = import_react$32.useState(false);
+	let [shouldPrefetch, setShouldPrefetch] = import_react$32.useState(false);
 	let { onFocus, onBlur, onMouseEnter, onMouseLeave, onTouchStart } = theirElementProps;
-	let ref = import_react$31.useRef(null);
-	import_react$31.useEffect(() => {
+	let ref = import_react$32.useRef(null);
+	import_react$32.useEffect(() => {
 		if (prefetch === "render") setShouldPrefetch(true);
 		if (prefetch === "viewport") {
 			let callback = (entries) => {
@@ -12774,7 +12774,7 @@ function usePrefetchBehavior(prefetch, theirElementProps) {
 			};
 		}
 	}, [prefetch]);
-	import_react$31.useEffect(() => {
+	import_react$32.useEffect(() => {
 		if (maybePrefetch) {
 			let id = setTimeout(() => {
 				setShouldPrefetch(true);
@@ -12823,7 +12823,7 @@ function PrefetchPageLinks({ page, ...linkProps }) {
 	let rsc = useIsRSCRouterContext();
 	let { nonce: contextNonce } = useFrameworkContext();
 	let { router } = useDataRouterContext2();
-	let matches = import_react$31.useMemo(() => matchRoutes(router.routes, page, router.basename), [
+	let matches = import_react$32.useMemo(() => matchRoutes(router.routes, page, router.basename), [
 		router.routes,
 		page,
 		router.basename
@@ -12833,12 +12833,12 @@ function PrefetchPageLinks({ page, ...linkProps }) {
 		...linkProps,
 		nonce: contextNonce
 	};
-	if (rsc) return /* @__PURE__ */ import_react$31.createElement(RSCPrefetchPageLinksImpl, {
+	if (rsc) return /* @__PURE__ */ import_react$32.createElement(RSCPrefetchPageLinksImpl, {
 		page,
 		matches,
 		...linkProps
 	});
-	return /* @__PURE__ */ import_react$31.createElement(PrefetchPageLinksImpl, {
+	return /* @__PURE__ */ import_react$32.createElement(PrefetchPageLinksImpl, {
 		page,
 		matches,
 		...linkProps
@@ -12846,8 +12846,8 @@ function PrefetchPageLinks({ page, ...linkProps }) {
 }
 function useKeyedPrefetchLinks(matches) {
 	let { manifest, routeModules } = useFrameworkContext();
-	let [keyedPrefetchLinks, setKeyedPrefetchLinks] = import_react$31.useState([]);
-	import_react$31.useEffect(() => {
+	let [keyedPrefetchLinks, setKeyedPrefetchLinks] = import_react$32.useState([]);
+	import_react$32.useEffect(() => {
 		let interrupted = false;
 		getKeyedPrefetchLinks(matches, manifest, routeModules).then((links) => {
 			if (!interrupted) setKeyedPrefetchLinks(links);
@@ -12866,7 +12866,7 @@ function RSCPrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) 
 	let location = useLocation();
 	let { future } = useFrameworkContext();
 	let { basename } = useDataRouterContext2();
-	let dataHrefs = import_react$31.useMemo(() => {
+	let dataHrefs = import_react$32.useMemo(() => {
 		if (page === location.pathname + location.search + location.hash) return [];
 		let url = singleFetchUrl(page, basename, future.v8_trailingSlashAwareDataRequests, "rsc");
 		let hasSomeRoutesWithShouldRevalidate = false;
@@ -12882,7 +12882,7 @@ function RSCPrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) 
 		location,
 		nextMatches
 	]);
-	return /* @__PURE__ */ import_react$31.createElement(import_react$31.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$31.createElement("link", {
+	return /* @__PURE__ */ import_react$32.createElement(import_react$32.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$32.createElement("link", {
 		key: href,
 		rel: "prefetch",
 		as: "fetch",
@@ -12895,21 +12895,21 @@ function PrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) {
 	let { future, manifest, routeModules } = useFrameworkContext();
 	let { basename } = useDataRouterContext2();
 	let { loaderData, matches } = useDataRouterStateContext();
-	let newMatchesForData = import_react$31.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "data"), [
+	let newMatchesForData = import_react$32.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "data"), [
 		page,
 		nextMatches,
 		matches,
 		manifest,
 		location
 	]);
-	let newMatchesForAssets = import_react$31.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "assets"), [
+	let newMatchesForAssets = import_react$32.useMemo(() => getNewMatchesForLinks(page, nextMatches, matches, manifest, location, "assets"), [
 		page,
 		nextMatches,
 		matches,
 		manifest,
 		location
 	]);
-	let dataHrefs = import_react$31.useMemo(() => {
+	let dataHrefs = import_react$32.useMemo(() => {
 		if (page === location.pathname + location.search + location.hash) return [];
 		let routesParams = /* @__PURE__ */ new Set();
 		let foundOptOutRoute = false;
@@ -12935,20 +12935,20 @@ function PrefetchPageLinksImpl({ page, matches: nextMatches, ...linkProps }) {
 		page,
 		routeModules
 	]);
-	let moduleHrefs = import_react$31.useMemo(() => getModuleLinkHrefs(newMatchesForAssets, manifest), [newMatchesForAssets, manifest]);
+	let moduleHrefs = import_react$32.useMemo(() => getModuleLinkHrefs(newMatchesForAssets, manifest), [newMatchesForAssets, manifest]);
 	let keyedPrefetchLinks = useKeyedPrefetchLinks(newMatchesForAssets);
-	return /* @__PURE__ */ import_react$31.createElement(import_react$31.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$31.createElement("link", {
+	return /* @__PURE__ */ import_react$32.createElement(import_react$32.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ import_react$32.createElement("link", {
 		key: href,
 		rel: "prefetch",
 		as: "fetch",
 		href,
 		...linkProps
-	})), moduleHrefs.map((href) => /* @__PURE__ */ import_react$31.createElement("link", {
+	})), moduleHrefs.map((href) => /* @__PURE__ */ import_react$32.createElement("link", {
 		key: href,
 		rel: "modulepreload",
 		href,
 		...linkProps
-	})), keyedPrefetchLinks.map(({ key, link }) => /* @__PURE__ */ import_react$31.createElement("link", {
+	})), keyedPrefetchLinks.map(({ key, link }) => /* @__PURE__ */ import_react$32.createElement("link", {
 		key,
 		nonce: linkProps.nonce,
 		...link,
@@ -12964,22 +12964,22 @@ function mergeRefs(...refs) {
 	};
 }
 function BrowserRouter({ basename, children, useTransitions, window: window2 }) {
-	let historyRef = import_react$35.useRef();
+	let historyRef = import_react$36.useRef();
 	if (historyRef.current == null) historyRef.current = createBrowserHistory({
 		window: window2,
 		v5Compat: true
 	});
 	let history = historyRef.current;
-	let [state, setStateImpl] = import_react$35.useState({
+	let [state, setStateImpl] = import_react$36.useState({
 		action: history.action,
 		location: history.location
 	});
-	let setState = import_react$35.useCallback((newState) => {
+	let setState = import_react$36.useCallback((newState) => {
 		if (useTransitions === false) setStateImpl(newState);
-		else import_react$35.startTransition(() => setStateImpl(newState));
+		else import_react$36.startTransition(() => setStateImpl(newState));
 	}, [useTransitions]);
-	import_react$35.useLayoutEffect(() => history.listen(setState), [history, setState]);
-	return /* @__PURE__ */ import_react$35.createElement(Router, {
+	import_react$36.useLayoutEffect(() => history.listen(setState), [history, setState]);
+	return /* @__PURE__ */ import_react$36.createElement(Router, {
 		basename,
 		children,
 		location: state.location,
@@ -12989,16 +12989,16 @@ function BrowserRouter({ basename, children, useTransitions, window: window2 }) 
 	});
 }
 function HistoryRouter({ basename, children, history, useTransitions }) {
-	let [state, setStateImpl] = import_react$35.useState({
+	let [state, setStateImpl] = import_react$36.useState({
 		action: history.action,
 		location: history.location
 	});
-	let setState = import_react$35.useCallback((newState) => {
+	let setState = import_react$36.useCallback((newState) => {
 		if (useTransitions === false) setStateImpl(newState);
-		else import_react$35.startTransition(() => setStateImpl(newState));
+		else import_react$36.startTransition(() => setStateImpl(newState));
 	}, [useTransitions]);
-	import_react$35.useLayoutEffect(() => history.listen(setState), [history, setState]);
-	return /* @__PURE__ */ import_react$35.createElement(Router, {
+	import_react$36.useLayoutEffect(() => history.listen(setState), [history, setState]);
+	return /* @__PURE__ */ import_react$36.createElement(Router, {
 		basename,
 		children,
 		location: state.location,
@@ -13008,15 +13008,15 @@ function HistoryRouter({ basename, children, history, useTransitions }) {
 	});
 }
 function ScrollRestoration({ getKey, storageKey, ...props }) {
-	let remixContext = import_react$35.useContext(FrameworkContext);
-	let { basename } = import_react$35.useContext(NavigationContext);
+	let remixContext = import_react$36.useContext(FrameworkContext);
+	let { basename } = import_react$36.useContext(NavigationContext);
 	let location = useLocation();
 	let matches = useMatches();
 	useScrollRestoration({
 		getKey,
 		storageKey
 	});
-	let ssrKey = import_react$35.useMemo(() => {
+	let ssrKey = import_react$36.useMemo(() => {
 		if (!remixContext || !getKey) return null;
 		let userKey = getScrollRestorationKey(location, matches, basename, getKey);
 		return userKey !== location.key ? userKey : null;
@@ -13036,7 +13036,7 @@ function ScrollRestoration({ getKey, storageKey, ...props }) {
 		}
 	}).toString();
 	if (props.nonce == null && remixContext?.nonce) props.nonce = remixContext.nonce;
-	return /* @__PURE__ */ import_react$35.createElement("script", {
+	return /* @__PURE__ */ import_react$36.createElement("script", {
 		...props,
 		suppressHydrationWarning: true,
 		dangerouslySetInnerHTML: { __html: `(${restoreScroll})(${escapeHtml(JSON.stringify(storageKey || SCROLL_RESTORATION_STORAGE_KEY))}, ${escapeHtml(JSON.stringify(ssrKey))})` }
@@ -13046,12 +13046,12 @@ function getDataRouterConsoleError2(hookName) {
 	return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
 }
 function useDataRouterContext3(hookName) {
-	let ctx = import_react$35.useContext(DataRouterContext);
+	let ctx = import_react$36.useContext(DataRouterContext);
 	invariant(ctx, getDataRouterConsoleError2(hookName));
 	return ctx;
 }
 function useDataRouterState2(hookName) {
-	let state = import_react$35.useContext(DataRouterStateContext);
+	let state = import_react$36.useContext(DataRouterStateContext);
 	invariant(state, getDataRouterConsoleError2(hookName));
 	return state;
 }
@@ -13059,7 +13059,7 @@ function useLinkClickHandler(to, { target, replace: replaceProp, mask, state, pr
 	let navigate = useNavigate();
 	let location = useLocation();
 	let path = useResolvedPath(to, { relative });
-	return import_react$35.useCallback((event) => {
+	return import_react$36.useCallback((event) => {
 		if (shouldProcessLinkClick(event, target)) {
 			event.preventDefault();
 			let replace2 = replaceProp !== void 0 ? replaceProp : createPath(location) === createPath(path);
@@ -13072,7 +13072,7 @@ function useLinkClickHandler(to, { target, replace: replaceProp, mask, state, pr
 				viewTransition,
 				defaultShouldRevalidate
 			});
-			if (useTransitions) import_react$35.startTransition(() => doNavigate());
+			if (useTransitions) import_react$36.startTransition(() => doNavigate());
 			else doNavigate();
 		}
 	}, [
@@ -13093,12 +13093,12 @@ function useLinkClickHandler(to, { target, replace: replaceProp, mask, state, pr
 }
 function useSearchParams(defaultInit) {
 	warning(typeof URLSearchParams !== "undefined", `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`);
-	let defaultSearchParamsRef = import_react$35.useRef(createSearchParams(defaultInit));
-	let hasSetSearchParamsRef = import_react$35.useRef(false);
+	let defaultSearchParamsRef = import_react$36.useRef(createSearchParams(defaultInit));
+	let hasSetSearchParamsRef = import_react$36.useRef(false);
 	let location = useLocation();
-	let searchParams = import_react$35.useMemo(() => getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
+	let searchParams = import_react$36.useMemo(() => getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
 	let navigate = useNavigate();
-	return [searchParams, import_react$35.useCallback((nextInit, navigateOptions) => {
+	return [searchParams, import_react$36.useCallback((nextInit, navigateOptions) => {
 		const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(new URLSearchParams(searchParams)) : nextInit);
 		hasSetSearchParamsRef.current = true;
 		navigate("?" + newSearchParams, navigateOptions);
@@ -13106,11 +13106,11 @@ function useSearchParams(defaultInit) {
 }
 function useSubmit() {
 	let { router } = useDataRouterContext3("useSubmit");
-	let { basename } = import_react$35.useContext(NavigationContext);
+	let { basename } = import_react$36.useContext(NavigationContext);
 	let currentRouteId = useRouteId();
 	let routerFetch = router.fetch;
 	let routerNavigate = router.navigate;
-	return import_react$35.useCallback(async (target, options = {}) => {
+	return import_react$36.useCallback(async (target, options = {}) => {
 		let { action, method, encType, formData, body } = getFormSubmissionInfo(target, basename);
 		if (options.navigate === false) {
 			let key = options.fetcherKey || getUniqueFetcherId();
@@ -13144,8 +13144,8 @@ function useSubmit() {
 	]);
 }
 function useFormAction(action, { relative } = {}) {
-	let { basename } = import_react$35.useContext(NavigationContext);
-	let routeContext = import_react$35.useContext(RouteContext);
+	let { basename } = import_react$36.useContext(NavigationContext);
+	let routeContext = import_react$36.useContext(RouteContext);
 	invariant(routeContext, "useFormAction must be used inside a RouteContext");
 	let [match] = routeContext.matches.slice(-1);
 	let path = { ...useResolvedPath(action ? action : ".", { relative }) };
@@ -13180,17 +13180,17 @@ function getScrollRestorationKey(location, matches, basename, getKey) {
 function useScrollRestoration({ getKey, storageKey } = {}) {
 	let { router } = useDataRouterContext3("useScrollRestoration");
 	let { restoreScrollPosition, preventScrollReset } = useDataRouterState2("useScrollRestoration");
-	let { basename } = import_react$35.useContext(NavigationContext);
+	let { basename } = import_react$36.useContext(NavigationContext);
 	let location = useLocation();
 	let matches = useMatches();
 	let navigation = useNavigation();
-	import_react$35.useEffect(() => {
+	import_react$36.useEffect(() => {
 		window.history.scrollRestoration = "manual";
 		return () => {
 			window.history.scrollRestoration = "auto";
 		};
 	}, []);
-	usePageHide(import_react$35.useCallback(() => {
+	usePageHide(import_react$36.useCallback(() => {
 		if (navigation.state === "idle") {
 			let key = getScrollRestorationKey(location, matches, basename, getKey);
 			savedScrollPositions[key] = window.scrollY;
@@ -13210,13 +13210,13 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 		storageKey
 	]));
 	if (typeof document !== "undefined") {
-		import_react$35.useLayoutEffect(() => {
+		import_react$36.useLayoutEffect(() => {
 			try {
 				let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
 				if (sessionPositions) savedScrollPositions = JSON.parse(sessionPositions);
 			} catch (e) {}
 		}, [storageKey]);
-		import_react$35.useLayoutEffect(() => {
+		import_react$36.useLayoutEffect(() => {
 			let disableScrollRestoration = router?.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKey ? (location2, matches2) => getScrollRestorationKey(location2, matches2, basename, getKey) : void 0);
 			return () => disableScrollRestoration && disableScrollRestoration();
 		}, [
@@ -13224,7 +13224,7 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 			basename,
 			getKey
 		]);
-		import_react$35.useLayoutEffect(() => {
+		import_react$36.useLayoutEffect(() => {
 			if (restoreScrollPosition === false) return;
 			if (typeof restoreScrollPosition === "number") {
 				window.scrollTo(0, restoreScrollPosition);
@@ -13252,7 +13252,7 @@ function useScrollRestoration({ getKey, storageKey } = {}) {
 }
 function usePageHide(callback, options) {
 	let { capture } = options || {};
-	import_react$35.useEffect(() => {
+	import_react$36.useEffect(() => {
 		let opts = capture != null ? { capture } : void 0;
 		window.addEventListener("pagehide", callback, opts);
 		return () => {
@@ -13261,7 +13261,7 @@ function usePageHide(callback, options) {
 	}, [callback, capture]);
 }
 function useViewTransitionState(to, { relative } = {}) {
-	let vtContext = import_react$35.useContext(ViewTransitionContext);
+	let vtContext = import_react$36.useContext(ViewTransitionContext);
 	invariant(vtContext != null, "`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?");
 	let { basename } = useDataRouterContext3("useViewTransitionState");
 	let path = useResolvedPath(to, { relative });
@@ -13270,18 +13270,18 @@ function useViewTransitionState(to, { relative } = {}) {
 	let nextPath = stripBasename(vtContext.nextLocation.pathname, basename) || vtContext.nextLocation.pathname;
 	return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
 }
-var import_react$26, import_react$27, import_react$28, import_react$30, import_react$31, import_react$35, ABSOLUTE_URL_REGEX, PROTOCOL_RELATIVE_URL_REGEX, PopStateEventType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, removeDoubleSlashes, joinPaths, normalizePathname, normalizeSearch, normalizeHash, ErrorResponseImpl, isBrowser, DEFAULT_NAVIGATION_URL, validMutationMethodsArr, validRequestMethodsArr, invalidProtocols, DataRouterContext, DataRouterStateContext, RSCRouterContext, ViewTransitionContext, FetchersContext, AwaitContext, NavigationContext, LocationContext, RouteContext, RouteErrorContext, ERROR_DIGEST_BASE, ERROR_DIGEST_REDIRECT, ERROR_DIGEST_ROUTE_ERROR_RESPONSE, navigateEffectWarning, defaultErrorElement, RenderErrorBoundary, errorRedirectHandledMap, alreadyWarned, defaultMethod, defaultEncType, _formDataSupportsSubmitter, supportedFormEncTypes, ESCAPE_LOOKUP, ESCAPE_REGEX, FrameworkContext, isBrowser2, Link, NavLink, Form, fetcherId, getUniqueFetcherId, SCROLL_RESTORATION_STORAGE_KEY, savedScrollPositions;
+var import_react$27, import_react$28, import_react$29, import_react$31, import_react$32, import_react$36, ABSOLUTE_URL_REGEX, PROTOCOL_RELATIVE_URL_REGEX, PopStateEventType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, removeDoubleSlashes, joinPaths, normalizePathname, normalizeSearch, normalizeHash, ErrorResponseImpl, isBrowser, DEFAULT_NAVIGATION_URL, validMutationMethodsArr, validRequestMethodsArr, invalidProtocols, DataRouterContext, DataRouterStateContext, RSCRouterContext, ViewTransitionContext, FetchersContext, AwaitContext, NavigationContext, LocationContext, RouteContext, RouteErrorContext, ERROR_DIGEST_BASE, ERROR_DIGEST_REDIRECT, ERROR_DIGEST_ROUTE_ERROR_RESPONSE, navigateEffectWarning, defaultErrorElement, RenderErrorBoundary, errorRedirectHandledMap, alreadyWarned, defaultMethod, defaultEncType, _formDataSupportsSubmitter, supportedFormEncTypes, ESCAPE_LOOKUP, ESCAPE_REGEX, FrameworkContext, isBrowser2, Link, NavLink, Form, fetcherId, getUniqueFetcherId, SCROLL_RESTORATION_STORAGE_KEY, savedScrollPositions;
 var init_chunk_OB3PAWPO = __esmMin((() => {
-	import_react$26 = /* @__PURE__ */ __toESM(require_react(), 1);
 	import_react$27 = /* @__PURE__ */ __toESM(require_react(), 1);
 	import_react$28 = /* @__PURE__ */ __toESM(require_react(), 1);
+	import_react$29 = /* @__PURE__ */ __toESM(require_react(), 1);
 	require_react();
-	import_react$30 = /* @__PURE__ */ __toESM(require_react(), 1);
 	import_react$31 = /* @__PURE__ */ __toESM(require_react(), 1);
+	import_react$32 = /* @__PURE__ */ __toESM(require_react(), 1);
 	require_react();
 	require_react();
 	require_react();
-	import_react$35 = /* @__PURE__ */ __toESM(require_react(), 1);
+	import_react$36 = /* @__PURE__ */ __toESM(require_react(), 1);
 	require_react();
 	init_preload_helper();
 	ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|[\\/]{2})/i;
@@ -13334,36 +13334,36 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 		"filesystem:",
 		"javascript:"
 	];
-	DataRouterContext = import_react$26.createContext(null);
+	DataRouterContext = import_react$27.createContext(null);
 	DataRouterContext.displayName = "DataRouter";
-	DataRouterStateContext = import_react$26.createContext(null);
+	DataRouterStateContext = import_react$27.createContext(null);
 	DataRouterStateContext.displayName = "DataRouterState";
-	RSCRouterContext = import_react$26.createContext(false);
-	ViewTransitionContext = import_react$26.createContext({ isTransitioning: false });
+	RSCRouterContext = import_react$27.createContext(false);
+	ViewTransitionContext = import_react$27.createContext({ isTransitioning: false });
 	ViewTransitionContext.displayName = "ViewTransition";
-	FetchersContext = import_react$26.createContext(/* @__PURE__ */ new Map());
+	FetchersContext = import_react$27.createContext(/* @__PURE__ */ new Map());
 	FetchersContext.displayName = "Fetchers";
-	AwaitContext = import_react$26.createContext(null);
+	AwaitContext = import_react$27.createContext(null);
 	AwaitContext.displayName = "Await";
-	NavigationContext = import_react$26.createContext(null);
+	NavigationContext = import_react$27.createContext(null);
 	NavigationContext.displayName = "Navigation";
-	LocationContext = import_react$26.createContext(null);
+	LocationContext = import_react$27.createContext(null);
 	LocationContext.displayName = "Location";
-	RouteContext = import_react$26.createContext({
+	RouteContext = import_react$27.createContext({
 		outlet: null,
 		matches: [],
 		isDataRoute: false
 	});
 	RouteContext.displayName = "Route";
-	RouteErrorContext = import_react$26.createContext(null);
+	RouteErrorContext = import_react$27.createContext(null);
 	RouteErrorContext.displayName = "RouteError";
 	ERROR_DIGEST_BASE = "REACT_ROUTER_ERROR";
 	ERROR_DIGEST_REDIRECT = "REDIRECT";
 	ERROR_DIGEST_ROUTE_ERROR_RESPONSE = "ROUTE_ERROR_RESPONSE";
 	navigateEffectWarning = `You should call navigate() in a React.useEffect(), not when your component is first rendered.`;
-	import_react$27.createContext(null);
-	defaultErrorElement = /* @__PURE__ */ import_react$27.createElement(DefaultErrorComponent, null);
-	RenderErrorBoundary = class extends import_react$27.Component {
+	import_react$28.createContext(null);
+	defaultErrorElement = /* @__PURE__ */ import_react$28.createElement(DefaultErrorComponent, null);
+	RenderErrorBoundary = class extends import_react$28.Component {
 		constructor(props) {
 			super(props);
 			this.state = {
@@ -13397,19 +13397,19 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 				const decoded = decodeRouteErrorResponseDigest(error.digest);
 				if (decoded) error = decoded;
 			}
-			let result = error !== void 0 ? /* @__PURE__ */ import_react$27.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ import_react$27.createElement(RouteErrorContext.Provider, {
+			let result = error !== void 0 ? /* @__PURE__ */ import_react$28.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ import_react$28.createElement(RouteErrorContext.Provider, {
 				value: error,
 				children: this.props.component
 			})) : this.props.children;
-			if (this.context) return /* @__PURE__ */ import_react$27.createElement(RSCErrorHandler, { error }, result);
+			if (this.context) return /* @__PURE__ */ import_react$28.createElement(RSCErrorHandler, { error }, result);
 			return result;
 		}
 	};
 	RenderErrorBoundary.contextType = RSCRouterContext;
 	errorRedirectHandledMap = /* @__PURE__ */ new WeakMap();
 	alreadyWarned = {};
-	import_react$28.memo(DataRoutes2);
-	import_react$28.Component;
+	import_react$29.memo(DataRoutes2);
+	import_react$29.Component;
 	defaultMethod = "get";
 	defaultEncType = "application/x-www-form-urlencoded";
 	_formDataSupportsSubmitter = null;
@@ -13427,16 +13427,16 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 		"\u2029": "\\u2029"
 	};
 	ESCAPE_REGEX = /[&><\u2028\u2029]/g;
-	FrameworkContext = import_react$31.createContext(void 0);
+	FrameworkContext = import_react$32.createContext(void 0);
 	FrameworkContext.displayName = "FrameworkContext";
-	import_react$30.Component;
+	import_react$31.Component;
 	isBrowser2 = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 	try {
 		if (isBrowser2) window.__reactRouterVersion = "7.18.4";
 	} catch (e) {}
 	HistoryRouter.displayName = "unstable_HistoryRouter";
-	Link = import_react$35.forwardRef(function LinkWithRef({ onClick, discover = "render", prefetch = "none", relative, reloadDocument, replace: replace2, mask, state, target, to, preventScrollReset, viewTransition, defaultShouldRevalidate, ...rest }, forwardedRef) {
-		let { basename, navigator, useTransitions } = import_react$35.useContext(NavigationContext);
+	Link = import_react$36.forwardRef(function LinkWithRef({ onClick, discover = "render", prefetch = "none", relative, reloadDocument, replace: replace2, mask, state, target, to, preventScrollReset, viewTransition, defaultShouldRevalidate, ...rest }, forwardedRef) {
+		let { basename, navigator, useTransitions } = import_react$36.useContext(NavigationContext);
 		let isAbsolute = typeof to === "string" && ABSOLUTE_URL_REGEX.test(to);
 		let parsed = parseToInfo(to, basename);
 		to = parsed.to;
@@ -13465,7 +13465,7 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 			if (!event.defaultPrevented) internalOnClick(event);
 		}
 		let isSpaLink = !(parsed.isExternal || reloadDocument);
-		let link = /* @__PURE__ */ import_react$35.createElement("a", {
+		let link = /* @__PURE__ */ import_react$36.createElement("a", {
 			...rest,
 			...prefetchHandlers,
 			href: (isSpaLink ? maskedHref : void 0) || parsed.absoluteURL || href,
@@ -13474,14 +13474,14 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 			target,
 			"data-discover": !isAbsolute && discover === "render" ? "true" : void 0
 		});
-		return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ import_react$35.createElement(import_react$35.Fragment, null, link, /* @__PURE__ */ import_react$35.createElement(PrefetchPageLinks, { page: href })) : link;
+		return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ import_react$36.createElement(import_react$36.Fragment, null, link, /* @__PURE__ */ import_react$36.createElement(PrefetchPageLinks, { page: href })) : link;
 	});
 	Link.displayName = "Link";
-	NavLink = import_react$35.forwardRef(function NavLinkWithRef({ "aria-current": ariaCurrentProp = "page", caseSensitive = false, className: classNameProp = "", end = false, style: styleProp, to, viewTransition, children, ...rest }, ref) {
+	NavLink = import_react$36.forwardRef(function NavLinkWithRef({ "aria-current": ariaCurrentProp = "page", caseSensitive = false, className: classNameProp = "", end = false, style: styleProp, to, viewTransition, children, ...rest }, ref) {
 		let path = useResolvedPath(to, { relative: rest.relative });
 		let location = useLocation();
-		let routerState = import_react$35.useContext(DataRouterStateContext);
-		let { navigator, basename } = import_react$35.useContext(NavigationContext);
+		let routerState = import_react$36.useContext(DataRouterStateContext);
+		let { navigator, basename } = import_react$36.useContext(NavigationContext);
 		let isTransitioning = routerState != null && useViewTransitionState(path) && viewTransition === true;
 		let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
 		let locationPathname = location.pathname;
@@ -13510,7 +13510,7 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 			isTransitioning ? "transitioning" : null
 		].filter(Boolean).join(" ");
 		let style = typeof styleProp === "function" ? styleProp(renderProps) : styleProp;
-		return /* @__PURE__ */ import_react$35.createElement(Link, {
+		return /* @__PURE__ */ import_react$36.createElement(Link, {
 			...rest,
 			"aria-current": ariaCurrent,
 			className,
@@ -13521,8 +13521,8 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 		}, typeof children === "function" ? children(renderProps) : children);
 	});
 	NavLink.displayName = "NavLink";
-	Form = import_react$35.forwardRef(({ discover = "render", fetcherKey, navigate, reloadDocument, replace: replace2, state, method = defaultMethod, action, onSubmit, relative, preventScrollReset, viewTransition, defaultShouldRevalidate, ...props }, forwardedRef) => {
-		let { useTransitions } = import_react$35.useContext(NavigationContext);
+	Form = import_react$36.forwardRef(({ discover = "render", fetcherKey, navigate, reloadDocument, replace: replace2, state, method = defaultMethod, action, onSubmit, relative, preventScrollReset, viewTransition, defaultShouldRevalidate, ...props }, forwardedRef) => {
+		let { useTransitions } = import_react$36.useContext(NavigationContext);
 		let submit = useSubmit();
 		let formAction = useFormAction(action, { relative });
 		let formMethod = method.toLowerCase() === "get" ? "get" : "post";
@@ -13544,10 +13544,10 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 				viewTransition,
 				defaultShouldRevalidate
 			});
-			if (useTransitions && navigate !== false) import_react$35.startTransition(() => doSubmit());
+			if (useTransitions && navigate !== false) import_react$36.startTransition(() => doSubmit());
 			else doSubmit();
 		};
-		return /* @__PURE__ */ import_react$35.createElement("form", {
+		return /* @__PURE__ */ import_react$36.createElement("form", {
 			ref: forwardedRef,
 			method: formMethod,
 			action: formAction,
@@ -13636,11 +13636,11 @@ var require_jsx_runtime = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region src/components/Header.jsx
 function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home", role = "client", notifCount = 2 }) {
-	const [dropdownOpen, setDropdownOpen] = (0, import_react$25.useState)(false);
-	const [mobileOpen, setMobileOpen] = (0, import_react$25.useState)(false);
-	const [notifOpen, setNotifOpen] = (0, import_react$25.useState)(false);
-	const notifRef = (0, import_react$25.useRef)(null);
-	(0, import_react$25.useEffect)(() => {
+	const [dropdownOpen, setDropdownOpen] = (0, import_react$26.useState)(false);
+	const [mobileOpen, setMobileOpen] = (0, import_react$26.useState)(false);
+	const [notifOpen, setNotifOpen] = (0, import_react$26.useState)(false);
+	const notifRef = (0, import_react$26.useRef)(null);
+	(0, import_react$26.useEffect)(() => {
 		function handleClick(e) {
 			if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false);
 		}
@@ -13924,15 +13924,53 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 		})]
 	});
 }
-var import_react$25, import_jsx_runtime$40;
+var import_react$26, import_jsx_runtime$40;
 var init_Header = __esmMin((() => {
-	import_react$25 = /* @__PURE__ */ __toESM(require_react());
+	import_react$26 = /* @__PURE__ */ __toESM(require_react());
 	import_jsx_runtime$40 = require_jsx_runtime();
+}));
+//#endregion
+//#region src/context/AuthContext.jsx
+function AuthProvider({ children }) {
+	const [isLoggedIn, setIsLoggedIn] = (0, import_react$25.useState)(false);
+	const [role, setRole] = (0, import_react$25.useState)(null);
+	const [isVerified, setIsVerified] = (0, import_react$25.useState)(false);
+	const login = (0, import_react$25.useCallback)((userRole) => {
+		setIsLoggedIn(true);
+		setRole(userRole || "client");
+	}, []);
+	const logout = (0, import_react$25.useCallback)(() => {
+		setIsLoggedIn(false);
+		setRole(null);
+	}, []);
+	const verify = (0, import_react$25.useCallback)(() => {
+		setIsVerified(true);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(AuthContext.Provider, {
+		value: {
+			isLoggedIn,
+			role,
+			isVerified,
+			login,
+			logout,
+			verify
+		},
+		children
+	});
+}
+function useAuth() {
+	return (0, import_react$25.useContext)(AuthContext);
+}
+var import_react$25, import_jsx_runtime$39, AuthContext;
+var init_AuthContext = __esmMin((() => {
+	import_react$25 = /* @__PURE__ */ __toESM(require_react());
+	import_jsx_runtime$39 = require_jsx_runtime();
+	AuthContext = (0, import_react$25.createContext)(null);
 }));
 //#endregion
 //#region src/components/ClientDashboard.jsx
 function StatusBadge$4({ status }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 		className: `inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${{
 			"Pending Request": "bg-amber-100 text-amber-700 border-amber-200",
 			Confirmed: "bg-green-100 text-green-700 border-green-200",
@@ -13942,14 +13980,14 @@ function StatusBadge$4({ status }) {
 	});
 }
 function StarIcon$2({ filled }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
+	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("svg", {
 		xmlns: "http://www.w3.org/2000/svg",
 		viewBox: "0 0 24 24",
 		fill: filled ? "currentColor" : "none",
 		stroke: "currentColor",
 		strokeWidth: 1.5,
 		className: "h-3.5 w-3.5",
-		children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", {
 			strokeLinecap: "round",
 			strokeLinejoin: "round",
 			d: "M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
@@ -13958,16 +13996,26 @@ function StarIcon$2({ filled }) {
 }
 function Dashboard() {
 	const navigate = useNavigate();
+	const { isLoggedIn } = useAuth();
 	const [bannerVisible, setBannerVisible] = (0, import_react$24.useState)(true);
 	const [activeTab, setActiveTab] = (0, import_react$24.useState)("All");
 	const [search, setSearch] = (0, import_react$24.useState)("");
+	const [bookingList, setBookingList] = (0, import_react$24.useState)(initialBookings$1);
+	const [activeCategory, setActiveCategory] = (0, import_react$24.useState)("");
 	const scrollRef = (0, import_react$24.useRef)(null);
 	const catScrollRef = (0, import_react$24.useRef)(null);
 	const tabs = [
 		"All",
 		"Pending",
-		"Confirmed"
+		"Confirmed",
+		"Completed"
 	];
+	const tabCounts = {
+		All: bookingList.length,
+		Pending: bookingList.filter((b) => b.status === "Pending Request").length,
+		Confirmed: bookingList.filter((b) => b.status === "Confirmed").length,
+		Completed: bookingList.filter((b) => b.status === "Completed").length
+	};
 	const scroll = (direction) => {
 		if (scrollRef.current) scrollRef.current.scrollBy({
 			left: direction === "left" ? -200 : 200,
@@ -13980,45 +14028,60 @@ function Dashboard() {
 			behavior: "smooth"
 		});
 	};
-	const filteredBookings = activeTab === "All" ? bookings$2 : bookings$2.filter((b) => {
+	const filteredBookings = activeTab === "All" ? bookingList.filter((b) => b.status !== "Cancelled") : bookingList.filter((b) => {
 		if (activeTab === "Pending") return b.status === "Pending Request";
 		if (activeTab === "Confirmed") return b.status === "Confirmed";
+		if (activeTab === "Completed") return b.status === "Completed";
 		return true;
 	});
-	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+	const filteredCategories = categories$1.filter((cat) => search.trim() ? cat.name.toLowerCase().includes(search.toLowerCase()) : true);
+	const cancelBooking = (id) => {
+		setBookingList((prev) => prev.map((b) => b.id === id ? {
+			...b,
+			status: "Cancelled"
+		} : b));
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Header, {
+			/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(Header, {
 				showNav: true,
 				activeTab: "Home"
 			}),
-			bannerVisible && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+			bannerVisible && /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 				className: "relative bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 px-4 py-3 sm:px-6 lg:px-8",
-				children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
-					className: "flex items-center gap-3",
+				children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+					className: "flex items-center gap-3 flex-wrap",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 							className: "shrink-0 text-2xl",
 							children: "⚠️"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
-							className: "flex-1 text-sm font-medium text-gray-800",
-							children: "Recurring Maintenance Reminder: It's been 6 months since your last AC Cleaning - Tap to schedule with Perez Cruz"
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+							className: "flex-1",
+							children: [isLoggedIn && /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+								className: "text-xs font-medium text-gray-600",
+								children: "Welcome back, Client"
+							}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+								className: "text-sm font-medium text-gray-800",
+								children: "Recurring Maintenance Reminder: It's been 6 months since your last AC Cleaning - Tap to schedule with Perez Cruz"
+							})]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+							onClick: () => navigate("/explore"),
 							className: "shrink-0 rounded-lg bg-gray-900 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-gray-800",
 							children: "Book Now"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 							onClick: () => setBannerVisible(false),
 							className: "shrink-0 rounded p-1 text-gray-700 transition hover:bg-gray-900/10",
 							"aria-label": "Close reminder",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
+							children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("svg", {
 								xmlns: "http://www.w3.org/2000/svg",
 								viewBox: "0 0 24 24",
 								fill: "currentColor",
 								className: "h-5 w-5",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
+								children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", {
 									fillRule: "evenodd",
 									d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
 									clipRule: "evenodd"
@@ -14028,46 +14091,45 @@ function Dashboard() {
 					]
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+			/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 				className: "mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row lg:px-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 					className: "flex-1 space-y-8 lg:min-w-0",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 							className: "relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-slate-700 to-slate-800 px-6 py-10 sm:px-10 sm:py-12",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
-								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
-								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", { className: "pointer-events-none absolute right-1/4 top-1/4 h-16 w-16 rounded-full bg-white/5" }),
-								/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", { className: "pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/5" }),
+								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", { className: "pointer-events-none absolute bottom-0 left-1/2 h-32 w-32 rounded-full bg-white/5" }),
+								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", { className: "pointer-events-none absolute right-1/4 top-1/4 h-16 w-16 rounded-full bg-white/5" }),
+								/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 									className: "pointer-events-none absolute -bottom-4 -right-2 hidden h-48 w-40 overflow-hidden sm:block md:right-8",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("img", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("img", {
 										src: "/assets/Panda Cropped.png",
 										alt: "TaskPanda mascot",
 										className: "h-full w-full object-contain"
 									})
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 									className: "relative z-10 max-w-lg",
 									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h1", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h1", {
 											className: "text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl",
 											children: "Find trusted local pros for your home"
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 											className: "mt-4 text-base leading-relaxed text-teal-100/80 sm:text-lg",
 											children: "TaskPanda connects with certified tradespeople and trusted independent local specialists."
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "mt-8 flex items-center overflow-hidden rounded-xl bg-white shadow-lg",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("input", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("input", {
 												type: "text",
 												value: search,
 												onChange: (e) => setSearch(e.target.value),
 												placeholder: "Search for carpentry, plumbing, cleaning, or electrical services...",
-												className: "flex-1 px-5 py-3.5 text-sm text-gray-800 placeholder-gray-400/70 outline-none",
-												ref: scrollRef
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+												className: "flex-1 px-5 py-3.5 text-sm text-gray-800 placeholder-gray-400/70 outline-none"
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 												className: "shrink-0 bg-gray-800 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-900",
 												children: "Search"
 											})]
@@ -14076,24 +14138,24 @@ function Dashboard() {
 								})
 							]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 							className: "mb-4 flex items-center justify-between",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h2", {
 								className: "text-lg font-bold text-gray-900",
 								children: "Explore Categories"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 								className: "flex items-center gap-2",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 										onClick: () => scrollCategories("left"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll left",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
 												x: "10",
 												y: "11",
 												width: "12",
@@ -14101,16 +14163,16 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 										onClick: () => scrollCategories("right"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll right",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
 												x: "2",
 												y: "11",
 												width: "12",
@@ -14118,46 +14180,51 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("a", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("a", {
 										href: "#",
+										onClick: (e) => {
+											e.preventDefault();
+											navigate("/explore");
+										},
 										className: "text-sm font-medium text-primary-600 hover:text-primary-800",
 										children: "View All"
 									})
 								]
 							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 							ref: catScrollRef,
 							className: "flex gap-3 overflow-x-auto pb-2 scrollbar-hide",
 							style: { scrollbarWidth: "none" },
-							children: categories$1.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							children: filteredCategories.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+								onClick: () => navigate(`/explore?service=${encodeURIComponent(cat.name)}`),
 								className: "flex shrink-0 cursor-pointer flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md w-[120px]",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 									className: "text-2xl",
 									children: cat.icon
-								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 									className: "whitespace-nowrap text-xs font-medium text-gray-700",
 									children: cat.name
 								})]
 							}, cat.name))
 						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("section", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 							className: "mb-4 flex items-center justify-between",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h2", {
 								className: "text-lg font-bold text-gray-900",
 								children: "Your Favourites"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 								className: "flex items-center gap-2",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 										onClick: () => scroll("left"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll left",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M10 4L4 12l6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
 												x: "10",
 												y: "11",
 												width: "12",
@@ -14165,16 +14232,16 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 										onClick: () => scroll("right"),
 										className: "rounded-full border border-gray-200 bg-white p-1.5 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700",
 										"aria-label": "Scroll right",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("svg", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("svg", {
 											xmlns: "http://www.w3.org/2000/svg",
 											viewBox: "0 0 24 24",
 											fill: "currentColor",
 											className: "h-4 w-4",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("rect", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("path", { d: "M14 4l6 8-6 8V4z" }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("rect", {
 												x: "2",
 												y: "11",
 												width: "12",
@@ -14182,45 +14249,49 @@ function Dashboard() {
 											})]
 										})
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("a", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("a", {
 										href: "#",
+										onClick: (e) => {
+											e.preventDefault();
+											navigate("/explore");
+										},
 										className: "text-sm font-medium text-primary-600 hover:text-primary-800",
 										children: "View All"
 									})
 								]
 							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 							ref: scrollRef,
 							className: "flex gap-3 overflow-x-auto pb-2",
 							style: { scrollbarWidth: "none" },
-							children: favourites.map((fav) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							children: favourites.map((fav) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 								className: "flex min-w-[260px] flex-col rounded-xl border border-gray-100 bg-white p-4 shadow-sm",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 										className: "flex items-center justify-between",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "flex items-center gap-3",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 												className: "flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700",
 												children: fav.name.charAt(0)
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 												className: "text-sm font-semibold text-gray-900",
 												children: fav.name
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 												className: "text-xs text-gray-500",
 												children: fav.cred
 											})] })]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(StatusBadge$4, { status: "Confirmed" })]
+										}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(StatusBadge$4, { status: "Confirmed" })]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 										className: "mt-3 flex items-center gap-1",
 										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(StarIcon$2, { filled: true }),
-											/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+											/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(StarIcon$2, { filled: true }),
+											/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 												className: "text-sm font-medium text-gray-800",
 												children: fav.rating
 											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("span", {
+											/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("span", {
 												className: "text-xs text-gray-400",
 												children: [
 													"(",
@@ -14230,21 +14301,22 @@ function Dashboard() {
 											})
 										]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 										className: "mt-2 text-xs text-gray-500",
 										children: fav.lastHired
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 										className: "mt-3 flex items-center justify-between",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 											className: "text-lg font-bold text-gray-900",
 											children: fav.price
-										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "flex gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+												onClick: () => navigate("/explore"),
 												className: "rounded-lg bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-primary-700",
 												children: "Rebook"
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 												type: "button",
 												onClick: () => navigate("/profile"),
 												className: "rounded-lg border border-gray-300 bg-white px-4 py-1.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
@@ -14256,84 +14328,113 @@ function Dashboard() {
 							}, fav.name))
 						})] })
 					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("aside", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("aside", {
 					className: "w-full shrink-0 lg:w-80",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+					children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 						className: "sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
+								className: "grid grid-cols-2 gap-px bg-gray-100",
+								children: [{
+									label: "Active",
+									value: tabCounts.Pending + tabCounts.Confirmed,
+									color: "bg-white"
+								}, {
+									label: "Completed",
+									value: tabCounts.Completed,
+									color: "bg-white"
+								}].map((s) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
+									className: `${s.color} px-4 py-3 text-center`,
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+										className: "text-lg font-bold text-gray-900",
+										children: s.value
+									}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
+										className: "text-[11px] font-medium text-gray-500",
+										children: s.label
+									})]
+								}, s.label))
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 								className: "flex items-center justify-between border-b border-gray-100 px-5 py-4",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h2", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("h2", {
 									className: "text-base font-bold text-gray-900",
 									children: "Active Bookings"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("a", {
-									href: "#",
+								}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+									onClick: () => navigate("/bookings"),
 									className: "text-sm font-medium text-primary-600 hover:text-primary-800",
 									children: "See All >"
 								})]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 								className: "flex gap-1 border-b border-gray-100 px-5 py-3",
-								children: tabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+								children: tabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 									onClick: () => setActiveTab(tab),
-									className: `rounded-lg px-4 py-1.5 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
-									children: tab
+									className: `relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
+									children: /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("span", {
+										className: "flex items-center gap-1.5",
+										children: [tab, /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
+											className: `inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[9px] font-bold ${activeTab === tab ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`,
+											children: tabCounts[tab] ?? 0
+										})]
+									})
 								}, tab))
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+							/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 								className: "max-h-[480px] overflow-y-auto p-4",
-								children: filteredBookings.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
+								children: filteredBookings.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("p", {
 									className: "py-8 text-center text-sm text-gray-400",
 									children: [
 										"No ",
 										activeTab.toLowerCase(),
 										" bookings"
 									]
-								}) : filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+								}) : filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 									className: "mb-3 rounded-xl border border-gray-100 bg-gray-50 p-4",
 									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "flex items-center justify-between",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(StatusBadge$4, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(StatusBadge$4, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("span", {
 												className: "text-sm font-semibold text-gray-900",
 												children: booking.price
 											})]
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "mt-3 flex items-center gap-3",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("div", {
 												className: "flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700",
 												children: booking.worker.charAt(0)
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 												className: "text-sm font-semibold text-gray-900",
 												children: booking.worker
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 												className: "text-xs text-gray-500",
 												children: booking.cred
 											})] })]
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "mt-3 border-t border-gray-200 pt-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 												className: "text-sm font-medium text-gray-800",
 												children: booking.task
-											}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
+											}), /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("p", {
 												className: "text-xs text-gray-500",
 												children: booking.date
 											})]
 										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
+										/* @__PURE__ */ (0, import_jsx_runtime$38.jsxs)("div", {
 											className: "mt-3 flex gap-2",
 											children: [
-												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+												/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+													onClick: () => navigate("/messages"),
 													className: "flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50",
 													children: "Contact"
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+												booking.status !== "Cancelled" && booking.status !== "Completed" && /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
+													onClick: () => cancelBooking(booking.id),
 													className: "flex-1 rounded-lg bg-red-50 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-100",
 													children: "Cancel Request"
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+												/* @__PURE__ */ (0, import_jsx_runtime$38.jsx)("button", {
 													type: "button",
 													onClick: () => navigate("/profile"),
 													className: "flex-1 rounded-lg border border-gray-300 bg-white py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50",
@@ -14351,12 +14452,13 @@ function Dashboard() {
 		]
 	});
 }
-var import_react$24, import_jsx_runtime$39, categories$1, favourites, bookings$2;
+var import_react$24, import_jsx_runtime$38, categories$1, favourites, initialBookings$1;
 var init_ClientDashboard = __esmMin((() => {
 	import_react$24 = /* @__PURE__ */ __toESM(require_react());
-	init_Header();
 	init_dist();
-	import_jsx_runtime$39 = require_jsx_runtime();
+	init_AuthContext();
+	init_Header();
+	import_jsx_runtime$38 = require_jsx_runtime();
 	categories$1 = [
 		{
 			name: "All Services",
@@ -14402,61 +14504,35 @@ var init_ClientDashboard = __esmMin((() => {
 		lastHired: "Last hired 3 months ago",
 		price: "P450"
 	}];
-	bookings$2 = [{
-		id: 1,
-		status: "Pending Request",
-		worker: "Johhny Cruz",
-		cred: "TESDA NC II Carpenter",
-		task: "Desktop Table Repair",
-		date: "Sep 9, 2026 - 09:00 AM",
-		price: "P500"
-	}, {
-		id: 2,
-		status: "Confirmed",
-		worker: "Maria Santos",
-		cred: "TESDA NC II Electrician",
-		task: "Circuit Breaker Replacement",
-		date: "Sep 10, 2026 - 02:00 PM",
-		price: "P800"
-	}];
-}));
-//#endregion
-//#region src/context/AuthContext.jsx
-function AuthProvider({ children }) {
-	const [isLoggedIn, setIsLoggedIn] = (0, import_react$23.useState)(false);
-	const [role, setRole] = (0, import_react$23.useState)(null);
-	const [isVerified, setIsVerified] = (0, import_react$23.useState)(false);
-	const login = (0, import_react$23.useCallback)((userRole) => {
-		setIsLoggedIn(true);
-		setRole(userRole || "client");
-	}, []);
-	const logout = (0, import_react$23.useCallback)(() => {
-		setIsLoggedIn(false);
-		setRole(null);
-	}, []);
-	const verify = (0, import_react$23.useCallback)(() => {
-		setIsVerified(true);
-	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime$38.jsx)(AuthContext.Provider, {
-		value: {
-			isLoggedIn,
-			role,
-			isVerified,
-			login,
-			logout,
-			verify
+	initialBookings$1 = [
+		{
+			id: 1,
+			status: "Pending Request",
+			worker: "Johhny Cruz",
+			cred: "TESDA NC II Carpenter",
+			task: "Desktop Table Repair",
+			date: "Sep 9, 2026 - 09:00 AM",
+			price: "P500"
 		},
-		children
-	});
-}
-function useAuth() {
-	return (0, import_react$23.useContext)(AuthContext);
-}
-var import_react$23, import_jsx_runtime$38, AuthContext;
-var init_AuthContext = __esmMin((() => {
-	import_react$23 = /* @__PURE__ */ __toESM(require_react());
-	import_jsx_runtime$38 = require_jsx_runtime();
-	AuthContext = (0, import_react$23.createContext)(null);
+		{
+			id: 2,
+			status: "Confirmed",
+			worker: "Maria Santos",
+			cred: "TESDA NC II Electrician",
+			task: "Circuit Breaker Replacement",
+			date: "Sep 10, 2026 - 02:00 PM",
+			price: "P800"
+		},
+		{
+			id: 3,
+			status: "Completed",
+			worker: "Pedro Cruz",
+			cred: "TESDA NC II Plumbing",
+			task: "Leaky Faucet Fix",
+			date: "Aug 28, 2026 - 10:00 AM",
+			price: "P350"
+		}
+	];
 }));
 //#endregion
 //#region src/pages/LandingPage.jsx
@@ -14478,9 +14554,8 @@ function StarIcon$1({ filled }) {
 function LandingPage() {
 	const navigate = useNavigate();
 	const { isVerified } = useAuth();
-	const [howTab, setHowTab] = (0, import_react$22.useState)("client");
-	const [showAuthModal, setShowAuthModal] = (0, import_react$22.useState)(false);
-	const [showVerifyPrompt, setShowVerifyPrompt] = (0, import_react$22.useState)(false);
+	const [howTab, setHowTab] = (0, import_react$23.useState)("client");
+	const [showVerifyPrompt, setShowVerifyPrompt] = (0, import_react$23.useState)(false);
 	return /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16",
 		children: [
@@ -14505,9 +14580,13 @@ function LandingPage() {
 									className: "mt-5 text-base leading-relaxed text-gray-600 sm:text-lg animate-fade-in-up delay-200",
 									children: "TaskPanda connects you with certified tradespeople and trusted independent local specialists. Quick, reliable, and hassle-free."
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+								/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
 									className: "mt-6 flex flex-wrap items-center gap-2 sm:gap-3 animate-fade-in-up delay-300",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+										onClick: () => navigate("/dashboard"),
+										className: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5",
+										children: "Go to Dashboard"
+									}) : /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)(import_jsx_runtime$37.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
 										onClick: () => navigate("/register"),
 										className: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 hover:-translate-y-0.5 sm:px-7 sm:py-3.5",
 										children: "Get Started"
@@ -14515,7 +14594,7 @@ function LandingPage() {
 										onClick: () => navigate("/login"),
 										className: "rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 hover:-translate-y-0.5 sm:px-7 sm:py-3.5",
 										children: "Sign In"
-									})]
+									})] })
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
 									className: "mt-6 flex items-center gap-3 text-sm text-gray-500 animate-fade-in-up delay-400",
@@ -14628,7 +14707,7 @@ function LandingPage() {
 					}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
 						className: "flex flex-wrap justify-center gap-3",
 						children: categories$1.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("button", {
-							onClick: () => navigate("/explore"),
+							onClick: () => navigate(`/explore?service=${encodeURIComponent(cat.name)}`),
 							className: "flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-white px-3 py-3 sm:px-5 sm:py-4 shadow-sm transition hover:shadow-md hover:border-gray-200 hover:-translate-y-1 animate-fade-in-up",
 							style: {
 								width: "100px",
@@ -14780,20 +14859,16 @@ function LandingPage() {
 													setShowVerifyPrompt(true);
 													return;
 												}
-												setShowAuthModal(true);
-											},
-											className: "flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4",
-											children: "Book Now"
-										}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
-											onClick: () => {
-												if (!isVerified) {
-													setShowVerifyPrompt(true);
-													return;
-												}
-												setShowAuthModal(true);
+												navigate(`/provider-profile?name=${encodeURIComponent(p.name)}&trade=${encodeURIComponent(p.trade)}`);
 											},
 											className: "flex-1 rounded-lg bg-gray-900 px-2 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 sm:px-4",
 											children: "Book Now"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+											onClick: () => {
+												navigate(`/provider-profile?name=${encodeURIComponent(p.name)}&trade=${encodeURIComponent(p.trade)}`);
+											},
+											className: "flex-1 rounded-lg border border-gray-200 bg-white px-2 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50 sm:px-4",
+											children: "View Profile"
 										})]
 									})
 								]
@@ -14822,9 +14897,13 @@ function LandingPage() {
 										className: "mt-2 text-sm text-gray-400 sm:text-base",
 										children: "Join thousands of homeowners who trust TaskPanda to find reliable local professionals. Get started in minutes — no commitments needed."
 									})]
-								}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
 									className: "flex flex-col gap-2 sm:flex-row lg:flex-none",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+									children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
+										onClick: () => navigate("/dashboard"),
+										className: "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5",
+										children: "Go to Dashboard"
+									}) : /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)(import_jsx_runtime$37.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
 										onClick: () => navigate("/register"),
 										className: "rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 sm:px-7 sm:py-3.5",
 										children: "Create Free Account"
@@ -14832,56 +14911,11 @@ function LandingPage() {
 										onClick: () => navigate("/login"),
 										className: "rounded-xl border border-gray-600 bg-transparent px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 sm:px-7 sm:py-3.5",
 										children: "Sign In"
-									})]
+									})] })
 								})]
 							})
 						]
 					})
-				})
-			}),
-			showAuthModal && /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
-				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in",
-				onClick: () => setShowAuthModal(false),
-				children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
-					className: "w-full max-w-sm scale-100 rounded-2xl bg-white p-8 shadow-xl animate-scale-in",
-					onClick: (e) => e.stopPropagation(),
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
-							className: "mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-xl",
-							children: "🔐"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("h2", {
-							className: "text-center text-2xl font-bold text-gray-900",
-							children: "Welcome Back"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("p", {
-							className: "mt-2 text-center text-sm text-gray-500",
-							children: "Login or create an account to continue"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
-							className: "mt-6 flex flex-col gap-3",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
-								onClick: () => {
-									setShowAuthModal(false);
-									navigate("/login");
-								},
-								className: "rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800",
-								children: "Login"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
-								onClick: () => {
-									setShowAuthModal(false);
-									navigate("/register");
-								},
-								className: "rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
-								children: "Register"
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
-							onClick: () => setShowAuthModal(false),
-							className: "mt-4 w-full text-center text-xs text-gray-400 hover:text-gray-600",
-							children: "Close"
-						})
-					]
 				})
 			}),
 			showVerifyPrompt && /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
@@ -14915,7 +14949,7 @@ function LandingPage() {
 							}), /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("button", {
 								onClick: () => setShowVerifyPrompt(false),
 								className: "w-full text-center text-xs text-gray-400 hover:text-gray-600",
-								children: "Close"
+								children: "Continue Without Verifying"
 							})]
 						})
 					]
@@ -14924,9 +14958,9 @@ function LandingPage() {
 		]
 	});
 }
-var import_react$22, import_jsx_runtime$37, howItWorksClient, howItWorksProvider, stats$3, providers$1;
+var import_react$23, import_jsx_runtime$37, howItWorksClient, howItWorksProvider, stats$3, providers$1;
 var init_LandingPage = __esmMin((() => {
-	import_react$22 = /* @__PURE__ */ __toESM(require_react());
+	import_react$23 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Header();
 	init_ClientDashboard();
@@ -15146,12 +15180,12 @@ var init_SocialButton = __esmMin((() => {
 function LoginPage() {
 	const navigate = useNavigate();
 	const { login } = useAuth();
-	const [formData, setFormData] = (0, import_react$21.useState)({
+	const [formData, setFormData] = (0, import_react$22.useState)({
 		email: "",
 		password: ""
 	});
-	const [isSubmitting, setIsSubmitting] = (0, import_react$21.useState)(false);
-	const [showPassword, setShowPassword] = (0, import_react$21.useState)(false);
+	const [isSubmitting, setIsSubmitting] = (0, import_react$22.useState)(false);
+	const [showPassword, setShowPassword] = (0, import_react$22.useState)(false);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setIsSubmitting(true);
@@ -15355,9 +15389,9 @@ function LoginPage() {
 		})
 	});
 }
-var import_react$21, import_jsx_runtime$33;
+var import_react$22, import_jsx_runtime$33;
 var init_LoginPage = __esmMin((() => {
-	import_react$21 = /* @__PURE__ */ __toESM(require_react());
+	import_react$22 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
@@ -15408,8 +15442,8 @@ var init_RoleCard = __esmMin((() => {
 //#region src/pages/RegisterPage.jsx
 function RegisterPage() {
 	const navigate = useNavigate();
-	const [selectedRole, setSelectedRole] = (0, import_react$20.useState)("");
-	const [isSubmitting, setIsSubmitting] = (0, import_react$20.useState)(false);
+	const [selectedRole, setSelectedRole] = (0, import_react$21.useState)("");
+	const [isSubmitting, setIsSubmitting] = (0, import_react$21.useState)(false);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("[RegisterPage] handleSubmit, selectedRole:", selectedRole);
@@ -15489,9 +15523,9 @@ function RegisterPage() {
 		})
 	});
 }
-var import_react$20, import_jsx_runtime$31;
+var import_react$21, import_jsx_runtime$31;
 var init_RegisterPage = __esmMin((() => {
-	import_react$20 = /* @__PURE__ */ __toESM(require_react());
+	import_react$21 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_RoleCard();
@@ -15500,7 +15534,7 @@ var init_RegisterPage = __esmMin((() => {
 //#endregion
 //#region src/components/TermsModal.jsx
 function TermsModal({ open, onClose }) {
-	const [tab, setTab] = (0, import_react$19.useState)("terms");
+	const [tab, setTab] = (0, import_react$20.useState)("terms");
 	if (!open) return null;
 	return /* @__PURE__ */ (0, import_jsx_runtime$30.jsx)("div", {
 		className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
@@ -15565,9 +15599,9 @@ function TermsModal({ open, onClose }) {
 		})
 	});
 }
-var import_react$19, import_jsx_runtime$30, termsSections, privacySections;
+var import_react$20, import_jsx_runtime$30, termsSections, privacySections;
 var init_TermsModal = __esmMin((() => {
-	import_react$19 = /* @__PURE__ */ __toESM(require_react());
+	import_react$20 = /* @__PURE__ */ __toESM(require_react());
 	import_jsx_runtime$30 = require_jsx_runtime();
 	termsSections = [
 		{
@@ -15647,16 +15681,16 @@ var init_TermsModal = __esmMin((() => {
 function WorkerRegisterPage() {
 	console.log("[WorkerRegisterPage] MOUNTED");
 	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$18.useState)({
+	const [formData, setFormData] = (0, import_react$19.useState)({
 		username: "",
 		email: "",
 		profession: "",
 		password: "",
 		"confirm-password": ""
 	});
-	const [error, setError] = (0, import_react$18.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$18.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$18.useState)(false);
+	const [error, setError] = (0, import_react$19.useState)("");
+	const [agreedToTerms, setAgreedToTerms] = (0, import_react$19.useState)(false);
+	const [showTerms, setShowTerms] = (0, import_react$19.useState)(false);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
@@ -15890,9 +15924,9 @@ function WorkerRegisterPage() {
 		})] })
 	});
 }
-var import_react$18, import_jsx_runtime$29;
+var import_react$19, import_jsx_runtime$29;
 var init_WorkerRegisterPage = __esmMin((() => {
-	import_react$18 = /* @__PURE__ */ __toESM(require_react());
+	import_react$19 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
@@ -15902,11 +15936,11 @@ var init_WorkerRegisterPage = __esmMin((() => {
 //#endregion
 //#region src/components/PHLocationPicker.jsx
 function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
-	const [ph, setPh] = (0, import_react$17.useState)(null);
-	const [provinces, setProvinces] = (0, import_react$17.useState)([]);
-	const [cities, setCities] = (0, import_react$17.useState)([]);
-	const [barangays, setBarangays] = (0, import_react$17.useState)([]);
-	const [loading, setLoading] = (0, import_react$17.useState)({
+	const [ph, setPh] = (0, import_react$18.useState)(null);
+	const [provinces, setProvinces] = (0, import_react$18.useState)([]);
+	const [cities, setCities] = (0, import_react$18.useState)([]);
+	const [barangays, setBarangays] = (0, import_react$18.useState)([]);
+	const [loading, setLoading] = (0, import_react$18.useState)({
 		province: false,
 		city: false,
 		barangay: false
@@ -15914,10 +15948,10 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 	const borderClass = accent === "green" ? "border-green-200" : "border-primary-200";
 	const bgClass = accent === "green" ? "bg-green-50/50" : "bg-primary-50/50";
 	const focusClass = accent === "green" ? "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30" : "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30";
-	(0, import_react$17.useEffect)(() => {
-		__vitePreload(() => import("./ph-addresses-locations-Bbke1j6J.js").then(setPh), []);
+	(0, import_react$18.useEffect)(() => {
+		__vitePreload(() => import("./ph-addresses-locations-7KKvAxXd.js").then(setPh), []);
 	}, []);
-	const handleProvinceChange = (0, import_react$17.useCallback)((e) => {
+	const handleProvinceChange = (0, import_react$18.useCallback)((e) => {
 		const provinceCode = e.target.value;
 		const provinceName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
@@ -15940,7 +15974,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 			}));
 		}
 	}, [ph, setFormData]);
-	const handleCityChange = (0, import_react$17.useCallback)((e) => {
+	const handleCityChange = (0, import_react$18.useCallback)((e) => {
 		const cityCode = e.target.value;
 		const cityName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
@@ -15962,14 +15996,14 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 			}));
 		}
 	}, [ph, setFormData]);
-	const handleBarangayChange = (0, import_react$17.useCallback)((e) => {
+	const handleBarangayChange = (0, import_react$18.useCallback)((e) => {
 		const barangayName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
 			...prev,
 			barangay: barangayName
 		}));
 	}, [setFormData]);
-	(0, import_react$17.useEffect)(() => {
+	(0, import_react$18.useEffect)(() => {
 		if (!ph) return;
 		setLoading((prev) => ({
 			...prev,
@@ -16058,9 +16092,9 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 		]
 	});
 }
-var import_react$17, import_jsx_runtime$28;
+var import_react$18, import_jsx_runtime$28;
 var init_PHLocationPicker = __esmMin((() => {
-	import_react$17 = /* @__PURE__ */ __toESM(require_react());
+	import_react$18 = /* @__PURE__ */ __toESM(require_react());
 	import_jsx_runtime$28 = require_jsx_runtime();
 	init_preload_helper();
 }));
@@ -16069,7 +16103,7 @@ var init_PHLocationPicker = __esmMin((() => {
 function WorkerRegisterLocation() {
 	console.log("[WorkerRegisterLocation] MOUNTED");
 	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$16.useState)({
+	const [formData, setFormData] = (0, import_react$17.useState)({
 		provinceCode: "",
 		cityCode: "",
 		province: "",
@@ -16077,9 +16111,9 @@ function WorkerRegisterLocation() {
 		barangay: "",
 		address: ""
 	});
-	const [error, setError] = (0, import_react$16.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$16.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$16.useState)(false);
+	const [error, setError] = (0, import_react$17.useState)("");
+	const [agreedToTerms, setAgreedToTerms] = (0, import_react$17.useState)(false);
+	const [showTerms, setShowTerms] = (0, import_react$17.useState)(false);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setError("");
@@ -16257,9 +16291,9 @@ function WorkerRegisterLocation() {
 		})] })
 	});
 }
-var import_react$16, import_jsx_runtime$27;
+var import_react$17, import_jsx_runtime$27;
 var init_WorkerRegisterLocation = __esmMin((() => {
-	import_react$16 = /* @__PURE__ */ __toESM(require_react());
+	import_react$17 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
@@ -16272,15 +16306,15 @@ var init_WorkerRegisterLocation = __esmMin((() => {
 function ClientRegisterPage() {
 	console.log("[ClientRegisterPage] MOUNTED");
 	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$15.useState)({
+	const [formData, setFormData] = (0, import_react$16.useState)({
 		fullName: "",
 		email: "",
 		password: "",
 		confirmPassword: ""
 	});
-	const [error, setError] = (0, import_react$15.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$15.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$15.useState)(false);
+	const [error, setError] = (0, import_react$16.useState)("");
+	const [agreedToTerms, setAgreedToTerms] = (0, import_react$16.useState)(false);
+	const [showTerms, setShowTerms] = (0, import_react$16.useState)(false);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
@@ -16502,9 +16536,9 @@ function ClientRegisterPage() {
 		})] })
 	});
 }
-var import_react$15, import_jsx_runtime$26;
+var import_react$16, import_jsx_runtime$26;
 var init_ClientRegisterPage = __esmMin((() => {
-	import_react$15 = /* @__PURE__ */ __toESM(require_react());
+	import_react$16 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
@@ -16515,7 +16549,7 @@ var init_ClientRegisterPage = __esmMin((() => {
 //#region src/pages/ClientRegisterLocation.jsx
 function ClientRegisterLocation() {
 	const navigate = useNavigate();
-	const [formData, setFormData] = (0, import_react$14.useState)({
+	const [formData, setFormData] = (0, import_react$15.useState)({
 		provinceCode: "",
 		cityCode: "",
 		province: "",
@@ -16523,9 +16557,9 @@ function ClientRegisterLocation() {
 		barangay: "",
 		address: ""
 	});
-	const [error, setError] = (0, import_react$14.useState)("");
-	const [agreedToTerms, setAgreedToTerms] = (0, import_react$14.useState)(false);
-	const [showTerms, setShowTerms] = (0, import_react$14.useState)(false);
+	const [error, setError] = (0, import_react$15.useState)("");
+	const [agreedToTerms, setAgreedToTerms] = (0, import_react$15.useState)(false);
+	const [showTerms, setShowTerms] = (0, import_react$15.useState)(false);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setError("");
@@ -16708,9 +16742,9 @@ function ClientRegisterLocation() {
 		})] })
 	});
 }
-var import_react$14, import_jsx_runtime$25;
+var import_react$15, import_jsx_runtime$25;
 var init_ClientRegisterLocation = __esmMin((() => {
-	import_react$14 = /* @__PURE__ */ __toESM(require_react());
+	import_react$15 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Layout();
 	init_SocialButton();
@@ -16742,8 +16776,8 @@ function StatusBadge$3({ status }) {
 	});
 }
 function ProviderDashboard() {
-	const [jobs, setJobs] = (0, import_react$13.useState)(myJobs);
-	const [requests, setRequests] = (0, import_react$13.useState)(incomingRequests$1);
+	const [jobs, setJobs] = (0, import_react$14.useState)(myJobs);
+	const [requests, setRequests] = (0, import_react$14.useState)(incomingRequests$1);
 	function acceptRequest(id) {
 		const req = requests.find((r) => r.id === id);
 		if (!req) return;
@@ -17005,9 +17039,9 @@ function ProviderDashboard() {
 		})]
 	});
 }
-var import_react$13, import_jsx_runtime$23, stats$2, incomingRequests$1, myJobs;
+var import_react$14, import_jsx_runtime$23, stats$2, incomingRequests$1, myJobs;
 var init_ProviderDashboard = __esmMin((() => {
-	import_react$13 = /* @__PURE__ */ __toESM(require_react());
+	import_react$14 = /* @__PURE__ */ __toESM(require_react());
 	init_Header();
 	import_jsx_runtime$23 = require_jsx_runtime();
 	stats$2 = [
@@ -17208,13 +17242,14 @@ function StarIcon({ filled }) {
 		})
 	});
 }
-function CheckBox({ label, count, defaultChecked = false }) {
+function CheckBox({ label, count, checked, onChange }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("label", {
 		className: "flex cursor-pointer items-center gap-2.5",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("input", {
 				type: "checkbox",
-				defaultChecked,
+				checked,
+				onChange,
 				className: "h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("span", {
@@ -17233,11 +17268,174 @@ function CheckBox({ label, count, defaultChecked = false }) {
 	});
 }
 function Explore() {
-	const [viewingProvider, setViewingProvider] = (0, import_react$11.useState)(null);
-	const [searchService, setSearchService] = (0, import_react$11.useState)("");
-	const [searchLocation, setSearchLocation] = (0, import_react$11.useState)("");
-	const [showAllCats, setShowAllCats] = (0, import_react$11.useState)(false);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [viewingProvider, setViewingProvider] = (0, import_react$12.useState)(null);
+	const [searchService, setSearchService] = (0, import_react$12.useState)("");
+	const [searchLocation, setSearchLocation] = (0, import_react$12.useState)("");
+	const [showAllCats, setShowAllCats] = (0, import_react$12.useState)(false);
+	const [sortBy, setSortBy] = (0, import_react$12.useState)("relevance");
+	const [appliedSearch, setAppliedSearch] = (0, import_react$12.useState)({
+		service: "",
+		location: ""
+	});
+	const [selectedCategories, setSelectedCategories] = (0, import_react$12.useState)(/* @__PURE__ */ new Set());
+	const [verifiedOnly, setVerifiedOnly] = (0, import_react$12.useState)(false);
+	const [tesdaOnly, setTesdaOnly] = (0, import_react$12.useState)(false);
+	const [availabilityFilter, setAvailabilityFilter] = (0, import_react$12.useState)(/* @__PURE__ */ new Set());
+	const [ratingMin, setRatingMin] = (0, import_react$12.useState)(null);
+	(0, import_react$12.useEffect)(() => {
+		const service = searchParams.get("service");
+		if (service) {
+			setSelectedCategories(/* @__PURE__ */ new Set([service]));
+			setAppliedSearch((prev) => ({
+				...prev,
+				service
+			}));
+		}
+	}, [searchParams]);
 	const visibleCats = showAllCats ? filterCategories : filterCategories.slice(0, 4);
+	const toggleCategory = (name) => {
+		setSelectedCategories((prev) => {
+			const next = new Set(prev);
+			if (next.has(name)) next.delete(name);
+			else next.add(name);
+			return next;
+		});
+	};
+	const toggleAvailability = (key) => {
+		setAvailabilityFilter((prev) => {
+			const next = new Set(prev);
+			if (next.has(key)) next.delete(key);
+			else next.add(key);
+			return next;
+		});
+	};
+	const handleSearch = () => {
+		setAppliedSearch({
+			service: searchService,
+			location: searchLocation
+		});
+	};
+	const clearFilters = () => {
+		setSelectedCategories(/* @__PURE__ */ new Set());
+		setVerifiedOnly(false);
+		setTesdaOnly(false);
+		setAvailabilityFilter(/* @__PURE__ */ new Set());
+		setRatingMin(null);
+		setSearchService("");
+		setSearchLocation("");
+		setAppliedSearch({
+			service: "",
+			location: ""
+		});
+		setSortBy("relevance");
+		setSearchParams({});
+	};
+	const removeFilter = (type, value) => {
+		if (type === "category") setSelectedCategories((prev) => {
+			const next = new Set(prev);
+			next.delete(value);
+			return next;
+		});
+		else if (type === "availability") setAvailabilityFilter((prev) => {
+			const next = new Set(prev);
+			next.delete(value);
+			return next;
+		});
+		else if (type === "rating") setRatingMin(null);
+		else if (type === "verified") setVerifiedOnly(false);
+		else if (type === "tesda") setTesdaOnly(false);
+		else if (type === "service") setAppliedSearch((prev) => ({
+			...prev,
+			service: ""
+		}));
+		else if (type === "location") {
+			setAppliedSearch((prev) => ({
+				...prev,
+				location: ""
+			}));
+			setSearchLocation("");
+		}
+	};
+	const filteredProviders = (0, import_react$12.useMemo)(() => {
+		let result = providers;
+		if (appliedSearch.service) {
+			const q = appliedSearch.service.toLowerCase();
+			result = result.filter((p) => p.trade.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || p.cred.toLowerCase().includes(q));
+		}
+		if (appliedSearch.location) {
+			const q = appliedSearch.location.toLowerCase();
+			result = result.filter((p) => p.location.toLowerCase().includes(q));
+		}
+		if (selectedCategories.size > 0) result = result.filter((p) => selectedCategories.has(p.trade));
+		if (verifiedOnly) result = result.filter((p) => p.verified);
+		if (tesdaOnly) result = result.filter((p) => p.tesda);
+		if (availabilityFilter.size > 0) result = result.filter((p) => [...availabilityFilter].some((a) => p.availability.includes(a)));
+		if (ratingMin !== null) result = result.filter((p) => p.rating >= ratingMin);
+		if (sortBy === "rating") result = [...result].sort((a, b) => b.rating - a.rating);
+		else if (sortBy === "reviews") result = [...result].sort((a, b) => b.reviews - a.reviews);
+		else if (sortBy === "name") result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+		return result;
+	}, [
+		appliedSearch,
+		selectedCategories,
+		verifiedOnly,
+		tesdaOnly,
+		availabilityFilter,
+		ratingMin,
+		sortBy
+	]);
+	const activeFilters = [];
+	if (appliedSearch.service) activeFilters.push({
+		type: "service",
+		label: `Service: ${appliedSearch.service}`,
+		value: appliedSearch.service
+	});
+	if (appliedSearch.location) activeFilters.push({
+		type: "location",
+		label: `Location: ${appliedSearch.location}`,
+		value: appliedSearch.location
+	});
+	selectedCategories.forEach((cat) => {
+		activeFilters.push({
+			type: "category",
+			label: cat,
+			value: cat
+		});
+	});
+	if (verifiedOnly) activeFilters.push({
+		type: "verified",
+		label: "ID Verified",
+		value: "verified"
+	});
+	if (tesdaOnly) activeFilters.push({
+		type: "tesda",
+		label: "TESDA Certified",
+		value: "tesda"
+	});
+	availabilityFilter.forEach((a) => {
+		const opt = availabilityOptions.find((o) => o.key === a);
+		if (opt) activeFilters.push({
+			type: "availability",
+			label: opt.label,
+			value: a
+		});
+	});
+	if (ratingMin !== null) {
+		const opt = ratingOptions.find((o) => o.min === ratingMin);
+		if (opt) activeFilters.push({
+			type: "rating",
+			label: opt.label,
+			value: ratingMin
+		});
+	}
+	const resultsSubtitle = () => {
+		const parts = [];
+		if (appliedSearch.service) parts.push(`'${appliedSearch.service}'`);
+		if (appliedSearch.location) parts.push(`in ${appliedSearch.location}`);
+		if (selectedCategories.size === 1) parts.push(`category: ${[...selectedCategories][0]}`);
+		return parts.length ? `Showing results for ${parts.join(" ")}` : "Showing all professionals";
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16",
 		children: [
@@ -17278,6 +17476,9 @@ function Explore() {
 											type: "text",
 											value: searchService,
 											onChange: (e) => setSearchService(e.target.value),
+											onKeyDown: (e) => {
+												if (e.key === "Enter") handleSearch();
+											},
 											placeholder: "What services do you need?",
 											className: "flex-1 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none"
 										}),
@@ -17286,10 +17487,14 @@ function Explore() {
 											type: "text",
 											value: searchLocation,
 											onChange: (e) => setSearchLocation(e.target.value),
+											onKeyDown: (e) => {
+												if (e.key === "Enter") handleSearch();
+											},
 											placeholder: "Dagupan City",
 											className: "w-24 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none sm:w-36 md:w-44"
 										}),
 										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
+											onClick: handleSearch,
 											className: "shrink-0 bg-purple-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-purple-700",
 											children: "Search"
 										})
@@ -17314,6 +17519,7 @@ function Explore() {
 										className: "text-base font-bold text-gray-900",
 										children: "Browse Filters"
 									}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
+										onClick: clearFilters,
 										className: "text-sm font-medium text-purple-600 hover:text-purple-800",
 										children: "Reset All"
 									})]
@@ -17325,7 +17531,15 @@ function Explore() {
 										children: "Verification"
 									}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
 										className: "space-y-2.5",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "TESDA CERTIFIED ONLY" }), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "ID VERIFIED PROFESSIONALS" })]
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
+											label: "TESDA CERTIFIED ONLY",
+											checked: tesdaOnly,
+											onChange: () => setTesdaOnly((v) => !v)
+										}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
+											label: "ID VERIFIED PROFESSIONALS",
+											checked: verifiedOnly,
+											onChange: () => setVerifiedOnly((v) => !v)
+										})]
 									})]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
@@ -17339,7 +17553,8 @@ function Explore() {
 											className: "space-y-2.5",
 											children: visibleCats.map((cat) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
 												label: cat.name,
-												count: cat.count
+												checked: selectedCategories.has(cat.name),
+												onChange: () => toggleCategory(cat.name)
 											}, cat.name))
 										}),
 										filterCategories.length >= 4 && /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
@@ -17354,115 +17569,173 @@ function Explore() {
 									children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("h3", {
 										className: "mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500",
 										children: "Availability"
-									}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+									}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
 										className: "space-y-2.5",
-										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "Available Today" }),
-											/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "Available Tomorrow" }),
-											/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "This week" }),
-											/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "Weekends only" })
-										]
+										children: availabilityOptions.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
+											label: opt.label,
+											checked: availabilityFilter.has(opt.key),
+											onChange: () => toggleAvailability(opt.key)
+										}, opt.key))
 									})]
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("h3", {
 									className: "mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500",
 									children: "Rating"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
 									className: "space-y-2.5",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
-											label: "5 stars & up",
-											count: 42
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
-											label: "4 stars & up",
-											count: 128
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "3 stars & up" }),
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, { label: "2 stars & up" })
-									]
+									children: ratingOptions.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(CheckBox, {
+										label: opt.label,
+										checked: ratingMin === opt.min,
+										onChange: () => setRatingMin((prev) => prev === opt.min ? null : opt.min)
+									}, opt.min))
 								})] })
 							]
 						})
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
 						className: "flex-1 lg:min-w-0",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
-							className: "mb-4",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
-								className: "text-lg font-bold text-gray-900",
-								children: "150 Professionals Found"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
-								className: "text-sm text-gray-500",
-								children: "Showing top results for 'Carpentry' in Dagupan City"
-							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
-							className: "grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3",
-							children: providers.map((provider) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
-								className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
-									className: `relative h-28 bg-gradient-to-r ${provider.banner}`,
-									children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
-										className: "absolute -bottom-6 left-4",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
-											className: `flex h-14 w-14 items-center justify-center rounded-full border-4 border-white text-lg font-bold ${provider.color}`,
-											children: provider.name.charAt(0)
-										})
-									})
-								}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
-									className: "px-4 pb-4 pt-8",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+								className: "mb-4 flex items-start justify-between gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("p", {
+									className: "text-lg font-bold text-gray-900",
 									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
-											className: "flex items-start justify-between",
-											children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("h3", {
-												className: "text-sm font-bold text-gray-900",
-												children: provider.name
-											}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
-												className: "text-xs text-gray-500",
-												children: provider.trade
-											})] })
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
-											className: "mt-1.5 flex items-center gap-1.5",
-											children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("span", {
-												className: "inline-flex items-center rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600",
-												children: provider.cred
-											})
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
-											className: "mt-2 line-clamp-2 text-xs leading-relaxed text-gray-500",
-											children: provider.bio
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
-											className: "mt-3 flex items-center justify-between",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
-												className: "flex items-center gap-1",
-												children: [
-													/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(StarIcon, { filled: true }),
-													/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("span", {
-														className: "text-sm font-semibold text-gray-800",
-														children: provider.rating
-													}),
-													/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("span", {
-														className: "text-xs text-gray-400",
-														children: [
-															"(",
-															provider.reviews,
-															")"
-														]
-													})
-												]
-											}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
-												type: "button",
-												onClick: () => setViewingProvider(provider),
-												className: "rounded-lg bg-purple-600 px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-purple-700",
-												children: "View Profile"
-											})]
-										})
+										filteredProviders.length,
+										" ",
+										filteredProviders.length === 1 ? "Professional" : "Professionals",
+										" ",
+										"Found"
 									]
+								}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
+									className: "text-sm text-gray-500",
+									children: resultsSubtitle()
+								})] }), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+									className: "shrink-0",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("select", {
+										value: sortBy,
+										onChange: (e) => setSortBy(e.target.value),
+										className: "rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 outline-none focus:border-purple-500",
+										children: sortOptions.map((opt) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("option", {
+											value: opt.value,
+											children: ["Sort: ", opt.label]
+										}, opt.value))
+									})
 								})]
-							}, provider.name))
-						})]
+							}),
+							activeFilters.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+								className: "mb-4 flex flex-wrap gap-2",
+								children: activeFilters.map((f) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("span", {
+									className: "inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-medium text-purple-700",
+									children: [f.label, /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
+										onClick: () => removeFilter(f.type, f.value),
+										className: "ml-0.5 flex h-4 w-4 items-center justify-center rounded-full hover:bg-purple-200",
+										"aria-label": `Remove ${f.label}`,
+										children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("svg", {
+											xmlns: "http://www.w3.org/2000/svg",
+											viewBox: "0 0 24 24",
+											fill: "currentColor",
+											className: "h-3 w-3",
+											children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("path", {
+												fillRule: "evenodd",
+												d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
+												clipRule: "evenodd"
+											})
+										})
+									})]
+								}, `${f.type}-${f.value}`))
+							}),
+							filteredProviders.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+								className: "grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3",
+								children: filteredProviders.map((provider) => /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+									className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+										className: `relative h-28 bg-gradient-to-r ${provider.banner}`,
+										children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+											className: "absolute -bottom-6 left-4",
+											children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+												className: `flex h-14 w-14 items-center justify-center rounded-full border-4 border-white text-lg font-bold ${provider.color}`,
+												children: provider.name.charAt(0)
+											})
+										})
+									}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+										className: "px-4 pb-4 pt-8",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("div", {
+												className: "flex items-start justify-between",
+												children: /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("h3", {
+													className: "text-sm font-bold text-gray-900",
+													children: provider.name
+												}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
+													className: "text-xs text-gray-500",
+													children: provider.trade
+												})] })
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+												className: "mt-1.5 flex items-center gap-1.5 flex-wrap",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("span", {
+													className: "inline-flex items-center rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600",
+													children: provider.cred
+												}), provider.location && /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("span", {
+													className: "inline-flex items-center rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium text-gray-600",
+													children: ["📍 ", provider.location]
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
+												className: "mt-2 line-clamp-2 text-xs leading-relaxed text-gray-500",
+												children: provider.bio
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+												className: "mt-3 flex items-center justify-between",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+													className: "flex items-center gap-1",
+													children: [
+														/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(StarIcon, { filled: true }),
+														/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("span", {
+															className: "text-sm font-semibold text-gray-800",
+															children: provider.rating
+														}),
+														/* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("span", {
+															className: "text-xs text-gray-400",
+															children: [
+																"(",
+																provider.reviews,
+																")"
+															]
+														})
+													]
+												}), /* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
+													type: "button",
+													onClick: () => setViewingProvider(provider),
+													className: "rounded-lg bg-purple-600 px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-purple-700",
+													children: "View Profile"
+												})]
+											})
+										]
+									})]
+								}, provider.name))
+							}) : /* @__PURE__ */ (0, import_jsx_runtime$20.jsxs)("div", {
+								className: "rounded-xl border border-dashed border-gray-300 bg-white py-16 text-center",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
+										className: "text-4xl mb-3",
+										children: "🔍"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
+										className: "text-base font-semibold text-gray-700",
+										children: "No professionals found"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("p", {
+										className: "mt-1 text-sm text-gray-500",
+										children: "Try adjusting your filters or search terms"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)("button", {
+										onClick: clearFilters,
+										className: "mt-4 rounded-lg bg-purple-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
+										children: "Clear all filters"
+									})
+								]
+							})
+						]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime$20.jsx)(ProviderModal, {
 						provider: viewingProvider,
@@ -17473,9 +17746,10 @@ function Explore() {
 		]
 	});
 }
-var import_react$11, import_jsx_runtime$20, filterCategories, providers;
+var import_react$12, import_jsx_runtime$20, filterCategories, providers, availabilityOptions, ratingOptions, sortOptions;
 var init_Explore = __esmMin((() => {
-	import_react$11 = /* @__PURE__ */ __toESM(require_react());
+	import_react$12 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
 	init_Header();
 	init_ProviderModal();
 	import_jsx_runtime$20 = require_jsx_runtime();
@@ -17506,6 +17780,10 @@ var init_Explore = __esmMin((() => {
 			bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 			rating: 4.8,
 			reviews: 12,
+			location: "Dagupan City",
+			verified: true,
+			tesda: true,
+			availability: ["today", "tomorrow"],
 			color: "bg-emerald-100 text-emerald-700",
 			banner: "from-emerald-400 to-emerald-600"
 		},
@@ -17516,6 +17794,10 @@ var init_Explore = __esmMin((() => {
 			bio: "Experienced plumber with 10+ years serving Dagupan households for all pipe and water needs.",
 			rating: 4.6,
 			reviews: 28,
+			location: "Dagupan City",
+			verified: true,
+			tesda: true,
+			availability: ["today", "this-week"],
 			color: "bg-blue-100 text-blue-700",
 			banner: "from-blue-400 to-blue-600"
 		},
@@ -17526,6 +17808,14 @@ var init_Explore = __esmMin((() => {
 			bio: "Certified electrician specializing in residential wiring, panel upgrades, and circuit troubleshooting.",
 			rating: 4.9,
 			reviews: 35,
+			location: "Dagupan City",
+			verified: true,
+			tesda: true,
+			availability: [
+				"today",
+				"tomorrow",
+				"weekends"
+			],
 			color: "bg-amber-100 text-amber-700",
 			banner: "from-amber-400 to-amber-600"
 		},
@@ -17536,6 +17826,10 @@ var init_Explore = __esmMin((() => {
 			bio: "AC maintenance and repair specialist. Quick response and honest pricing for all brands.",
 			rating: 4.5,
 			reviews: 19,
+			location: "Manila",
+			verified: true,
+			tesda: true,
+			availability: ["tomorrow", "this-week"],
 			color: "bg-cyan-100 text-cyan-700",
 			banner: "from-cyan-400 to-cyan-600"
 		},
@@ -17546,6 +17840,10 @@ var init_Explore = __esmMin((() => {
 			bio: "Interior and exterior painting services. Clean finish, on-time delivery, competitive rates.",
 			rating: 4.7,
 			reviews: 14,
+			location: "Dagupan City",
+			verified: false,
+			tesda: false,
+			availability: ["this-week", "weekends"],
 			color: "bg-rose-100 text-rose-700",
 			banner: "from-rose-400 to-rose-600"
 		},
@@ -17556,8 +17854,66 @@ var init_Explore = __esmMin((() => {
 			bio: "Lawn care, garden design, tree trimming, and hardscaping for homes and businesses.",
 			rating: 4.3,
 			reviews: 9,
+			location: "Manila",
+			verified: true,
+			tesda: false,
+			availability: ["today", "weekends"],
 			color: "bg-green-100 text-green-700",
 			banner: "from-green-400 to-green-600"
+		}
+	];
+	availabilityOptions = [
+		{
+			key: "today",
+			label: "Available Today"
+		},
+		{
+			key: "tomorrow",
+			label: "Available Tomorrow"
+		},
+		{
+			key: "this-week",
+			label: "This week"
+		},
+		{
+			key: "weekends",
+			label: "Weekends only"
+		}
+	];
+	ratingOptions = [
+		{
+			label: "5 stars & up",
+			min: 5
+		},
+		{
+			label: "4 stars & up",
+			min: 4
+		},
+		{
+			label: "3 stars & up",
+			min: 3
+		},
+		{
+			label: "2 stars & up",
+			min: 2
+		}
+	];
+	sortOptions = [
+		{
+			value: "relevance",
+			label: "Relevance"
+		},
+		{
+			value: "rating",
+			label: "Highest Rated"
+		},
+		{
+			value: "reviews",
+			label: "Most Reviews"
+		},
+		{
+			value: "name",
+			label: "Name A–Z"
 		}
 	];
 }));
@@ -17578,7 +17934,8 @@ function StatusBadge$2({ status }) {
 		className: `inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${{
 			"Pending Request": "bg-amber-100 text-amber-700 border-amber-200",
 			Confirmed: "bg-green-100 text-green-700 border-green-200",
-			Completed: "bg-blue-100 text-blue-700 border-blue-200"
+			Completed: "bg-blue-100 text-blue-700 border-blue-200",
+			Cancelled: "bg-red-100 text-red-700 border-red-200"
 		}[status] || "bg-gray-100 text-gray-700 border-gray-200"}`,
 		children: status
 	});
@@ -17587,148 +17944,469 @@ function StatusDot$1({ status }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { className: `inline-block h-2 w-2 rounded-full ${{
 		"Pending Request": "bg-amber-500",
 		Confirmed: "bg-green-500",
-		Completed: "bg-blue-500"
+		Completed: "bg-blue-500",
+		Cancelled: "bg-red-500"
 	}[status] || "bg-gray-400"}` });
 }
 function BookingsPage() {
-	const [activeTab, setActiveTab] = (0, import_react$10.useState)("All");
-	const filteredBookings = activeTab === "All" ? bookings$1 : bookings$1.filter((b) => b.status === activeTab);
+	const navigate = useNavigate();
+	const { isLoggedIn } = useAuth();
+	const [activeTab, setActiveTab] = (0, import_react$11.useState)("All");
+	const [bookings, setBookings] = (0, import_react$11.useState)(initialBookings);
+	const [sortBy, setSortBy] = (0, import_react$11.useState)("date");
+	const [cancelingId, setCancelingId] = (0, import_react$11.useState)(null);
+	const [detailId, setDetailId] = (0, import_react$11.useState)(null);
+	const stats = (0, import_react$11.useMemo)(() => {
+		return {
+			total: bookings.length,
+			pending: bookings.filter((b) => b.status === "Pending Request").length,
+			confirmed: bookings.filter((b) => b.status === "Confirmed").length,
+			completed: bookings.filter((b) => b.status === "Completed").length,
+			cancelled: bookings.filter((b) => b.status === "Cancelled").length
+		};
+	}, [bookings]);
+	const filteredBookings = (0, import_react$11.useMemo)(() => {
+		let result = bookings;
+		if (activeTab !== "All") result = result.filter((b) => b.status === activeTab);
+		const sorted = [...result];
+		if (sortBy === "date") sorted.sort((a, b) => /* @__PURE__ */ new Date(a.date + " " + a.time) - /* @__PURE__ */ new Date(b.date + " " + b.time));
+		else if (sortBy === "price") sorted.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, "")) - parseInt(a.price.replace(/[^0-9]/g, "")));
+		else if (sortBy === "status") {
+			const order = {
+				"Pending Request": 0,
+				Confirmed: 1,
+				Completed: 2,
+				Cancelled: 3
+			};
+			sorted.sort((a, b) => (order[a.status] ?? 99) - (order[b.status] ?? 99));
+		}
+		return sorted;
+	}, [
+		bookings,
+		activeTab,
+		sortBy
+	]);
+	const detailBooking = bookings.find((b) => b.id === detailId) || null;
+	const cancelBooking = bookings.find((b) => b.id === cancelingId);
+	const handleCancel = () => {
+		if (!cancelingId) return;
+		setBookings((prev) => prev.map((b) => b.id === cancelingId ? {
+			...b,
+			status: "Cancelled"
+		} : b));
+		setCancelingId(null);
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(Header, {
-			showNav: true,
-			activeTab: "Bookings"
-		}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-			className: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-					className: "mb-6",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h1", {
-						className: "text-2xl font-bold text-gray-900",
-						children: "My Bookings"
-					}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
-						className: "mt-1 text-sm text-gray-500",
-						children: "View and manage your service bookings"
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
-					className: "mb-6 flex gap-1",
-					children: tabs$1.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
-						onClick: () => setActiveTab(tab),
-						className: `rounded-lg px-4 py-2 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50"}`,
-						children: tab
-					}, tab))
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
-					className: "space-y-4",
-					children: filteredBookings.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
-						className: "rounded-xl border border-gray-200 bg-white py-16 text-center",
-						children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
-							className: "text-gray-400",
-							children: "No bookings found"
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(Header, {
+				showNav: true,
+				activeTab: "Bookings"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+				className: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+						className: "mb-6",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h1", {
+							className: "text-2xl font-bold text-gray-900",
+							children: "My Bookings"
+						}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+							className: "mt-1 text-sm text-gray-500",
+							children: "View and manage your service bookings"
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+						className: "mb-6 grid grid-cols-2 gap-3 sm:grid-cols-5",
+						children: [
+							{
+								label: "Total",
+								value: stats.total,
+								color: "bg-gray-100 text-gray-700"
+							},
+							{
+								label: "Pending",
+								value: stats.pending,
+								color: "bg-amber-50 text-amber-700"
+							},
+							{
+								label: "Confirmed",
+								value: stats.confirmed,
+								color: "bg-green-50 text-green-700"
+							},
+							{
+								label: "Completed",
+								value: stats.completed,
+								color: "bg-blue-50 text-blue-700"
+							},
+							{
+								label: "Cancelled",
+								value: stats.cancelled,
+								color: "bg-red-50 text-red-700"
+							}
+						].map((s) => /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+							className: `rounded-xl ${s.color} px-4 py-3 text-center`,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+								className: "text-xl font-bold",
+								children: s.value
+							}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+								className: "text-xs font-medium opacity-80",
+								children: s.label
+							})]
+						}, s.label))
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+						className: "mb-4 flex flex-wrap gap-1",
+						children: tabs$1.map((tab) => {
+							const count = tab === "All" ? bookings.length : bookings.filter((b) => b.status === tab).length;
+							return /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("button", {
+								onClick: () => setActiveTab(tab),
+								className: `relative flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50"}`,
+								children: [tab, /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+									className: `inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full px-1 text-[10px] font-bold ${activeTab === tab ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"}`,
+									children: count
+								})]
+							}, tab);
 						})
-					}) : filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
-						className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
-						children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-							className: "p-5 sm:p-6",
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+						className: "mb-4 flex justify-end",
+						children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("select", {
+							value: sortBy,
+							onChange: (e) => setSortBy(e.target.value),
+							className: "rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 outline-none focus:border-purple-500",
 							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-									className: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-										className: "flex items-start gap-4",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
-											className: "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700",
-											children: booking.worker.charAt(0)
-										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h3", {
-											className: "text-base font-semibold text-gray-900",
-											children: booking.worker
+								/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("option", {
+									value: "date",
+									children: "Sort: Date"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("option", {
+									value: "price",
+									children: "Sort: Price"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("option", {
+									value: "status",
+									children: "Sort: Status"
+								})
+							]
+						})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+						className: "space-y-4",
+						children: filteredBookings.length > 0 ? filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+							className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+								className: "p-5 sm:p-6",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+											className: "flex items-start gap-4",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+												className: "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700",
+												children: booking.worker.charAt(0)
+											}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h3", {
+												className: "text-base font-semibold text-gray-900",
+												children: booking.worker
+											}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+												className: "text-sm text-gray-500",
+												children: booking.cred
+											})] })]
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+											className: "flex items-center gap-2",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(StatusDot$1, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(StatusBadge$2, { status: booking.status })]
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "mt-4 border-t border-gray-100 pt-4",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h4", {
+											className: "text-sm font-semibold text-gray-800",
+											children: booking.task
 										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
-											className: "text-sm text-gray-500",
-											children: booking.cred
-										})] })]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-										className: "flex items-center gap-2",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(StatusDot$1, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(StatusBadge$2, { status: booking.status })]
-									})]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-									className: "mt-5 border-t border-gray-100 pt-4",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h4", {
-										className: "text-sm font-semibold text-gray-800",
-										children: booking.task
-									}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
-										className: "mt-1 text-sm leading-relaxed text-gray-500",
-										children: booking.description
-									})]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-									className: "mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-										className: "flex items-center gap-1.5",
-										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("svg", {
+											className: "mt-1 text-sm leading-relaxed text-gray-500",
+											children: booking.description
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+											className: "flex items-center gap-1.5",
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("svg", {
+													xmlns: "http://www.w3.org/2000/svg",
+													viewBox: "0 0 24 24",
+													fill: "currentColor",
+													className: "h-4 w-4 text-gray-400",
+													children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("path", {
+														fillRule: "evenodd",
+														d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
+														clipRule: "evenodd"
+													})
+												}),
+												/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { children: booking.date }),
+												/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+													className: "text-gray-300",
+													children: "|"
+												}),
+												/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { children: booking.time })
+											]
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+											className: "flex items-center gap-1.5",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("svg", {
 												xmlns: "http://www.w3.org/2000/svg",
 												viewBox: "0 0 24 24",
 												fill: "currentColor",
 												className: "h-4 w-4 text-gray-400",
 												children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("path", {
 													fillRule: "evenodd",
-													d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
+													d: "M11.54 22.35l.07.04.03.02.04.01-.04-.01-.03-.02-.07-.04zm-.91-.65A7.5 7.5 0 0019.5 12c0-3.04-1.96-5.64-4.63-6.86a.75.75 0 00-.74 0A7.49 7.49 0 004.5 12c0 3.95 3.23 7.14 6.91 7.64l.07.04.03.02a1.25 1.25 0 00.42.08l.04-.01-.04.01a1.25 1.25 0 00.42-.08l.03-.02.07-.04z",
 													clipRule: "evenodd"
 												})
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { children: booking.date }),
-											/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
-												className: "text-gray-300",
-												children: "|"
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { children: booking.time })
-										]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-										className: "flex items-center gap-1.5",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("svg", {
-											xmlns: "http://www.w3.org/2000/svg",
-											viewBox: "0 0 24 24",
-											fill: "currentColor",
-											className: "h-4 w-4 text-gray-400",
-											children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("path", {
-												fillRule: "evenodd",
-												d: "M11.54 22.35l.07.04.03.02.04.01-.04-.01-.03-.02-.07-.04zm-.91-.65A7.5 7.5 0 0019.5 12c0-3.04-1.96-5.64-4.63-6.86a.75.75 0 00-.74 0A7.49 7.49 0 004.5 12c0 3.95 3.23 7.14 6.91 7.64l.07.04.03.02a1.25 1.25 0 00.42.08l.04-.01-.04.01a1.25 1.25 0 00.42-.08l.03-.02.07-.04z",
-												clipRule: "evenodd"
-											})
-										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { children: booking.address })]
-									})]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-									className: "mt-5 flex flex-col-reverse gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
-										className: "text-xl font-bold text-gray-900",
-										children: booking.price
-									}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
-										className: "flex gap-2",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
-											className: "rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
-											children: "Contact"
-										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
-											className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 hover:border-red-200",
-											children: "Cancel"
+											}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", { children: booking.address })]
 										})]
-									})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "mt-5 flex flex-col-reverse gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-xl font-bold text-gray-900",
+											children: booking.price
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+											className: "flex flex-wrap gap-2",
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+													onClick: () => navigate("/messages"),
+													className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50",
+													children: "Contact"
+												}),
+												(booking.status === "Pending Request" || booking.status === "Confirmed") && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+													onClick: () => setCancelingId(booking.id),
+													className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 hover:border-red-200",
+													children: "Cancel"
+												}),
+												booking.status === "Completed" && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+													onClick: () => navigate("/explore"),
+													className: "rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
+													children: "Book Again"
+												}),
+												(booking.status === "Pending Request" || booking.status === "Confirmed") && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+													onClick: () => setDetailId(booking.id),
+													className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50",
+													children: "Details"
+												})
+											]
+										})]
+									})
+								]
+							})
+						}, booking.id)) : /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+							className: "rounded-xl border border-dashed border-gray-300 bg-white py-16 text-center",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+									className: "text-4xl mb-3",
+									children: "📋"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+									className: "text-base font-semibold text-gray-700",
+									children: "No bookings found"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+									className: "mt-1 text-sm text-gray-500",
+									children: activeTab !== "All" ? `You have no ${activeTab.toLowerCase()} bookings` : "No bookings yet"
+								}),
+								activeTab !== "All" && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+									onClick: () => setActiveTab("All"),
+									className: "mt-4 rounded-lg bg-purple-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
+									children: "View All Bookings"
 								})
 							]
 						})
-					}, booking.id))
+					})
+				]
+			}),
+			cancelingId && cancelBooking && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
+				onClick: () => setCancelingId(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+					className: "w-full max-w-sm rounded-2xl bg-white shadow-xl",
+					onClick: (e) => e.stopPropagation(),
+					children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+						className: "p-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h3", {
+								className: "text-lg font-bold text-gray-900",
+								children: "Cancel Booking?"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("p", {
+								className: "mt-2 text-sm text-gray-500",
+								children: [
+									"Are you sure you want to cancel",
+									" ",
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+										className: "font-semibold text-gray-700",
+										children: cancelBooking.task
+									}),
+									" ",
+									"with ",
+									cancelBooking.worker,
+									"? This action cannot be undone."
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+								className: "mt-6 flex gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+									onClick: () => setCancelingId(null),
+									className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
+									children: "Keep Booking"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+									onClick: handleCancel,
+									className: "flex-1 rounded-lg bg-red-600 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700",
+									children: "Cancel Booking"
+								})]
+							})
+						]
+					})
 				})
-			]
-		})]
+			}),
+			detailBooking && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
+				onClick: () => setDetailId(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+					className: "w-full max-w-md rounded-2xl bg-white shadow-xl",
+					onClick: (e) => e.stopPropagation(),
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+						className: "relative",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+							className: "relative h-28 bg-gradient-to-r from-purple-500 to-indigo-600",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+								className: "absolute -bottom-10 left-6",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("div", {
+									className: "flex h-20 w-20 items-center justify-center rounded-full border-4 border-white text-2xl font-bold bg-primary-100 text-primary-700",
+									children: detailBooking.worker.charAt(0)
+								})
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+							onClick: () => setDetailId(null),
+							className: "absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-500 transition hover:bg-white hover:text-gray-700",
+							"aria-label": "Close",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("svg", {
+								xmlns: "http://www.w3.org/2000/svg",
+								viewBox: "0 0 24 24",
+								fill: "currentColor",
+								className: "h-5 w-5",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("path", {
+									fillRule: "evenodd",
+									d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
+									clipRule: "evenodd"
+								})
+							})
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+						className: "px-6 pt-12 pb-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("h2", {
+								className: "text-xl font-bold text-gray-900",
+								children: detailBooking.worker
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("p", {
+								className: "text-sm text-gray-500",
+								children: detailBooking.cred
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+								className: "mt-3 flex items-center gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(StatusDot$1, { status: detailBooking.status }), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)(StatusBadge$2, { status: detailBooking.status })]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+								className: "mt-4 space-y-3 text-sm",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-gray-500",
+											children: "Service"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "font-medium text-gray-800",
+											children: detailBooking.task
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-gray-500",
+											children: "Date & Time"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("span", {
+											className: "font-medium text-gray-800",
+											children: [
+												detailBooking.date,
+												" at ",
+												detailBooking.time
+											]
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-gray-500",
+											children: "Address"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "font-medium text-gray-800",
+											children: detailBooking.address
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-gray-500",
+											children: "Price"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "font-bold text-gray-900",
+											children: detailBooking.price
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-gray-500",
+											children: "Description"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("span", {
+											className: "text-right text-gray-700",
+											children: detailBooking.description
+										})]
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$18.jsxs)("div", {
+								className: "mt-6 flex gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+									onClick: () => {
+										setDetailId(null);
+										navigate("/messages");
+									},
+									className: "flex-1 rounded-lg bg-purple-600 py-2.5 text-sm font-semibold text-white transition hover:bg-purple-700",
+									children: "Contact Worker"
+								}), detailBooking.status === "Pending Request" && /* @__PURE__ */ (0, import_jsx_runtime$18.jsx)("button", {
+									onClick: () => {
+										setDetailId(null);
+										setCancelingId(detailBooking.id);
+									},
+									className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50",
+									children: "Cancel"
+								})]
+							})
+						]
+					})]
+				})
+			})
+		]
 	});
 }
-var import_react$10, import_jsx_runtime$18, bookings$1, tabs$1;
+var import_react$11, import_jsx_runtime$18, initialBookings, tabs$1;
 var init_BookingsPage = __esmMin((() => {
-	import_react$10 = /* @__PURE__ */ __toESM(require_react());
+	import_react$11 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
 	init_Header();
+	init_AuthContext();
 	import_jsx_runtime$18 = require_jsx_runtime();
-	bookings$1 = [
+	initialBookings = [
 		{
 			id: 1,
 			status: "Pending Request",
@@ -17770,7 +18448,8 @@ var init_BookingsPage = __esmMin((() => {
 		"All",
 		"Pending Request",
 		"Confirmed",
-		"Completed"
+		"Completed",
+		"Cancelled"
 	];
 }));
 //#endregion
@@ -17795,9 +18474,9 @@ function StatusDot({ status }) {
 	}[status] || "bg-gray-400"}` });
 }
 function ProviderBookingsPage() {
-	const [activeTab, setActiveTab] = (0, import_react$9.useState)("All");
-	const [requests, setRequests] = (0, import_react$9.useState)(incomingRequests);
-	const [bookings, setBookings] = (0, import_react$9.useState)(myBookings);
+	const [activeTab, setActiveTab] = (0, import_react$10.useState)("All");
+	const [requests, setRequests] = (0, import_react$10.useState)(incomingRequests);
+	const [bookings, setBookings] = (0, import_react$10.useState)(myBookings);
 	function acceptRequest(id) {
 		const req = requests.find((r) => r.id === id);
 		if (!req) return;
@@ -18055,9 +18734,9 @@ function ProviderBookingsPage() {
 		})]
 	});
 }
-var import_react$9, import_jsx_runtime$17, incomingRequests, myBookings, tabs;
+var import_react$10, import_jsx_runtime$17, incomingRequests, myBookings, tabs;
 var init_ProviderBookingsPage = __esmMin((() => {
-	import_react$9 = /* @__PURE__ */ __toESM(require_react());
+	import_react$10 = /* @__PURE__ */ __toESM(require_react());
 	init_Header();
 	import_jsx_runtime$17 = require_jsx_runtime();
 	incomingRequests = [{
@@ -18138,36 +18817,45 @@ function groupByDate(messages) {
 	return groups;
 }
 function ChatLayout({ conversations: rawConversations, messagesData, headerSubtitle = "Client", avatarTheme = "primary", senderMe = "me", senderOther = "worker", otherRoleLabel = "Worker" }) {
-	const [selectedId, setSelectedId] = (0, import_react$8.useState)(null);
-	const [input, setInput] = (0, import_react$8.useState)("");
-	const [search, setSearch] = (0, import_react$8.useState)("");
-	const [typing, setTyping] = (0, import_react$8.useState)(false);
-	const [messages, setMessages] = (0, import_react$8.useState)(() => ({}));
-	const [unreadMap, setUnreadMap] = (0, import_react$8.useState)(() => {
+	const [selectedId, setSelectedId] = (0, import_react$9.useState)(null);
+	const [input, setInput] = (0, import_react$9.useState)("");
+	const [search, setSearch] = (0, import_react$9.useState)("");
+	const [typing, setTyping] = (0, import_react$9.useState)(false);
+	const [messages, setMessages] = (0, import_react$9.useState)(() => ({}));
+	const [unreadMap, setUnreadMap] = (0, import_react$9.useState)(() => {
 		const m = {};
 		rawConversations.forEach((c) => {
-			if (c.unread) m[c.id] = true;
+			if (c.unread) m[c.id] = (m[c.id] || 0) + 1;
 		});
 		return m;
 	});
-	const [showScrollButton, setShowScrollButton] = (0, import_react$8.useState)(false);
-	const messagesEndRef = (0, import_react$8.useRef)(null);
-	const messagesContainerRef = (0, import_react$8.useRef)(null);
-	const fileInputRef = (0, import_react$8.useRef)(null);
-	const wasAtBottomRef = (0, import_react$8.useRef)(true);
-	const conversations = rawConversations.map((c) => ({
+	const [showScrollButton, setShowScrollButton] = (0, import_react$9.useState)(false);
+	const messagesEndRef = (0, import_react$9.useRef)(null);
+	const messagesContainerRef = (0, import_react$9.useRef)(null);
+	const fileInputRef = (0, import_react$9.useRef)(null);
+	const wasAtBottomRef = (0, import_react$9.useRef)(true);
+	const conversationListRef = (0, import_react$9.useRef)(null);
+	const conversations = (0, import_react$9.useMemo)(() => rawConversations.map((c) => ({
 		...c,
-		unread: unreadMap[c.id] || false
-	}));
+		unreadCount: unreadMap[c.id] || 0
+	})), [rawConversations, unreadMap]);
+	const sortedConversations = (0, import_react$9.useMemo)(() => {
+		return [...conversations].sort((a, b) => {
+			if (a.unreadCount > 0 && b.unreadCount === 0) return -1;
+			if (a.unreadCount === 0 && b.unreadCount > 0) return 1;
+			return 0;
+		});
+	}, [conversations]);
 	const selectedConv = conversations.find((c) => c.id === selectedId);
 	const chatMessages = selectedId ? messages[selectedId] || messagesData[selectedId] || [] : [];
-	(0, import_react$8.useEffect)(() => {
+	const totalUnread = Object.values(unreadMap).reduce((sum, c) => sum + c, 0);
+	(0, import_react$9.useEffect)(() => {
 		if (selectedId && messages[selectedId] === void 0) setMessages((prev) => ({
 			...prev,
 			[selectedId]: messagesData[selectedId] || []
 		}));
 	}, [selectedId]);
-	(0, import_react$8.useEffect)(() => {
+	(0, import_react$9.useEffect)(() => {
 		const container = messagesContainerRef.current;
 		if (!container) return;
 		const onScroll = () => {
@@ -18178,19 +18866,15 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 		container.addEventListener("scroll", onScroll, { passive: true });
 		return () => container.removeEventListener("scroll", onScroll);
 	}, [chatMessages.length]);
-	const handleSelect = (0, import_react$8.useCallback)((id) => {
+	const handleSelect = (0, import_react$9.useCallback)((id) => {
 		setSelectedId(id);
 		setUnreadMap((prev) => {
 			const next = { ...prev };
 			delete next[id];
 			return next;
 		});
-		setMessages((prev) => {
-			if (!prev[id]) return prev;
-			return prev;
-		});
 	}, []);
-	const handleSend = (0, import_react$8.useCallback)(() => {
+	const handleSend = (0, import_react$9.useCallback)(() => {
 		if (!input.trim() || !selectedId) return;
 		const newMsg = {
 			id: Date.now(),
@@ -18261,8 +18945,15 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 			e.target.value = "";
 		}
 	};
-	const filteredConversations = conversations.filter((c) => c.name.toLowerCase().includes(search.toLowerCase()) || c.task.toLowerCase().includes(search.toLowerCase()));
-	const unreadCount = Object.keys(unreadMap).length;
+	const filteredConversations = (0, import_react$9.useMemo)(() => {
+		const q = search.toLowerCase().trim();
+		if (!q) return sortedConversations;
+		return conversations.filter((c) => c.name.toLowerCase().includes(q) || c.task.toLowerCase().includes(q) || c.lastMessage.toLowerCase().includes(q));
+	}, [
+		conversations,
+		sortedConversations,
+		search
+	]);
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	};
@@ -18279,9 +18970,9 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 					className: "px-5 pt-5 pb-4",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("h1", {
 						className: "flex items-center gap-2 text-lg font-bold text-gray-900",
-						children: ["Messages", unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
+						children: ["Messages", totalUnread > 0 && /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
 							className: "inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white",
-							children: unreadCount
+							children: totalUnread
 						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
 						className: "mt-3 relative",
@@ -18305,6 +18996,7 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 					})]
 				}), /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("div", {
 					className: "flex flex-1 flex-col overflow-y-auto min-h-0",
+					ref: conversationListRef,
 					children: filteredConversations.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
 						className: "flex flex-1 flex-col items-center justify-center px-5 text-center",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("p", {
@@ -18319,20 +19011,13 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 						className: `flex items-center gap-3.5 border-b border-gray-100 px-5 py-4 text-left transition-all duration-150 hover:bg-gray-50 focus:bg-gray-50 ${selectedId === conv.id ? "bg-primary-50/60 border-l-[3px] border-l-primary-500" : ""} ${idx === 0 && selectedId === null ? "bg-gray-50/50" : ""}`,
 						children: [/* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
 							className: "relative shrink-0",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("div", {
-									className: `flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br ${getAvatarGradient(conv.name)} text-sm font-bold text-white`,
-									children: conv.name.charAt(0)
-								}),
-								conv.unread && /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
-									className: "absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary-500 ring-2 ring-white",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-white" })
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
-									className: "absolute -bottom-0.5 -right-0.5 flex h-3 w-3 items-center justify-center rounded-full bg-green-500 ring-2 ring-white",
-									title: "Online"
-								})
-							]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("div", {
+								className: `flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br ${getAvatarGradient(conv.name)} text-sm font-bold text-white`,
+								children: conv.name.charAt(0)
+							}), conv.unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
+								className: "absolute -right-0.5 -top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white ring-2 ring-white",
+								children: conv.unreadCount
+							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
 							className: "min-w-0 flex-1",
 							children: [
@@ -18352,10 +19037,7 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("p", {
 									className: "truncate pt-0.5 text-xs text-gray-400",
-									children: conv.unread ? /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
-										className: "font-medium text-gray-600",
-										children: conv.lastMessage
-									}) : conv.lastMessage
+									children: conv.lastMessage
 								})
 							]
 						})]
@@ -18564,43 +19246,27 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 				] }) : /* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
 					className: "flex flex-1 flex-col items-center justify-center px-6 text-center",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
-							className: "relative",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("div", {
-								className: "flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-primary-100 to-accent-100",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("svg", {
-									xmlns: "http://www.w3.org/2000/svg",
-									viewBox: "0 0 24 24",
-									fill: "currentColor",
-									className: "h-10 w-10 text-primary-500",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("path", {
-										fillRule: "evenodd",
-										d: "M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774-.273 1.568-.403 2.37-.403h.03c.804 0 1.598.13 2.37.403A6.72 6.72 0 0018 21.75c.242 0 .482-.018.718-.054A6.714 6.714 0 0021 15v-3a6.72 6.72 0 00-1.5-4.264A6.668 6.668 0 0016.25 7.5h-1.875a5.25 5.25 0 00-5.25 5.25v.649A6.694 6.694 0 004.804 21.644z",
-										clipRule: "evenodd"
-									})
-								})
-							}), /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", {
-								className: "absolute -right-1 -bottom-1 flex h-7 w-7 items-center justify-center rounded-full bg-primary-600 text-white",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("svg", {
-									xmlns: "http://www.w3.org/2000/svg",
-									viewBox: "0 0 24 24",
-									fill: "currentColor",
-									className: "h-3.5 w-3.5",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("path", {
-										fillRule: "evenodd",
-										d: "M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 01.825 1.248l-5.75 7.5a.75.75 0 01-1.154-.114l-3-3a.75.75 0 011.06-1.06l2.353 2.353 5.197-6.866a.75.75 0 011.245.823z",
-										clipRule: "evenodd"
-									})
-								})
-							})]
-						}),
 						/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("h3", {
-							className: "mt-5 text-base font-semibold text-gray-900",
+							className: "text-xl font-bold text-gray-900",
 							children: "Select a conversation"
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("p", {
-							className: "mt-1 text-sm text-gray-500",
-							children: "Choose from the list to start chatting"
+							className: "mt-2 max-w-xs text-sm text-gray-500",
+							children: "Choose from your message list above to start chatting with a worker"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$16.jsxs)("div", {
+							className: "mt-5 flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-gray-400 shadow-sm",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("svg", {
+								xmlns: "http://www.w3.org/2000/svg",
+								viewBox: "0 0 24 24",
+								fill: "currentColor",
+								className: "h-4 w-4",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("path", {
+									fillRule: "evenodd",
+									d: "M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z",
+									clipRule: "evenodd"
+								})
+							}), /* @__PURE__ */ (0, import_jsx_runtime$16.jsx)("span", { children: "3 conversations" })]
 						})
 					]
 				})
@@ -18608,9 +19274,9 @@ function ChatLayout({ conversations: rawConversations, messagesData, headerSubti
 		})]
 	});
 }
-var import_react$8, import_jsx_runtime$16, AVATAR_GRADIENTS;
+var import_react$9, import_jsx_runtime$16, AVATAR_GRADIENTS;
 var init_ChatLayout = __esmMin((() => {
-	import_react$8 = /* @__PURE__ */ __toESM(require_react());
+	import_react$9 = /* @__PURE__ */ __toESM(require_react());
 	init_Header();
 	import_jsx_runtime$16 = require_jsx_runtime();
 	AVATAR_GRADIENTS = [
@@ -18880,213 +19546,541 @@ var init_ProviderMessagesPage = __esmMin((() => {
 }));
 //#endregion
 //#region src/pages/ProfilePage.jsx
-function ProfilePage() {
-	useNavigate();
-	const { isVerified } = useAuth();
-	return /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-		className: "min-h-screen bg-gray-50 pt-16 pb-12",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)(Header, {
-			showNav: true,
-			activeTab: "Profile"
-		}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-			className: "mx-auto max-w-lg px-4 sm:px-6 lg:px-8",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-					className: "rounded-2xl bg-white p-8 shadow-sm text-center",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
-							className: "mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 text-2xl font-bold text-primary-700 ring-4 ring-primary-50",
-							children: "M"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("h1", {
-							className: "mt-4 text-2xl font-bold text-gray-900",
-							children: "Miguel"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-							className: "text-sm text-gray-500",
-							children: "Homeowner"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("p", {
-							className: "mt-2 flex items-center justify-center gap-1 text-sm text-gray-400",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
-								xmlns: "http://www.w3.org/2000/svg",
-								viewBox: "0 0 24 24",
-								fill: "currentColor",
-								className: "h-4 w-4",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
-									fillRule: "evenodd",
-									d: "M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z",
-									clipRule: "evenodd"
+function ChangePasswordModal({ onClose }) {
+	const [currentPassword, setCurrentPassword] = (0, import_react$8.useState)("");
+	const [newPassword, setNewPassword] = (0, import_react$8.useState)("");
+	const [confirmPassword, setConfirmPassword] = (0, import_react$8.useState)("");
+	const [errors, setErrors] = (0, import_react$8.useState)({});
+	const [changed, setChanged] = (0, import_react$8.useState)(false);
+	const validate = () => {
+		const e = {};
+		if (!currentPassword) e.currentPassword = "Current password is required";
+		if (!newPassword) e.newPassword = "New password is required";
+		else if (newPassword.length < 6) e.newPassword = "Minimum 6 characters";
+		if (!confirmPassword) e.confirmPassword = "Please confirm your password";
+		else if (confirmPassword !== newPassword) e.confirmPassword = "Passwords do not match";
+		setErrors(e);
+		return Object.keys(e).length === 0;
+	};
+	const handleSubmit = (ev) => {
+		ev.preventDefault();
+		if (!validate()) return;
+		setChanged(true);
+		setTimeout(() => {
+			setCurrentPassword("");
+			setNewPassword("");
+			setConfirmPassword("");
+			setChanged(false);
+			onClose();
+		}, 1500);
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
+		className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
+		onClick: onClose,
+		children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
+			className: "w-full max-w-sm rounded-2xl bg-white shadow-xl",
+			onClick: (e) => e.stopPropagation(),
+			children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("form", {
+				onSubmit: handleSubmit,
+				className: "p-6",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("h3", {
+						className: "text-lg font-bold text-gray-900",
+						children: "Change Password"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+						className: "mt-1 text-sm text-gray-500",
+						children: "Update your account password"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "mt-4 space-y-3",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("label", {
+									className: "block text-sm font-medium text-gray-700",
+									children: "Current Password"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("input", {
+									type: "password",
+									value: currentPassword,
+									onChange: (e) => setCurrentPassword(e.target.value),
+									className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+									required: true
+								}),
+								errors.currentPassword && /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "mt-1 text-xs text-red-500",
+									children: errors.currentPassword
 								})
-							}), "Dagupan City, Pangasinan"]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-							className: "mt-1 text-xs text-gray-400",
-							children: "Member since Jan 2025"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
-							className: "mt-3",
-							children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("span", {
-								className: "inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-green-500" }), "Verified"]
-							}) : /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("span", {
-								className: "inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-amber-500" }), "Unverified"]
-							})
-						})
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-					className: "mt-6 grid grid-cols-3 gap-3",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-							className: "rounded-xl bg-white p-4 text-center shadow-sm",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-								className: "text-2xl font-bold text-gray-900",
-								children: "3"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-								className: "mt-0.5 text-xs text-gray-500",
-								children: "Total"
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-							className: "rounded-xl bg-white p-4 text-center shadow-sm",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-								className: "text-2xl font-bold text-gray-900",
-								children: "1"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-								className: "mt-0.5 text-xs text-gray-500",
-								children: "Completed"
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-							className: "rounded-xl bg-white p-4 text-center shadow-sm",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-								className: "text-2xl font-bold text-gray-900",
-								children: "2"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
-								className: "mt-0.5 text-xs text-gray-500",
-								children: "Active"
-							})]
-						})
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
-					className: "mt-6 rounded-2xl bg-white shadow-sm",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("a", {
-							href: "/profile/edit",
-							className: "flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
-								className: "text-sm font-medium text-gray-700",
-								children: "Edit Profile"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
-								xmlns: "http://www.w3.org/2000/svg",
-								viewBox: "0 0 20 20",
-								fill: "currentColor",
-								className: "h-4 w-4 text-gray-400",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
-									fillRule: "evenodd",
-									d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
-									clipRule: "evenodd"
+							] }),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("label", {
+									className: "block text-sm font-medium text-gray-700",
+									children: "New Password"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("input", {
+									type: "password",
+									value: newPassword,
+									onChange: (e) => setNewPassword(e.target.value),
+									className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+									required: true
+								}),
+								errors.newPassword && /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "mt-1 text-xs text-red-500",
+									children: errors.newPassword
 								})
-							})]
-						}),
-						!isVerified && /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("a", {
-							href: "/profile/verify",
-							className: "flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
-								className: "text-sm font-medium text-amber-600",
-								children: "Verify Identity"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
-								xmlns: "http://www.w3.org/2000/svg",
-								viewBox: "0 0 20 20",
-								fill: "currentColor",
-								className: "h-4 w-4 text-amber-400",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
-									fillRule: "evenodd",
-									d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
-									clipRule: "evenodd"
+							] }),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("label", {
+									className: "block text-sm font-medium text-gray-700",
+									children: "Confirm New Password"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("input", {
+									type: "password",
+									value: confirmPassword,
+									onChange: (e) => setConfirmPassword(e.target.value),
+									className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+									required: true
+								}),
+								errors.confirmPassword && /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "mt-1 text-xs text-red-500",
+									children: errors.confirmPassword
 								})
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("a", {
-							href: "#",
-							className: "flex items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
-								className: "text-sm font-medium text-gray-700",
-								children: "Change Password"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
-								xmlns: "http://www.w3.org/2000/svg",
-								viewBox: "0 0 20 20",
-								fill: "currentColor",
-								className: "h-4 w-4 text-gray-400",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
-									fillRule: "evenodd",
-									d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
-									clipRule: "evenodd"
-								})
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("a", {
-							href: "/",
-							className: "flex items-center justify-between px-5 py-4 transition hover:bg-gray-50",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
-								className: "text-sm font-medium text-gray-700",
-								children: "Sign Out"
-							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
-								xmlns: "http://www.w3.org/2000/svg",
-								viewBox: "0 0 20 20",
-								fill: "currentColor",
-								className: "h-4 w-4 text-gray-400",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
-									fillRule: "evenodd",
-									d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
-									clipRule: "evenodd"
-								})
-							})]
-						})
-					]
-				})
-			]
-		})]
+							] })
+						]
+					}),
+					changed && /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
+						className: "mt-4 rounded-lg bg-green-50 p-3 text-center text-sm font-medium text-green-700",
+						children: "Password changed successfully"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "mt-5 flex gap-3",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("button", {
+							type: "button",
+							onClick: onClose,
+							className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
+							children: "Cancel"
+						}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("button", {
+							type: "submit",
+							className: "flex-1 rounded-lg bg-gray-900 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800",
+							children: "Update Password"
+						})]
+					})
+				]
+			})
+		})
 	});
 }
-var import_jsx_runtime$13;
+function ProfilePage() {
+	const navigate = useNavigate();
+	const { isLoggedIn, role, isVerified, logout } = useAuth();
+	const [showChangePassword, setShowChangePassword] = (0, import_react$8.useState)(false);
+	const stats = (0, import_react$8.useMemo)(() => {
+		return {
+			total: bookings$1.length,
+			completed: bookings$1.filter((b) => b.status === "Completed").length,
+			active: bookings$1.filter((b) => b.status === "Pending Request" || b.status === "Confirmed").length,
+			cancelled: bookings$1.filter((b) => b.status === "Cancelled").length,
+			totalSpent: bookings$1.reduce((sum, b) => {
+				const num = parseInt(b.price.replace(/[^0-9]/g, ""), 10);
+				return sum + (isNaN(num) ? 0 : num);
+			}, 0)
+		};
+	}, []);
+	const roleLabel = role === "provider" ? "Service Provider" : role === "admin" ? "Administrator" : "Homeowner";
+	const recentBookings = bookings$1.slice(0, 3);
+	const handleSignOut = () => {
+		logout();
+		navigate("/");
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+		className: "min-h-screen bg-gray-50 pt-16 pb-12",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)(Header, {
+				showNav: true,
+				activeTab: "Profile"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+				className: "mx-auto max-w-lg px-4 sm:px-6 lg:px-8",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "rounded-2xl bg-white p-8 shadow-sm text-center",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
+								className: "mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 text-2xl font-bold text-primary-700 ring-4 ring-primary-50",
+								children: "M"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("h1", {
+								className: "mt-4 text-2xl font-bold text-gray-900",
+								children: "Miguel"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+								className: "text-sm text-gray-500",
+								children: roleLabel
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("p", {
+								className: "mt-2 flex items-center justify-center gap-1 text-sm text-gray-400",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
+									xmlns: "http://www.w3.org/2000/svg",
+									viewBox: "0 0 24 24",
+									fill: "currentColor",
+									className: "h-4 w-4",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
+										fillRule: "evenodd",
+										d: "M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z",
+										clipRule: "evenodd"
+									})
+								}), "Dagupan City, Pangasinan"]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+								className: "mt-1 text-xs text-gray-400",
+								children: "Member since Jan 2025"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
+								className: "mt-3",
+								children: isVerified ? /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("span", {
+									className: "inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-green-500" }), "Verified"]
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("span", {
+									className: "inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-amber-500" }), "Unverified"]
+								})
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "mt-6 grid grid-cols-3 gap-3",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: () => navigate("/bookings"),
+								className: "rounded-xl bg-white p-4 text-center shadow-sm transition hover:shadow-md",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "text-2xl",
+										children: "📋"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "mt-1 text-sm font-medium text-gray-700",
+										children: "Bookings"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("p", {
+										className: "text-xs text-gray-400",
+										children: [stats.active, " active"]
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: () => navigate("/messages"),
+								className: "rounded-xl bg-white p-4 text-center shadow-sm transition hover:shadow-md",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "text-2xl",
+										children: "💬"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "mt-1 text-sm font-medium text-gray-700",
+										children: "Messages"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "text-xs text-gray-400",
+										children: "Chat"
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: () => navigate("/explore"),
+								className: "rounded-xl bg-white p-4 text-center shadow-sm transition hover:shadow-md",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "text-2xl",
+										children: "🔍"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "mt-1 text-sm font-medium text-gray-700",
+										children: "Explore"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "text-xs text-gray-400",
+										children: "Find pros"
+									})
+								]
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "mt-6 grid grid-cols-3 gap-3",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+								className: "rounded-xl bg-white p-4 text-center shadow-sm",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "text-2xl font-bold text-gray-900",
+									children: stats.total
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-500",
+									children: "Total"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+								className: "rounded-xl bg-white p-4 text-center shadow-sm",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "text-2xl font-bold text-gray-900",
+									children: stats.completed
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-500",
+									children: "Completed"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+								className: "rounded-xl bg-white p-4 text-center shadow-sm",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "text-2xl font-bold text-gray-900",
+									children: stats.active
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-500",
+									children: "Active"
+								})]
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "mt-6 rounded-2xl bg-white p-5 shadow-sm",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+							className: "mb-3 flex items-center justify-between",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("h2", {
+								className: "text-sm font-bold text-gray-900",
+								children: "Recent Bookings"
+							}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("button", {
+								onClick: () => navigate("/bookings"),
+								className: "text-xs font-medium text-primary-600 hover:text-primary-800",
+								children: "View All >"
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("div", {
+							className: "space-y-2",
+							children: recentBookings.map((b) => /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+								className: "flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+									className: "min-w-0",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("p", {
+										className: "truncate text-sm font-medium text-gray-800",
+										children: b.task
+									}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("p", {
+										className: "text-xs text-gray-500",
+										children: [
+											b.worker,
+											" · ",
+											b.date
+										]
+									})]
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
+									className: "shrink-0 text-sm font-semibold text-gray-900",
+									children: b.price
+								})]
+							}, b.id))
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("div", {
+						className: "mt-6 rounded-2xl bg-white shadow-sm",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: () => navigate("/profile/edit"),
+								className: "flex w-full items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
+									className: "text-sm font-medium text-gray-700",
+									children: "Edit Profile"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
+									xmlns: "http://www.w3.org/2000/svg",
+									viewBox: "0 0 20 20",
+									fill: "currentColor",
+									className: "h-4 w-4 text-gray-400",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
+										fillRule: "evenodd",
+										d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
+										clipRule: "evenodd"
+									})
+								})]
+							}),
+							!isVerified && /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: () => navigate("/profile/verify"),
+								className: "flex w-full items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
+									className: "text-sm font-medium text-amber-600",
+									children: "Verify Identity"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
+									xmlns: "http://www.w3.org/2000/svg",
+									viewBox: "0 0 20 20",
+									fill: "currentColor",
+									className: "h-4 w-4 text-amber-400",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
+										fillRule: "evenodd",
+										d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
+										clipRule: "evenodd"
+									})
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: () => setShowChangePassword(true),
+								className: "flex w-full items-center justify-between px-5 py-4 border-b border-gray-100 transition hover:bg-gray-50",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
+									className: "text-sm font-medium text-gray-700",
+									children: "Change Password"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
+									xmlns: "http://www.w3.org/2000/svg",
+									viewBox: "0 0 20 20",
+									fill: "currentColor",
+									className: "h-4 w-4 text-gray-400",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
+										fillRule: "evenodd",
+										d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
+										clipRule: "evenodd"
+									})
+								})]
+							}),
+							isLoggedIn && /* @__PURE__ */ (0, import_jsx_runtime$13.jsxs)("button", {
+								onClick: handleSignOut,
+								className: "flex w-full items-center justify-between px-5 py-4 transition hover:bg-red-50",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("span", {
+									className: "text-sm font-medium text-red-600",
+									children: "Sign Out"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("svg", {
+									xmlns: "http://www.w3.org/2000/svg",
+									viewBox: "0 0 20 20",
+									fill: "currentColor",
+									className: "h-4 w-4 text-red-400",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)("path", {
+										fillRule: "evenodd",
+										d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
+										clipRule: "evenodd"
+									})
+								})]
+							})
+						]
+					})
+				]
+			}),
+			showChangePassword && /* @__PURE__ */ (0, import_jsx_runtime$13.jsx)(ChangePasswordModal, { onClose: () => setShowChangePassword(false) })
+		]
+	});
+}
+var import_react$8, import_jsx_runtime$13, bookings$1;
 var init_ProfilePage = __esmMin((() => {
+	import_react$8 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Header();
 	init_AuthContext();
 	import_jsx_runtime$13 = require_jsx_runtime();
+	bookings$1 = [
+		{
+			id: 1,
+			status: "Pending Request",
+			worker: "Johhny Cruz",
+			cred: "TESDA NC II Carpenter",
+			task: "Desktop Table Repair",
+			date: "Sep 9, 2026",
+			price: "P500"
+		},
+		{
+			id: 2,
+			status: "Confirmed",
+			worker: "Maria Santos",
+			cred: "TESDA NC II Electrician",
+			task: "Circuit Breaker Replacement",
+			date: "Sep 10, 2026",
+			price: "P800"
+		},
+		{
+			id: 3,
+			status: "Completed",
+			worker: "Ricky Padilla",
+			cred: "Licensed Landscaper",
+			task: "Front Yard Landscaping",
+			date: "Sep 5, 2026",
+			price: "P1,200"
+		}
+	];
 }));
 //#endregion
 //#region src/pages/EditProfilePage.jsx
+function validateForm(form) {
+	const errors = {};
+	if (!form.fullName.trim()) errors.fullName = "Full name is required";
+	if (!form.username.trim()) errors.username = "Username is required";
+	else if (form.username.length < 3) errors.username = "Minimum 3 characters";
+	if (!form.email.trim()) errors.email = "Email is required";
+	else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errors.email = "Invalid email format";
+	if (form.phone && !/^[+]?[\d\s\-()]{7,}$/.test(form.phone)) errors.phone = "Invalid phone format";
+	if (!form.location.trim()) errors.location = "Location is required";
+	if (form.bio.length > 500) errors.bio = "Maximum 500 characters";
+	return errors;
+}
 function EditProfilePage() {
 	const navigate = useNavigate();
-	const [form, setForm] = (0, import_react$7.useState)({
-		fullName: "Miguel",
-		username: "miguel",
-		email: "miguel@example.com",
-		phone: "+63 912 345 6789",
-		location: "Dagupan City, Pangasinan",
-		bio: "Homeowner based in Dagupan. Looking for reliable local tradespeople for home repairs and maintenance."
-	});
+	const [form, setForm] = (0, import_react$7.useState)(initialForm);
 	const [saved, setSaved] = (0, import_react$7.useState)(false);
+	const [errors, setErrors] = (0, import_react$7.useState)({});
+	const [showPhotoUpload, setShowPhotoUpload] = (0, import_react$7.useState)(false);
+	const [avatarSrc, setAvatarSrc] = (0, import_react$7.useState)("");
+	const [dirty, setDirty] = (0, import_react$7.useState)(false);
+	const fileInputRef = (0, import_react$7.useRef)(null);
+	const initialFormRef = (0, import_react$7.useRef)(JSON.stringify(initialForm));
+	(0, import_react$7.useEffect)(() => {
+		const handler = (e) => {
+			if (dirty) {
+				e.preventDefault();
+				e.returnValue = "";
+			}
+		};
+		window.addEventListener("beforeunload", handler);
+		return () => window.removeEventListener("beforeunload", handler);
+	}, [dirty]);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setForm((prev) => ({
 			...prev,
 			[name]: value
 		}));
+		setDirty(JSON.stringify(form) !== initialFormRef.current);
+		if (errors[name]) setErrors((prev) => {
+			const next = { ...prev };
+			delete next[name];
+			return next;
+		});
+	};
+	const handlePhotoSelect = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			if (file.size > 5242880) {
+				alert("File too large. Maximum 5MB.");
+				return;
+			}
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setAvatarSrc(reader.result);
+				setDirty(true);
+			};
+			reader.readAsDataURL(file);
+		}
+		e.target.value = "";
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const validationErrors = validateForm(form);
+		setErrors(validationErrors);
+		if (Object.keys(validationErrors).length > 0) return;
 		setSaved(true);
-		setTimeout(() => {
-			setSaved(false);
-			navigate("/profile");
-		}, 1500);
+		initialFormRef.current = JSON.stringify(form);
+		setDirty(false);
+		setTimeout(() => setSaved(false), 3e3);
 	};
+	const handleCancel = () => {
+		if (dirty) {
+			if (window.confirm("You have unsaved changes. Are you sure you want to discard them?")) {
+				setForm(initialForm);
+				setErrors({});
+				setDirty(false);
+				navigate("/profile");
+			}
+		} else navigate("/profile");
+	};
+	Object.keys(errors).length;
 	return /* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16 pb-12",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)(Header, {
@@ -19096,7 +20090,7 @@ function EditProfilePage() {
 			className: "mx-auto max-w-lg px-4 sm:px-6 lg:px-8",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("button", {
-					onClick: () => navigate("/profile"),
+					onClick: handleCancel,
 					className: "mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 transition hover:text-gray-700",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("svg", {
 						xmlns: "http://www.w3.org/2000/svg",
@@ -19110,25 +20104,8 @@ function EditProfilePage() {
 						})
 					}), "Back to Profile"]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
-					className: "rounded-2xl bg-white p-8 shadow-sm text-center",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("div", {
-							className: "mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 text-2xl font-bold text-primary-700 ring-4 ring-primary-50",
-							children: form.fullName.charAt(0)
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("h1", {
-							className: "mt-4 text-2xl font-bold text-gray-900",
-							children: "Edit Profile"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
-							className: "text-sm text-gray-500",
-							children: "Update your personal information"
-						})
-					]
-				}),
 				saved && /* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
-					className: "mt-4 rounded-xl border border-green-200 bg-green-50 p-4 text-center animate-fade-in",
+					className: "mb-4 rounded-xl border border-green-200 bg-green-50 p-4 text-center animate-fade-in",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("span", {
 						className: "text-lg",
 						children: "✅"
@@ -19137,79 +20114,203 @@ function EditProfilePage() {
 						children: "Profile saved successfully!"
 					})]
 				}),
+				/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
+					className: "rounded-2xl bg-white p-8 shadow-sm text-center",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
+							className: "relative inline-block",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("div", {
+									className: "mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 text-2xl font-bold text-primary-700 ring-4 ring-primary-50 overflow-hidden",
+									children: avatarSrc ? /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("img", {
+										src: avatarSrc,
+										alt: "Profile",
+										className: "h-full w-full object-cover"
+									}) : form.fullName.charAt(0)
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("button", {
+									onClick: () => setShowPhotoUpload(!showPhotoUpload),
+									className: "absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-primary-600 text-white shadow-sm ring-2 ring-white transition hover:bg-primary-700",
+									"aria-label": "Change photo",
+									title: "Change photo",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("svg", {
+										xmlns: "http://www.w3.org/2000/svg",
+										viewBox: "0 0 24 24",
+										fill: "currentColor",
+										className: "h-3.5 w-3.5",
+										children: /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("path", {
+											fillRule: "evenodd",
+											d: "M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.47 13.75a.75.75 0 010-1.06l7.25-7.25a.75.75 0 011.06 0z",
+											clipRule: "evenodd"
+										})
+									})
+								}),
+								showPhotoUpload && /* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
+									className: "absolute -bottom-10 left-1/2 -translate-x-1/2 mb-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
+										ref: fileInputRef,
+										type: "file",
+										accept: "image/*",
+										className: "hidden",
+										onChange: handlePhotoSelect
+									}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("button", {
+										onClick: () => fileInputRef.current?.click(),
+										className: "rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-primary-700 shadow-md ring-1 ring-gray-200 transition hover:bg-gray-50",
+										children: "Upload Photo"
+									})]
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("h1", {
+							className: "mt-6 text-2xl font-bold text-gray-900",
+							children: "Edit Profile"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+							className: "text-sm text-gray-500",
+							children: "Update your personal information"
+						})
+					]
+				}),
 				/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("form", {
 					onSubmit: handleSubmit,
 					className: "mt-6 space-y-5",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
-							className: "block text-sm font-medium text-gray-700",
-							children: "Full Name"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
-							type: "text",
-							name: "fullName",
-							value: form.fullName,
-							onChange: handleChange,
-							className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20",
-							required: true
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
-							className: "block text-sm font-medium text-gray-700",
-							children: "Username"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
-							type: "text",
-							name: "username",
-							value: form.username,
-							onChange: handleChange,
-							className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20",
-							required: true
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
-							className: "block text-sm font-medium text-gray-700",
-							children: "Email"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
-							type: "email",
-							name: "email",
-							value: form.email,
-							onChange: handleChange,
-							className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20",
-							required: true
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
-							className: "block text-sm font-medium text-gray-700",
-							children: "Phone"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
-							type: "tel",
-							name: "phone",
-							value: form.phone,
-							onChange: handleChange,
-							className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
-							className: "block text-sm font-medium text-gray-700",
-							children: "Location"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
-							type: "text",
-							name: "location",
-							value: form.location,
-							onChange: handleChange,
-							className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
-							className: "block text-sm font-medium text-gray-700",
-							children: "Bio"
-						}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("textarea", {
-							name: "bio",
-							value: form.bio,
-							onChange: handleChange,
-							rows: 4,
-							className: "mt-1 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20",
-							placeholder: "Tell us a bit about yourself..."
-						})] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("label", {
+								className: "block text-sm font-medium text-gray-700",
+								children: ["Full Name ", /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("span", {
+									className: "text-red-500",
+									children: "*"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
+								type: "text",
+								name: "fullName",
+								value: form.fullName,
+								onChange: handleChange,
+								className: "mt-1 w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+								style: { borderColor: errors.fullName ? "#ef4444" : "#e5e7eb" },
+								required: true
+							}),
+							errors.fullName && /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+								className: "mt-1 text-xs text-red-500",
+								children: errors.fullName
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("label", {
+								className: "block text-sm font-medium text-gray-700",
+								children: ["Username ", /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("span", {
+									className: "text-red-500",
+									children: "*"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
+								type: "text",
+								name: "username",
+								value: form.username,
+								onChange: handleChange,
+								className: "mt-1 w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+								style: { borderColor: errors.username ? "#ef4444" : "#e5e7eb" },
+								required: true
+							}),
+							errors.username && /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+								className: "mt-1 text-xs text-red-500",
+								children: errors.username
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("label", {
+								className: "block text-sm font-medium text-gray-700",
+								children: ["Email ", /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("span", {
+									className: "text-red-500",
+									children: "*"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
+								type: "email",
+								name: "email",
+								value: form.email,
+								onChange: handleChange,
+								className: "mt-1 w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+								style: { borderColor: errors.email ? "#ef4444" : "#e5e7eb" },
+								required: true
+							}),
+							errors.email && /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+								className: "mt-1 text-xs text-red-500",
+								children: errors.email
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
+								className: "block text-sm font-medium text-gray-700",
+								children: "Phone"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
+								type: "tel",
+								name: "phone",
+								value: form.phone,
+								onChange: handleChange,
+								className: "mt-1 w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+								style: { borderColor: errors.phone ? "#ef4444" : "#e5e7eb" }
+							}),
+							errors.phone && /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+								className: "mt-1 text-xs text-red-500",
+								children: errors.phone
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("label", {
+								className: "block text-sm font-medium text-gray-700",
+								children: ["Location ", /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("span", {
+									className: "text-red-500",
+									children: "*"
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("input", {
+								type: "text",
+								name: "location",
+								value: form.location,
+								onChange: handleChange,
+								className: "mt-1 w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+								style: { borderColor: errors.location ? "#ef4444" : "#e5e7eb" },
+								required: true
+							}),
+							errors.location && /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+								className: "mt-1 text-xs text-red-500",
+								children: errors.location
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("label", {
+								className: "block text-sm font-medium text-gray-700",
+								children: "Bio"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("textarea", {
+								name: "bio",
+								value: form.bio,
+								onChange: handleChange,
+								rows: 4,
+								className: "mt-1 w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20",
+								style: { borderColor: errors.bio ? "#ef4444" : "#e5e7eb" },
+								placeholder: "Tell us a bit about yourself..."
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
+								className: "mt-1 flex items-center justify-between",
+								children: [errors.bio ? /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {
+									className: "text-xs text-red-500",
+									children: errors.bio
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("p", {}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("p", {
+									className: `text-xs ${form.bio.length > 450 ? "text-amber-500" : "text-gray-400"}`,
+									children: [form.bio.length, "/500"]
+								})]
+							})
+						] }),
 						/* @__PURE__ */ (0, import_jsx_runtime$12.jsxs)("div", {
 							className: "flex gap-3",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("button", {
 								type: "button",
-								onClick: () => navigate("/profile"),
+								onClick: handleCancel,
 								className: "flex-1 rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
 								children: "Cancel"
 							}), /* @__PURE__ */ (0, import_jsx_runtime$12.jsx)("button", {
@@ -19224,12 +20325,20 @@ function EditProfilePage() {
 		})]
 	});
 }
-var import_react$7, import_jsx_runtime$12;
+var import_react$7, import_jsx_runtime$12, initialForm;
 var init_EditProfilePage = __esmMin((() => {
 	import_react$7 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Header();
 	import_jsx_runtime$12 = require_jsx_runtime();
+	initialForm = {
+		fullName: "Miguel",
+		username: "miguel",
+		email: "miguel@example.com",
+		phone: "+63 912 345 6789",
+		location: "Dagupan City, Pangasinan",
+		bio: "Homeowner based in Dagupan. Looking for reliable local tradespeople for home repairs and maintenance."
+	};
 }));
 //#endregion
 //#region src/pages/ProviderProfilePage.jsx
@@ -21679,4 +22788,4 @@ var init_input = __esmMin((() => {}));
 //#endregion
 export { __esmMin as t };
 
-//# sourceMappingURL=main-k6SzMqV3.js.map
+//# sourceMappingURL=main-CbKJklEH.js.map
