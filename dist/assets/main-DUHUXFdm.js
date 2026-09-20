@@ -14126,7 +14126,7 @@ function Dashboard() {
 		} : b));
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
-		className: "min-h-screen bg-gray-50 pt-16 overflow-x-hidden",
+		className: "min-h-screen bg-gray-50 pt-16",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(Header, {
 				showNav: true,
@@ -17088,7 +17088,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 	const bgClass = accent === "green" ? "bg-green-50/50" : "bg-primary-50/50";
 	const focusClass = accent === "green" ? "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30" : "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30";
 	(0, import_react$19.useEffect)(() => {
-		__vitePreload(() => import("./ph-addresses-locations-BYd9Z23t.js").then(setPh), []);
+		__vitePreload(() => import("./ph-addresses-locations-K-EQHjMo.js").then(setPh), []);
 	}, []);
 	const handleProvinceChange = (0, import_react$19.useCallback)((e) => {
 		const provinceCode = e.target.value;
@@ -24886,4 +24886,4 @@ var init_input = __esmMin((() => {}));
 //#endregion
 export { __esmMin as t };
 
-//# sourceMappingURL=main-BLXQqnw9.js.map
+//# sourceMappingURL=main-DUHUXFdm.js.map

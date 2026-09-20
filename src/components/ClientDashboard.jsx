@@ -165,7 +165,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 pt-16">
       <Header showNav activeTab="Home" />
 
       {bannerVisible && (
