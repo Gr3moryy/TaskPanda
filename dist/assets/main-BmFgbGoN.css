@@ -501,11 +501,9 @@ video {
 }
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
   body {
     animation: fadeInPage 0.4s ease-out;
-    overflow-x: hidden;
   }
 .\!container {
   width: 100% !important;

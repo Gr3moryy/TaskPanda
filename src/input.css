@@ -5,11 +5,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
   body {
     animation: fadeInPage 0.4s ease-out;
-    overflow-x: hidden;
   }
 }
 

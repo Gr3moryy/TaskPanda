@@ -421,7 +421,7 @@ export default function Dashboard() {
       </div>
 
       <aside className="w-full shrink-0 lg:w-[340px]">
-          <div className="sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm">
+          <div className="sticky top-20 min-w-0 rounded-xl border border-gray-200 bg-white shadow-sm">
             {/* Summary */}
             <div className="grid grid-cols-2 gap-px bg-gray-100">
               {[
@@ -445,12 +445,12 @@ export default function Dashboard() {
                 See All &gt;
               </button>
             </div>
-            <div className="flex gap-1 border-b border-gray-100 px-5 py-3">
+            <div className="flex w-full min-w-0 gap-1 overflow-x-auto border-b border-gray-100 px-5 py-3">
               {tabs.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${
+                  className={`relative shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition ${
                     activeTab === tab
                       ? "bg-gray-900 text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"

@@ -14415,7 +14415,7 @@ function Dashboard() {
 				}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("aside", {
 					className: "w-full shrink-0 lg:w-[340px]",
 					children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
-						className: "sticky top-20 rounded-xl border border-gray-200 bg-white shadow-sm",
+						className: "sticky top-20 min-w-0 rounded-xl border border-gray-200 bg-white shadow-sm",
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
 								className: "grid grid-cols-2 gap-px bg-gray-100",
@@ -14450,10 +14450,10 @@ function Dashboard() {
 								})]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
-								className: "flex gap-1 border-b border-gray-100 px-5 py-3",
+								className: "flex w-full min-w-0 gap-1 overflow-x-auto border-b border-gray-100 px-5 py-3",
 								children: tabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
 									onClick: () => setActiveTab(tab),
-									className: `relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
+									className: `relative shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
 									children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("span", {
 										className: "flex items-center gap-1.5",
 										children: [tab, /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
@@ -15787,6 +15787,8 @@ var init_ProfessionSelector = __esmMin((() => {
 		"Aerospace Engineer",
 		"Agricultural Inspector",
 		"Air Conditioning Technician",
+		"Appliance Installer",
+		"Appliance Repair",
 		"Architect",
 		"Archivist",
 		"Artist",
@@ -15903,6 +15905,7 @@ var init_ProfessionSelector = __esmMin((() => {
 		"Editor",
 		"Education Administrator",
 		"Educational Psychologist",
+		"Electrician",
 		"Elevator Installer",
 		"Engineer",
 		"Engineering Technician",
@@ -16077,6 +16080,7 @@ var init_ProfessionSelector = __esmMin((() => {
 		"Manager",
 		"Mango Inspector",
 		"Manicurist",
+		"Mason",
 		"Marine Engineer",
 		"Marine Surveyor",
 		"Marriage and Family Therapist",
@@ -16184,6 +16188,7 @@ var init_ProfessionSelector = __esmMin((() => {
 		"Pediatrician",
 		"Pedicure Technician",
 		"Penman",
+		"Painter",
 		"Personal Assistant",
 		"Personal Chef",
 		"Personal Trainer",
@@ -17088,7 +17093,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 	const bgClass = accent === "green" ? "bg-green-50/50" : "bg-primary-50/50";
 	const focusClass = accent === "green" ? "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30" : "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30";
 	(0, import_react$19.useEffect)(() => {
-		__vitePreload(() => import("./ph-addresses-locations-K-EQHjMo.js").then(setPh), []);
+		__vitePreload(() => import("./ph-addresses-locations-DKJmbRbA.js").then(setPh), []);
 	}, []);
 	const handleProvinceChange = (0, import_react$19.useCallback)((e) => {
 		const provinceCode = e.target.value;
@@ -19430,28 +19435,44 @@ var init_Explore = __esmMin((() => {
 	init_RequestBookingModal();
 	import_jsx_runtime$20 = require_jsx_runtime();
 	filterCategories = [
-		{ name: "AC Repair" },
-		{ name: "Appliance Installation" },
-		{ name: "Carpentry" },
-		{ name: "Ceiling Fan" },
-		{ name: "Cleaning" },
+		{ name: "Air Conditioning Technician" },
+		{ name: "Appliance Installer" },
+		{ name: "Appliance Repair" },
+		{ name: "Carpenter" },
+		{ name: "Ceiling Installer" },
+		{ name: "Chimney Sweep" },
+		{ name: "House Cleaner" },
 		{ name: "Deep Cleaning" },
-		{ name: "Drain Cleaning" },
+		{ name: "Drainage Engineer" },
+		{ name: "Dryer Vent Cleaning" },
 		{ name: "Door Repair" },
-		{ name: "Electrical" },
+		{ name: "Electrician" },
+		{ name: "EV Charger Installation" },
 		{ name: "Furniture Assembly" },
+		{ name: "Furniture Repair" },
+		{ name: "Glass Installer" },
+		{ name: "Garage Door Repair" },
+		{ name: "Gutter Cleaning" },
 		{ name: "Handyman" },
-		{ name: "Landscaping" },
-		{ name: "Painting" },
+		{ name: "Hauling & Junk Removal" },
+		{ name: "Insulation" },
+		{ name: "Landscaper" },
+		{ name: "Locksmith" },
+		{ name: "Mason" },
+		{ name: "Moving Helper" },
+		{ name: "Painter" },
 		{ name: "Pest Control" },
-		{ name: "Plumbing" },
-		{ name: "Roof Repair" },
+		{ name: "Plumber" },
+		{ name: "Pressure Washing" },
+		{ name: "Pool Cleaner" },
+		{ name: "Roofer" },
+		{ name: "Smart Home Installation" },
 		{ name: "Water Heater" }
 	];
 	providers = [
 		{
 			name: "Sweetie Palm",
-			trade: "Carpentry",
+			trade: "Carpenter",
 			cred: "TESDA NC II Carpentry",
 			bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 			rating: 4.8,
@@ -19465,7 +19486,7 @@ var init_Explore = __esmMin((() => {
 		},
 		{
 			name: "Pedro Cruz",
-			trade: "Plumbing",
+			trade: "Plumber",
 			cred: "TESDA NC II Plumbing",
 			bio: "Experienced plumber with 10+ years serving Dagupan households for all pipe and water needs.",
 			rating: 4.6,
@@ -19479,7 +19500,7 @@ var init_Explore = __esmMin((() => {
 		},
 		{
 			name: "Maria Santos",
-			trade: "Electrical",
+			trade: "Electrician",
 			cred: "TESDA NC II Electrical",
 			bio: "Certified electrician specializing in residential wiring, panel upgrades, and circuit troubleshooting.",
 			rating: 4.9,
@@ -19497,7 +19518,7 @@ var init_Explore = __esmMin((() => {
 		},
 		{
 			name: "Juan Dela Cruz",
-			trade: "AC Repair",
+			trade: "Air Conditioning Technician",
 			cred: "TESDA NC II AC Technician",
 			bio: "AC maintenance and repair specialist. Quick response and honest pricing for all brands.",
 			rating: 4.5,
@@ -19511,7 +19532,7 @@ var init_Explore = __esmMin((() => {
 		},
 		{
 			name: "Ana Reyes",
-			trade: "Painting",
+			trade: "Painter",
 			cred: "Professional Painter",
 			bio: "Interior and exterior painting services. Clean finish, on-time delivery, competitive rates.",
 			rating: 4.7,
@@ -19525,7 +19546,7 @@ var init_Explore = __esmMin((() => {
 		},
 		{
 			name: "Ricky Padilla",
-			trade: "Landscaping",
+			trade: "Landscaper",
 			cred: "Licensed Landscaper",
 			bio: "Lawn care, garden design, tree trimming, and hardscaping for homes and businesses.",
 			rating: 4.3,
@@ -24886,4 +24907,4 @@ var init_input = __esmMin((() => {}));
 //#endregion
 export { __esmMin as t };
 
-//# sourceMappingURL=main-DUHUXFdm.js.map
+//# sourceMappingURL=main-DKhK5fr1.js.map
