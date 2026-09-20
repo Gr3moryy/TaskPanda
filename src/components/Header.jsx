@@ -1,9 +1,14 @@
-  import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home", role = "client", notifCount = 2 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isLoggedIn, role: authRole, firstName } = useAuth();
   const notifRef = useRef(null);
 
   useEffect(() => {
@@ -17,6 +22,12 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
       return () => document.removeEventListener("mousedown", handleClick);
     }
   }, [notifOpen]);
+
+  useEffect(() => {
+    setNotifOpen(false);
+    setDropdownOpen(false);
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const clientNavLinks = [
     { label: "Home", icon: "🏠", path: "/dashboard" },
@@ -42,21 +53,23 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
 
   const navLinks = role === "provider" ? providerNavLinks : role === "admin" ? adminNavLinks : clientNavLinks;
 
+  const displayName = isLoggedIn ? "Miguel" : "Guest";
+
   return (
     <header className="fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex flex-none items-center gap-3">
-          <a href="/" className={`text-2xl font-extrabold tracking-tight ${logoColor}`}>
+          <Link to="/" className={`text-2xl font-extrabold tracking-tight ${logoColor}`}>
             <span className="text-black">Task</span>Panda
-          </a>
+          </Link>
         </div>
 
         {showNav && (
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.path}
+                to={link.path}
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition ${
                   activeTab === link.label
                     ? "bg-gray-900 text-white"
@@ -65,7 +78,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
               >
                 <span>{link.icon}</span>
                 <span>{link.label}</span>
-              </a>
+              </Link>
             ))}
           </nav>
         )}
@@ -108,25 +121,25 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
                   <div className="max-h-64 overflow-y-auto">
                     {role === "provider" ? (
                       <>
-                        <a href="/provider-bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-50">
+                        <Link to="/provider-bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-50">
                           <p className="text-sm text-gray-700">New request from <span className="font-semibold">Ana Reyes</span></p>
                           <p className="text-xs text-gray-400 mt-0.5">Leaking Pipe Fix — 2 min ago</p>
-                        </a>
-                        <a href="/provider-bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50">
+                        </Link>
+                        <Link to="/provider-bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50">
                           <p className="text-sm text-gray-700">New request from <span className="font-semibold">Carlos Magsaysay</span></p>
                           <p className="text-xs text-gray-400 mt-0.5">Bookshelf Assembly — 15 min ago</p>
-                        </a>
+                        </Link>
                       </>
                     ) : (
                       <>
-                        <a href="/bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-50">
+                        <Link to="/bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50 border-b border-gray-50">
                           <p className="text-sm text-gray-700">Your booking <span className="font-semibold">Circuit Breaker Replacement</span> was confirmed</p>
                           <p className="text-xs text-gray-400 mt-0.5">2 hours ago</p>
-                        </a>
-                        <a href="/bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50">
+                        </Link>
+                        <Link to="/bookings" onClick={() => setNotifOpen(false)} className="block px-4 py-3 hover:bg-gray-50">
                           <p className="text-sm text-gray-700">Your booking <span className="font-semibold">Desktop Table Repair</span> is pending</p>
                           <p className="text-xs text-gray-400 mt-0.5">5 hours ago</p>
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -140,9 +153,9 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-3 text-sm"
               >
-                <span className="hidden whitespace-nowrap text-gray-600 sm:inline">Good morning, Miguel!</span>
+                <span className="hidden whitespace-nowrap text-gray-600 sm:inline">Good morning, {displayName}!</span>
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700">
-                  M
+                  {displayName.charAt(0).toUpperCase()}
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -159,12 +172,28 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-1 shadow-lg">
-                  <a href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
-                    Dashboard
-                  </a>
-                  <a href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  {role === "provider" ? (
+                    <Link to="/provider-dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                      Dashboard
+                    </Link>
+                  ) : role === "admin" ? (
+                    <Link to="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                      Dashboard
+                    </Link>
+                  ) : (
+                    <Link to="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                      Dashboard
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      navigate("/");
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                  >
                     Sign Out
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -175,9 +204,9 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
         <div className="absolute inset-x-0 top-16 z-20 border-b border-gray-200 bg-white px-4 py-3 shadow-lg lg:hidden">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.path}
+                to={link.path}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
                   activeTab === link.label
@@ -187,7 +216,7 @@ export default function Header({ logoColor = "text-primary-700", showNav = false
               >
                 <span className="text-base">{link.icon}</span>
                 <span>{link.label}</span>
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

@@ -13634,13 +13634,54 @@ var require_jsx_runtime = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 }));
 //#endregion
+//#region src/context/AuthContext.jsx
+function AuthProvider({ children }) {
+	const [isLoggedIn, setIsLoggedIn] = (0, import_react$26.useState)(false);
+	const [role, setRole] = (0, import_react$26.useState)(null);
+	const [isVerified, setIsVerified] = (0, import_react$26.useState)(false);
+	const login = (0, import_react$26.useCallback)((userRole) => {
+		setIsLoggedIn(true);
+		setRole(userRole || "client");
+	}, []);
+	const logout = (0, import_react$26.useCallback)(() => {
+		setIsLoggedIn(false);
+		setRole(null);
+	}, []);
+	const verify = (0, import_react$26.useCallback)(() => {
+		setIsVerified(true);
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)(AuthContext.Provider, {
+		value: {
+			isLoggedIn,
+			role,
+			isVerified,
+			login,
+			logout,
+			verify
+		},
+		children
+	});
+}
+function useAuth() {
+	return (0, import_react$26.useContext)(AuthContext);
+}
+var import_react$26, import_jsx_runtime$40, AuthContext;
+var init_AuthContext = __esmMin((() => {
+	import_react$26 = /* @__PURE__ */ __toESM(require_react());
+	import_jsx_runtime$40 = require_jsx_runtime();
+	AuthContext = (0, import_react$26.createContext)(null);
+}));
+//#endregion
 //#region src/components/Header.jsx
 function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "Home", role = "client", notifCount = 2 }) {
-	const [dropdownOpen, setDropdownOpen] = (0, import_react$26.useState)(false);
-	const [mobileOpen, setMobileOpen] = (0, import_react$26.useState)(false);
-	const [notifOpen, setNotifOpen] = (0, import_react$26.useState)(false);
-	const notifRef = (0, import_react$26.useRef)(null);
-	(0, import_react$26.useEffect)(() => {
+	const [dropdownOpen, setDropdownOpen] = (0, import_react$25.useState)(false);
+	const [mobileOpen, setMobileOpen] = (0, import_react$25.useState)(false);
+	const [notifOpen, setNotifOpen] = (0, import_react$25.useState)(false);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { isLoggedIn, role: authRole, firstName } = useAuth();
+	const notifRef = (0, import_react$25.useRef)(null);
+	(0, import_react$25.useEffect)(() => {
 		function handleClick(e) {
 			if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false);
 		}
@@ -13649,6 +13690,11 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 			return () => document.removeEventListener("mousedown", handleClick);
 		}
 	}, [notifOpen]);
+	(0, import_react$25.useEffect)(() => {
+		setNotifOpen(false);
+		setDropdownOpen(false);
+		setMobileOpen(false);
+	}, [location.pathname]);
 	const navLinks = role === "provider" ? [
 		{
 			label: "Home",
@@ -13718,145 +13764,146 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 			path: "/profile"
 		}
 	];
-	return /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("header", {
+	const displayName = isLoggedIn ? "Miguel" : "Guest";
+	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("header", {
 		className: "fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur-md shadow-sm",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+		children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 			className: "container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 					className: "flex flex-none items-center gap-3",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-						href: "/",
+					children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+						to: "/",
 						className: `text-2xl font-extrabold tracking-tight ${logoColor}`,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 							className: "text-black",
 							children: "Task"
 						}), "Panda"]
 					})
 				}),
-				showNav && /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("nav", {
+				showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("nav", {
 					className: "absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 lg:flex",
-					children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-						href: link.path,
+					children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+						to: link.path,
 						className: `flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition ${activeTab === link.label ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"}`,
-						children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", { children: link.icon }), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", { children: link.label })]
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", { children: link.icon }), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", { children: link.label })]
 					}, link.label))
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 					className: "flex flex-none items-center gap-6",
 					children: [
-						showNav && /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("button", {
+						showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
 							onClick: () => setMobileOpen(!mobileOpen),
 							className: "inline-flex items-center justify-center rounded-lg p-2 text-gray-600 lg:hidden hover:bg-gray-100",
 							"aria-label": "Toggle navigation",
-							children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("svg", {
+							children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
 								xmlns: "http://www.w3.org/2000/svg",
 								viewBox: "0 0 24 24",
 								fill: "currentColor",
 								className: "h-6 w-6",
-								children: mobileOpen ? /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", {
+								children: mobileOpen ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
 									fillRule: "evenodd",
 									d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
 									clipRule: "evenodd"
-								}) : /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", {
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
 									fillRule: "evenodd",
 									d: "M3 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6zm0 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75zm0 6a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z",
 									clipRule: "evenodd"
 								})
 							})
 						}),
-						showNav && notifCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+						showNav && notifCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "relative",
 							ref: notifRef,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("button", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("button", {
 								onClick: () => setNotifOpen(!notifOpen),
 								className: "relative inline-flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100",
 								"aria-label": "Notifications",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("svg", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
 									xmlns: "http://www.w3.org/2000/svg",
 									viewBox: "0 0 24 24",
 									fill: "currentColor",
 									className: "h-6 w-6",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
 										fillRule: "evenodd",
 										d: "M12 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 006 15h12a1 1 0 00.707-1.707L18 11.586V8a6 6 0 00-6-6zM10 20a2 2 0 114 0a2 2 0 01-4 0z",
 										clipRule: "evenodd"
 									})
-								}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 									className: "absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white",
 									children: notifCount
 								})]
-							}), notifOpen && /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+							}), notifOpen && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 								className: "absolute right-0 mt-2 w-72 rounded-xl border border-gray-100 bg-white shadow-lg",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 									className: "px-4 py-3 border-b border-gray-100",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("h3", {
+									children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("h3", {
 										className: "text-sm font-semibold text-gray-900",
 										children: "Notifications"
 									})
-								}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 									className: "max-h-64 overflow-y-auto",
-									children: role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)(import_jsx_runtime$40.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-										href: "/provider-bookings",
+									children: role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(import_jsx_runtime$39.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+										to: "/provider-bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50 border-b border-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
 											className: "text-sm text-gray-700",
-											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 												className: "font-semibold",
 												children: "Ana Reyes"
 											})]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "Leaking Pipe Fix — 2 min ago"
 										})]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-										href: "/provider-bookings",
+									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+										to: "/provider-bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
 											className: "text-sm text-gray-700",
-											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+											children: ["New request from ", /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 												className: "font-semibold",
 												children: "Carlos Magsaysay"
 											})]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "Bookshelf Assembly — 15 min ago"
 										})]
-									})] }) : /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)(import_jsx_runtime$40.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-										href: "/bookings",
+									})] }) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(import_jsx_runtime$39.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+										to: "/bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50 border-b border-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
 											className: "text-sm text-gray-700",
 											children: [
 												"Your booking ",
-												/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 													className: "font-semibold",
 													children: "Circuit Breaker Replacement"
 												}),
 												" was confirmed"
 											]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "2 hours ago"
 										})]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-										href: "/bookings",
+									}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+										to: "/bookings",
 										onClick: () => setNotifOpen(false),
 										className: "block px-4 py-3 hover:bg-gray-50",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("p", {
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("p", {
 											className: "text-sm text-gray-700",
 											children: [
 												"Your booking ",
-												/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+												/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 													className: "font-semibold",
 													children: "Desktop Table Repair"
 												}),
 												" is pending"
 											]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("p", {
+										}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("p", {
 											className: "text-xs text-gray-400 mt-0.5",
 											children: "5 hours ago"
 										})]
@@ -13864,42 +13911,59 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 								})]
 							})]
 						}),
-						showNav && /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+						showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 							className: "relative",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("button", {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("button", {
 								onClick: () => setDropdownOpen(!dropdownOpen),
 								className: "flex items-center gap-3 text-sm",
 								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("span", {
 										className: "hidden whitespace-nowrap text-gray-600 sm:inline",
-										children: "Good morning, Miguel!"
+										children: [
+											"Good morning, ",
+											displayName,
+											"!"
+										]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 										className: "flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700",
-										children: "M"
+										children: displayName.charAt(0).toUpperCase()
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("svg", {
+									/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("svg", {
 										xmlns: "http://www.w3.org/2000/svg",
 										viewBox: "0 0 24 24",
 										fill: "currentColor",
 										className: "h-4 w-4 text-gray-400",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("path", {
+										children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("path", {
 											fillRule: "evenodd",
 											d: "M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z",
 											clipRule: "evenodd"
 										})
 									})
 								]
-							}), dropdownOpen && /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("div", {
+							}), dropdownOpen && /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)("div", {
 								className: "absolute right-0 mt-2 w-48 rounded-xl border border-gray-100 bg-white py-1 shadow-lg",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("a", {
-									href: "/dashboard",
+								children: [role === "provider" ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Link, {
+									to: "/provider-dashboard",
 									className: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
 									onClick: () => setDropdownOpen(false),
 									children: "Dashboard"
-								}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("a", {
-									href: "/",
+								}) : role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Link, {
+									to: "/admin",
 									className: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
+									onClick: () => setDropdownOpen(false),
+									children: "Dashboard"
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(Link, {
+									to: "/dashboard",
+									className: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
+									onClick: () => setDropdownOpen(false),
+									children: "Dashboard"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("button", {
+									onClick: () => {
+										setDropdownOpen(false);
+										navigate("/");
+									},
+									className: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
 									children: "Sign Out"
 								})]
 							})]
@@ -13907,65 +13971,29 @@ function Header({ logoColor = "text-primary-700", showNav = false, activeTab = "
 					]
 				})
 			]
-		}), mobileOpen && showNav && /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("div", {
+		}), mobileOpen && showNav && /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("div", {
 			className: "absolute inset-x-0 top-16 z-20 border-b border-gray-200 bg-white px-4 py-3 shadow-lg lg:hidden",
-			children: /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("nav", {
+			children: /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("nav", {
 				className: "flex flex-col gap-1",
-				children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$40.jsxs)("a", {
-					href: link.path,
+				children: navLinks.map((link) => /* @__PURE__ */ (0, import_jsx_runtime$39.jsxs)(Link, {
+					to: link.path,
 					onClick: () => setMobileOpen(false),
 					className: `flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition ${activeTab === link.label ? "bg-gray-900 text-white" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}`,
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", {
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", {
 						className: "text-base",
 						children: link.icon
-					}), /* @__PURE__ */ (0, import_jsx_runtime$40.jsx)("span", { children: link.label })]
+					}), /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)("span", { children: link.label })]
 				}, link.label))
 			})
 		})]
 	});
 }
-var import_react$26, import_jsx_runtime$40;
+var import_react$25, import_jsx_runtime$39;
 var init_Header = __esmMin((() => {
-	import_react$26 = /* @__PURE__ */ __toESM(require_react());
-	import_jsx_runtime$40 = require_jsx_runtime();
-}));
-//#endregion
-//#region src/context/AuthContext.jsx
-function AuthProvider({ children }) {
-	const [isLoggedIn, setIsLoggedIn] = (0, import_react$25.useState)(false);
-	const [role, setRole] = (0, import_react$25.useState)(null);
-	const [isVerified, setIsVerified] = (0, import_react$25.useState)(false);
-	const login = (0, import_react$25.useCallback)((userRole) => {
-		setIsLoggedIn(true);
-		setRole(userRole || "client");
-	}, []);
-	const logout = (0, import_react$25.useCallback)(() => {
-		setIsLoggedIn(false);
-		setRole(null);
-	}, []);
-	const verify = (0, import_react$25.useCallback)(() => {
-		setIsVerified(true);
-	}, []);
-	return /* @__PURE__ */ (0, import_jsx_runtime$39.jsx)(AuthContext.Provider, {
-		value: {
-			isLoggedIn,
-			role,
-			isVerified,
-			login,
-			logout,
-			verify
-		},
-		children
-	});
-}
-function useAuth() {
-	return (0, import_react$25.useContext)(AuthContext);
-}
-var import_react$25, import_jsx_runtime$39, AuthContext;
-var init_AuthContext = __esmMin((() => {
 	import_react$25 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
+	init_AuthContext();
 	import_jsx_runtime$39 = require_jsx_runtime();
-	AuthContext = (0, import_react$25.createContext)(null);
 }));
 //#endregion
 //#region src/components/ClientDashboard.jsx
@@ -14000,7 +14028,7 @@ function Dashboard() {
 	const [bannerVisible, setBannerVisible] = (0, import_react$24.useState)(true);
 	const [activeTab, setActiveTab] = (0, import_react$24.useState)("All");
 	const [search, setSearch] = (0, import_react$24.useState)("");
-	const [bookingList, setBookingList] = (0, import_react$24.useState)(initialBookings$1);
+	const [bookingList, setBookingList] = (0, import_react$24.useState)(initialBookings$2);
 	const [activeCategory, setActiveCategory] = (0, import_react$24.useState)("");
 	const scrollRef = (0, import_react$24.useRef)(null);
 	const catScrollRef = (0, import_react$24.useRef)(null);
@@ -14452,7 +14480,7 @@ function Dashboard() {
 		]
 	});
 }
-var import_react$24, import_jsx_runtime$38, categories$1, favourites, initialBookings$1;
+var import_react$24, import_jsx_runtime$38, categories$1, favourites, initialBookings$2;
 var init_ClientDashboard = __esmMin((() => {
 	import_react$24 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
@@ -14504,7 +14532,7 @@ var init_ClientDashboard = __esmMin((() => {
 		lastHired: "Last hired 3 months ago",
 		price: "P450"
 	}];
-	initialBookings$1 = [
+	initialBookings$2 = [
 		{
 			id: 1,
 			status: "Pending Request",
@@ -14676,7 +14704,7 @@ function LandingPage() {
 					className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
 					children: /* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("div", {
 						className: "grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4",
-						children: stats$3.map((s, i) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
+						children: stats$2.map((s, i) => /* @__PURE__ */ (0, import_jsx_runtime$37.jsxs)("div", {
 							className: "flex flex-col items-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-5 text-center transition hover:shadow-md animate-fade-in-up",
 							style: { animationDelay: `${.1 * i}s` },
 							children: [/* @__PURE__ */ (0, import_jsx_runtime$37.jsx)("span", {
@@ -14958,7 +14986,7 @@ function LandingPage() {
 		]
 	});
 }
-var import_react$23, import_jsx_runtime$37, howItWorksClient, howItWorksProvider, stats$3, providers$1;
+var import_react$23, import_jsx_runtime$37, howItWorksClient, howItWorksProvider, stats$2, providers$1;
 var init_LandingPage = __esmMin((() => {
 	import_react$23 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
@@ -15006,7 +15034,7 @@ var init_LandingPage = __esmMin((() => {
 			icon: "🎉"
 		}
 	];
-	stats$3 = [
+	stats$2 = [
 		{
 			value: "500+",
 			label: "Bookings Completed"
@@ -15949,7 +15977,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 	const bgClass = accent === "green" ? "bg-green-50/50" : "bg-primary-50/50";
 	const focusClass = accent === "green" ? "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30" : "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30";
 	(0, import_react$18.useEffect)(() => {
-		__vitePreload(() => import("./ph-addresses-locations-7KKvAxXd.js").then(setPh), []);
+		__vitePreload(() => import("./ph-addresses-locations-CWk0tzZt.js").then(setPh), []);
 	}, []);
 	const handleProvinceChange = (0, import_react$18.useCallback)((e) => {
 		const provinceCode = e.target.value;
@@ -16764,28 +16792,94 @@ var init_ClientDashboardPage = __esmMin((() => {
 }));
 //#endregion
 //#region src/components/ProviderDashboard.jsx
+function parseDate$1(dateStr) {
+	const months = {
+		Jan: 0,
+		Feb: 1,
+		Mar: 2,
+		Apr: 3,
+		May: 4,
+		Jun: 5,
+		Jul: 6,
+		Aug: 7,
+		Sep: 8,
+		Oct: 9,
+		Nov: 10,
+		Dec: 11
+	};
+	const match = dateStr.match(/(\w{3})\s+(\d+),\s+(\d+)/);
+	if (!match) return /* @__PURE__ */ new Date("1970-01-01");
+	return new Date(parseInt(match[3]), months[match[1]] || 0, parseInt(match[2]));
+}
+function parsePrice$1(priceStr) {
+	const num = parseInt(priceStr.replace(/[^0-9]/g, ""), 10);
+	return isNaN(num) ? 0 : num;
+}
 function StatusBadge$3({ status }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
 		className: `inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${{
 			"Pending Request": "bg-amber-100 text-amber-700 border-amber-200",
 			Confirmed: "bg-green-100 text-green-700 border-green-200",
 			Completed: "bg-blue-100 text-blue-700 border-blue-200",
-			"In Progress": "bg-accent-100 text-accent-700 border-accent-200"
+			"In Progress": "bg-purple-100 text-purple-700 border-purple-200"
 		}[status] || "bg-gray-100 text-gray-700 border-gray-200"}`,
 		children: status
 	});
 }
 function ProviderDashboard() {
-	const [jobs, setJobs] = (0, import_react$14.useState)(myJobs);
-	const [requests, setRequests] = (0, import_react$14.useState)(incomingRequests$1);
+	const navigate = useNavigate();
+	const { isLoggedIn, role } = useAuth();
+	const [jobs, setJobs] = (0, import_react$14.useState)(initialJobs);
+	const [requests, setRequests] = (0, import_react$14.useState)(initialRequests$1);
+	const [activeTab, setActiveTab] = (0, import_react$14.useState)("All");
+	const [expandedJob, setExpandedJob] = (0, import_react$14.useState)(null);
+	const sortedRequests = (0, import_react$14.useMemo)(() => {
+		return [...requests].sort((a, b) => parseDate$1(b.date) - parseDate$1(a.date));
+	}, [requests]);
+	const sortedJobs = (0, import_react$14.useMemo)(() => {
+		return [...jobs].sort((a, b) => parseDate$1(b.date) - parseDate$1(a.date));
+	}, [jobs]);
+	const filteredJobs = (0, import_react$14.useMemo)(() => {
+		if (activeTab === "Active") return sortedJobs.filter((j) => j.status !== "Completed");
+		if (activeTab === "Completed") return sortedJobs.filter((j) => j.status === "Completed");
+		return sortedJobs;
+	}, [sortedJobs, activeTab]);
+	const stats = (0, import_react$14.useMemo)(() => {
+		return {
+			rating: "4.9",
+			reviews: "128 reviews",
+			activeJobs: jobs.filter((j) => j.status !== "Completed").length,
+			completedJobs: jobs.filter((j) => j.status === "Completed").length,
+			earnings: `₱${jobs.filter((j) => j.status === "Completed").reduce((sum, j) => sum + parsePrice$1(j.price), 0).toLocaleString()}`
+		};
+	}, [jobs]);
+	const jobTabs = (0, import_react$14.useMemo)(() => {
+		const all = jobs.length;
+		const active = jobs.filter((j) => j.status !== "Completed").length;
+		const completed = jobs.filter((j) => j.status === "Completed").length;
+		return [
+			{
+				label: "All",
+				count: all
+			},
+			{
+				label: "Active",
+				count: active
+			},
+			{
+				label: "Completed",
+				count: completed
+			}
+		];
+	}, [jobs]);
 	function acceptRequest(id) {
 		const req = requests.find((r) => r.id === id);
 		if (!req) return;
+		if (!window.confirm(`Accept request from ${req.client} for "${req.task}"?`)) return;
 		setRequests((prev) => prev.filter((r) => r.id !== id));
 		setJobs((prev) => [...prev, {
 			...req,
-			status: "Pending Request",
-			client: req.client
+			status: "Pending Request"
 		}]);
 	}
 	function rejectRequest(id) {
@@ -16796,7 +16890,8 @@ function ProviderDashboard() {
 		children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(Header, {
 			showNav: true,
 			activeTab: "Home",
-			role: "provider"
+			role: "provider",
+			notifCount: requests.length
 		}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 			className: "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8",
 			children: [
@@ -16810,31 +16905,102 @@ function ProviderDashboard() {
 						children: "Manage your jobs, requests, and earnings"
 					})]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 					className: "grid grid-cols-2 gap-4 lg:grid-cols-4",
-					children: stats$2.map((s) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
-						className: "rounded-xl bg-white p-4 shadow-sm",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
-								className: "flex items-center gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
-									className: "text-xl",
-									children: s.icon
-								}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
-									className: "text-xs text-gray-500",
-									children: s.label
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
-								className: "mt-2 text-2xl font-bold text-gray-900",
-								children: s.value
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
-								className: "mt-0.5 text-xs text-gray-400",
-								children: s.sub
-							})
-						]
-					}, s.label))
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+							className: "rounded-xl bg-white p-4 shadow-sm",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+									className: "flex items-center gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xl",
+										children: "⭐"
+									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xs text-gray-500",
+										children: "Rating"
+									})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-2 text-2xl font-bold text-gray-900",
+									children: stats.rating
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-400",
+									children: stats.reviews
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+							className: "rounded-xl bg-white p-4 shadow-sm",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+									className: "flex items-center gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xl",
+										children: "🔧"
+									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xs text-gray-500",
+										children: "Active Jobs"
+									})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-2 text-2xl font-bold text-gray-900",
+									children: stats.activeJobs
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-400",
+									children: "In progress"
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+							className: "rounded-xl bg-white p-4 shadow-sm",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+									className: "flex items-center gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xl",
+										children: "✅"
+									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xs text-gray-500",
+										children: "Completed"
+									})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-2 text-2xl font-bold text-gray-900",
+									children: stats.completedJobs
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-400",
+									children: "All time"
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+							className: "rounded-xl bg-white p-4 shadow-sm",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+									className: "flex items-center gap-2",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xl",
+										children: "💰"
+									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-xs text-gray-500",
+										children: "Earnings"
+									})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-2 text-2xl font-bold text-gray-900",
+									children: stats.earnings
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-0.5 text-xs text-gray-400",
+									children: "From completed jobs"
+								})
+							]
+						})
+					]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 					className: "mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3",
@@ -16851,15 +17017,18 @@ function ProviderDashboard() {
 										children: requests.length
 									})]
 								})
-							}), requests.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+							}), requests.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 								className: "py-12 text-center",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
-									className: "text-sm text-gray-400",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+									className: "text-3xl",
+									children: "📭"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+									className: "mt-2 text-sm text-gray-400",
 									children: "No incoming requests"
-								})
+								})]
 							}) : /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
 								className: "divide-y divide-gray-100",
-								children: requests.map((req) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+								children: sortedRequests.map((req) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
 									className: "px-5 py-4",
 									children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 										className: "flex items-start justify-between gap-3",
@@ -16911,59 +17080,84 @@ function ProviderDashboard() {
 							})]
 						}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 							className: "rounded-2xl bg-white shadow-sm",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
-								className: "border-b border-gray-100 px-5 py-4",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h2", {
-									className: "text-base font-semibold text-gray-900",
-									children: "My Jobs"
-								})
-							}), jobs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
-								className: "py-12 text-center",
-								children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
-									className: "text-sm text-gray-400",
-									children: "No active jobs"
-								})
-							}) : /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
-								className: "divide-y divide-gray-100",
-								children: jobs.map((job) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
-									className: "px-5 py-4",
-									children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
-										className: "flex items-start justify-between gap-3",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
-											className: "min-w-0 flex-1",
-											children: [
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
-													className: "flex items-center gap-2",
-													children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
-														className: "text-sm font-semibold text-gray-900",
-														children: job.client
-													}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(StatusBadge$3, { status: job.status })]
-												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
-													className: "mt-1 text-sm font-medium text-gray-700",
-													children: job.task
-												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
-													className: "mt-1 text-xs text-gray-500",
-													children: job.description
-												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("p", {
-													className: "mt-2 flex items-center gap-3 text-xs text-gray-400",
-													children: [
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: job.address }),
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: job.date }),
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: job.time }),
-														/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
-															className: "font-medium text-gray-600",
-															children: job.price
-														})
-													]
-												})
-											]
-										})
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+									className: "border-b border-gray-100 px-5 py-4",
+									children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h2", {
+										className: "text-base font-semibold text-gray-900",
+										children: "My Jobs"
 									})
-								}, job.id))
-							})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+									className: "flex gap-1 border-b border-gray-100 px-5 py-2",
+									children: jobTabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("button", {
+										onClick: () => setActiveTab(tab.label),
+										className: `relative rounded-lg px-3 py-1.5 text-sm font-medium transition ${activeTab === tab.label ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`,
+										children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", {
+											className: "flex items-center gap-1.5",
+											children: [tab.label, /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+												className: `inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[9px] font-bold ${activeTab === tab.label ? "bg-white/20 text-white" : "bg-gray-200 text-gray-500"}`,
+												children: tab.count
+											})]
+										})
+									}, tab.label))
+								}),
+								filteredJobs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+									className: "py-12 text-center",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+										className: "text-3xl",
+										children: "📋"
+									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("p", {
+										className: "mt-2 text-sm text-gray-400",
+										children: [
+											"No ",
+											activeTab.toLowerCase(),
+											" jobs"
+										]
+									})]
+								}) : /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+									className: "divide-y divide-gray-100",
+									children: filteredJobs.map((job) => /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+										className: "px-5 py-4",
+										children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
+											className: "flex items-start justify-between gap-3",
+											children: /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+												className: "min-w-0 flex-1",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+														className: "flex items-center gap-2",
+														children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
+															className: "text-sm font-semibold text-gray-900",
+															children: job.client
+														}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)(StatusBadge$3, { status: job.status })]
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
+														className: "mt-1 text-sm font-medium text-gray-700",
+														children: job.task
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("button", {
+														onClick: () => setExpandedJob(expandedJob === job.id ? null : job.id),
+														className: "mt-1 text-xs font-medium text-primary-600 transition hover:text-primary-800",
+														children: expandedJob === job.id ? "Hide details" : "View details"
+													}),
+													expandedJob === job.id && /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+														className: "mt-2 rounded-lg bg-gray-50 p-3 text-xs text-gray-500",
+														children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", { children: job.description }), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
+															className: "mt-2 flex items-center gap-3",
+															children: [
+																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["📍 ", job.address] }),
+																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["📅 ", job.date] }),
+																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["🕐 ", job.time] }),
+																/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("span", { children: ["💵 ", job.price] })
+															]
+														})]
+													})
+												]
+											})
+										})
+									}, job.id))
+								})
+							]
 						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 						className: "space-y-6",
@@ -16971,16 +17165,16 @@ function ProviderDashboard() {
 							className: "rounded-2xl bg-white p-5 shadow-sm text-center",
 							children: [
 								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("div", {
-									className: "mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700",
-									children: "JC"
+									className: "mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700 ring-4 ring-primary-50",
+									children: isLoggedIn ? "J" : "?"
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("h3", {
 									className: "mt-3 text-base font-bold text-gray-900",
-									children: "Johhny Cruz"
+									children: isLoggedIn ? "Johhny Cruz" : "Guest"
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("p", {
 									className: "text-xs text-gray-500",
-									children: "TESDA NC II Carpenter"
+									children: role === "provider" ? "TESDA NC II Carpenter" : "Provider"
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("div", {
 									className: "mt-3 flex items-center justify-center gap-1 text-sm",
@@ -17007,25 +17201,25 @@ function ProviderDashboard() {
 										children: "Quick Actions"
 									})
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("a", {
-									href: "/messages",
-									className: "flex items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("button", {
+									onClick: () => navigate("/provider-messages"),
+									className: "flex w-full items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
 										className: "text-base",
 										children: "💬"
 									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: "Messages" })]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("a", {
-									href: "/bookings",
-									className: "flex items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("button", {
+									onClick: () => navigate("/provider-bookings"),
+									className: "flex w-full items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
 										className: "text-base",
 										children: "📋"
 									}), /* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", { children: "All Bookings" })]
 								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("a", {
-									href: "/profile",
-									className: "flex items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
+								/* @__PURE__ */ (0, import_jsx_runtime$23.jsxs)("button", {
+									onClick: () => navigate("/provider-profile"),
+									className: "flex w-full items-center gap-3 px-5 py-3 text-sm text-gray-600 transition hover:bg-gray-50",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime$23.jsx)("span", {
 										className: "text-base",
 										children: "👤"
@@ -17039,57 +17233,14 @@ function ProviderDashboard() {
 		})]
 	});
 }
-var import_react$14, import_jsx_runtime$23, stats$2, incomingRequests$1, myJobs;
+var import_react$14, import_jsx_runtime$23, initialJobs, initialRequests$1;
 var init_ProviderDashboard = __esmMin((() => {
 	import_react$14 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
+	init_AuthContext();
 	init_Header();
 	import_jsx_runtime$23 = require_jsx_runtime();
-	stats$2 = [
-		{
-			label: "Rating",
-			value: "4.9",
-			sub: "128 reviews",
-			icon: "⭐"
-		},
-		{
-			label: "Active Jobs",
-			value: "2",
-			sub: "In progress",
-			icon: "🔧"
-		},
-		{
-			label: "Completed",
-			value: "47",
-			sub: "This month",
-			icon: "✅"
-		},
-		{
-			label: "Earnings",
-			value: "₱24,500",
-			sub: "This month",
-			icon: "💰"
-		}
-	];
-	incomingRequests$1 = [{
-		id: 1,
-		client: "Ana Reyes",
-		task: "Leaking Pipe Fix",
-		description: "Kitchen sink pipe is leaking, needs immediate repair.",
-		address: "32 Bonifacio St, Dagupan City",
-		date: "Sep 14, 2026",
-		time: "10:00 AM",
-		price: "P1,200"
-	}, {
-		id: 2,
-		client: "Carlos Magsaysay",
-		task: "Bookshelf Assembly",
-		description: "Need help assembling a 5-tier bookshelf. All parts included.",
-		address: "17 Magsaysay Rd, Dagupan City",
-		date: "Sep 15, 2026",
-		time: "02:00 PM",
-		price: "P800"
-	}];
-	myJobs = [{
+	initialJobs = [{
 		id: 1,
 		client: "Miguel Torres",
 		task: "Desktop Table Repair",
@@ -17109,6 +17260,25 @@ var init_ProviderDashboard = __esmMin((() => {
 		time: "08:00 AM",
 		price: "P1,200",
 		status: "Completed"
+	}];
+	initialRequests$1 = [{
+		id: 1,
+		client: "Ana Reyes",
+		task: "Leaking Pipe Fix",
+		description: "Kitchen sink pipe is leaking, needs immediate repair.",
+		address: "32 Bonifacio St, Dagupan City",
+		date: "Sep 14, 2026",
+		time: "10:00 AM",
+		price: "P1,200"
+	}, {
+		id: 2,
+		client: "Carlos Magsaysay",
+		task: "Bookshelf Assembly",
+		description: "Need help assembling a 5-tier bookshelf. All parts included.",
+		address: "17 Magsaysay Rd, Dagupan City",
+		date: "Sep 15, 2026",
+		time: "02:00 PM",
+		price: "P800"
 	}];
 }));
 //#endregion
@@ -17952,7 +18122,7 @@ function BookingsPage() {
 	const navigate = useNavigate();
 	const { isLoggedIn } = useAuth();
 	const [activeTab, setActiveTab] = (0, import_react$11.useState)("All");
-	const [bookings, setBookings] = (0, import_react$11.useState)(initialBookings);
+	const [bookings, setBookings] = (0, import_react$11.useState)(initialBookings$1);
 	const [sortBy, setSortBy] = (0, import_react$11.useState)("date");
 	const [cancelingId, setCancelingId] = (0, import_react$11.useState)(null);
 	const [detailId, setDetailId] = (0, import_react$11.useState)(null);
@@ -18399,14 +18569,14 @@ function BookingsPage() {
 		]
 	});
 }
-var import_react$11, import_jsx_runtime$18, initialBookings, tabs$1;
+var import_react$11, import_jsx_runtime$18, initialBookings$1, tabs$1;
 var init_BookingsPage = __esmMin((() => {
 	import_react$11 = /* @__PURE__ */ __toESM(require_react());
 	init_dist();
 	init_Header();
 	init_AuthContext();
 	import_jsx_runtime$18 = require_jsx_runtime();
-	initialBookings = [
+	initialBookings$1 = [
 		{
 			id: 1,
 			status: "Pending Request",
@@ -18454,13 +18624,37 @@ var init_BookingsPage = __esmMin((() => {
 }));
 //#endregion
 //#region src/pages/ProviderBookingsPage.jsx
+function parseDate(dateStr) {
+	const months = {
+		Jan: 0,
+		Feb: 1,
+		Mar: 2,
+		Apr: 3,
+		May: 4,
+		Jun: 5,
+		Jul: 6,
+		Aug: 7,
+		Sep: 8,
+		Oct: 9,
+		Nov: 10,
+		Dec: 11
+	};
+	const match = dateStr.match(/(\w{3})\s+(\d+),\s+(\d+)/);
+	if (!match) return /* @__PURE__ */ new Date("1970-01-01");
+	return new Date(parseInt(match[3]), months[match[1]] || 0, parseInt(match[2]));
+}
+function parsePrice(priceStr) {
+	const num = parseInt(priceStr.replace(/[^0-9]/g, ""), 10);
+	return isNaN(num) ? 0 : num;
+}
 function StatusBadge$1({ status }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
 		className: `inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium ${{
 			"Pending Request": "bg-amber-100 text-amber-700 border-amber-200",
 			Confirmed: "bg-green-100 text-green-700 border-green-200",
 			Completed: "bg-blue-100 text-blue-700 border-blue-200",
-			"In Progress": "bg-accent-100 text-accent-700 border-accent-200"
+			Cancelled: "bg-red-100 text-red-700 border-red-200",
+			"In Progress": "bg-purple-100 text-purple-700 border-purple-200"
 		}[status] || "bg-gray-100 text-gray-700 border-gray-200"}`,
 		children: status
 	});
@@ -18470,16 +18664,60 @@ function StatusDot({ status }) {
 		"Pending Request": "bg-amber-500",
 		Confirmed: "bg-green-500",
 		Completed: "bg-blue-500",
-		"In Progress": "bg-accent-500"
+		Cancelled: "bg-red-500",
+		"In Progress": "bg-purple-500"
 	}[status] || "bg-gray-400"}` });
 }
 function ProviderBookingsPage() {
+	const navigate = useNavigate();
 	const [activeTab, setActiveTab] = (0, import_react$10.useState)("All");
-	const [requests, setRequests] = (0, import_react$10.useState)(incomingRequests);
-	const [bookings, setBookings] = (0, import_react$10.useState)(myBookings);
+	const [requests, setRequests] = (0, import_react$10.useState)(initialRequests);
+	const [bookings, setBookings] = (0, import_react$10.useState)(initialBookings);
+	const [sortBy, setSortBy] = (0, import_react$10.useState)("date");
+	const [rejectingId, setRejectingId] = (0, import_react$10.useState)(null);
+	const [cancelingId, setCancelingId] = (0, import_react$10.useState)(null);
+	const [detailId, setDetailId] = (0, import_react$10.useState)(null);
+	const sortedRequests = (0, import_react$10.useMemo)(() => {
+		return [...requests].sort((a, b) => parseDate(a.date) - parseDate(b.date));
+	}, [requests]);
+	const sortedBookings = (0, import_react$10.useMemo)(() => {
+		let result = [...bookings];
+		if (sortBy === "date") result.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+		else if (sortBy === "price") result.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+		else if (sortBy === "status") {
+			const order = {
+				"Pending Request": 0,
+				Confirmed: 1,
+				"In Progress": 2,
+				Completed: 3,
+				Cancelled: 4
+			};
+			result.sort((a, b) => (order[a.status] ?? 99) - (order[b.status] ?? 99));
+		}
+		return result;
+	}, [bookings, sortBy]);
+	const stats = (0, import_react$10.useMemo)(() => ({
+		incoming: requests.length,
+		active: bookings.filter((b) => b.status !== "Completed" && b.status !== "Cancelled").length,
+		completed: bookings.filter((b) => b.status === "Completed").length,
+		cancelled: bookings.filter((b) => b.status === "Cancelled").length,
+		earnings: bookings.filter((b) => b.status === "Completed").reduce((sum, b) => sum + parsePrice(b.price), 0)
+	}), [requests, bookings]);
+	const showIncoming = activeTab === "All" || activeTab === "Incoming Requests";
+	const showBookings = activeTab === "All" || activeTab === "My Bookings";
+	bookings.find((b) => b.id === cancelingId);
+	const detailItem = (0, import_react$10.useMemo)(() => {
+		if (!detailId) return null;
+		return requests.find((r) => r.id === detailId) || bookings.find((b) => b.id === detailId) || null;
+	}, [
+		detailId,
+		requests,
+		bookings
+	]);
 	function acceptRequest(id) {
 		const req = requests.find((r) => r.id === id);
 		if (!req) return;
+		if (!window.confirm(`Accept request from ${req.client} for "${req.task}"?`)) return;
 		setRequests((prev) => prev.filter((r) => r.id !== id));
 		setBookings((prev) => [...prev, {
 			...req,
@@ -18488,49 +18726,258 @@ function ProviderBookingsPage() {
 	}
 	function rejectRequest(id) {
 		setRequests((prev) => prev.filter((r) => r.id !== id));
+		setRejectingId(null);
 	}
-	const filteredIncoming = activeTab === "All" || activeTab === "Incoming Requests" ? requests : [];
-	const filteredBookings = activeTab === "All" || activeTab === "My Bookings" ? bookings : [];
-	const showIncoming = activeTab === "All" || activeTab === "Incoming Requests";
-	const showBookings = activeTab === "All" || activeTab === "My Bookings";
+	function handleCancelBooking() {
+		if (!cancelingId) return;
+		setBookings((prev) => prev.map((b) => b.id === cancelingId ? {
+			...b,
+			status: "Cancelled"
+		} : b));
+		setCancelingId(null);
+	}
 	return /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
 		className: "min-h-screen bg-gray-50 pt-16",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(Header, {
-			showNav: true,
-			activeTab: "Bookings",
-			role: "provider"
-		}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-			className: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-					className: "mb-6",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h1", {
-						className: "text-2xl font-bold text-gray-900",
-						children: "My Bookings"
-					}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
-						className: "mt-1 text-sm text-gray-500",
-						children: "View incoming requests and manage your jobs"
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-					className: "mb-6 flex gap-1",
-					children: tabs.map((tab) => /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
-						onClick: () => setActiveTab(tab),
-						className: `rounded-lg px-4 py-2 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50"}`,
-						children: tab
-					}, tab))
-				}),
-				showIncoming && requests.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-					className: "mb-8",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("h2", {
-						className: "mb-4 text-lg font-semibold text-gray-900",
-						children: ["Incoming Requests", requests.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
-							className: "ml-2 inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-amber-100 px-2 text-xs font-medium text-amber-700",
-							children: requests.length
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(Header, {
+				showNav: true,
+				activeTab: "Bookings",
+				role: "provider"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+				className: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("button", {
+						onClick: () => navigate("/provider-dashboard"),
+						className: "mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 transition hover:text-gray-700",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("svg", {
+							xmlns: "http://www.w3.org/2000/svg",
+							viewBox: "0 0 20 20",
+							fill: "currentColor",
+							className: "h-4 w-4",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("path", {
+								fillRule: "evenodd",
+								d: "M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z",
+								clipRule: "evenodd"
+							})
+						}), "Back to Dashboard"]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "mb-6",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h1", {
+							className: "text-2xl font-bold text-gray-900",
+							children: "My Bookings"
+						}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+							className: "mt-1 text-sm text-gray-500",
+							children: "View incoming requests and manage your jobs"
 						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+						className: "mb-6 grid grid-cols-2 gap-3 sm:grid-cols-5",
+						children: [
+							{
+								label: "Incoming",
+								value: stats.incoming,
+								color: "bg-amber-50 text-amber-700"
+							},
+							{
+								label: "Active",
+								value: stats.active,
+								color: "bg-green-50 text-green-700"
+							},
+							{
+								label: "Completed",
+								value: stats.completed,
+								color: "bg-blue-50 text-blue-700"
+							},
+							{
+								label: "Cancelled",
+								value: stats.cancelled,
+								color: "bg-red-50 text-red-700"
+							},
+							{
+								label: "Earnings",
+								value: `₱${stats.earnings.toLocaleString()}`,
+								color: "bg-gray-100 text-gray-700"
+							}
+						].map((s) => /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+							className: `rounded-xl ${s.color} px-3 py-3 text-center`,
+							children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-lg font-bold",
+								children: s.value
+							}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-[11px] font-medium opacity-80",
+								children: s.label
+							})]
+						}, s.label))
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+						className: "mb-4 flex flex-wrap gap-1",
+						children: tabs.map((tab) => {
+							const count = tab === "All" ? requests.length + bookings.length : tab === "Incoming Requests" ? requests.length : bookings.length;
+							return /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("button", {
+								onClick: () => setActiveTab(tab),
+								className: `relative flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition ${activeTab === tab ? "bg-gray-900 text-white" : "bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50"}`,
+								children: [tab, /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+									className: `inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full px-1 text-[10px] font-bold ${activeTab === tab ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"}`,
+									children: count
+								})]
+							}, tab);
+						})
+					}),
+					showBookings && bookings.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+						className: "mb-4 flex justify-end",
+						children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("select", {
+							value: sortBy,
+							onChange: (e) => setSortBy(e.target.value),
+							className: "rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 outline-none focus:border-purple-500",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("option", {
+									value: "date",
+									children: "Sort: Date"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("option", {
+									value: "price",
+									children: "Sort: Price"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("option", {
+									value: "status",
+									children: "Sort: Status"
+								})
+							]
+						})
+					}),
+					showIncoming && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+						className: "mb-8",
+						children: requests.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)(import_jsx_runtime$17.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("h2", {
+							className: "mb-4 text-lg font-semibold text-gray-900",
+							children: ["Incoming Requests", /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+								className: "ml-2 inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-amber-100 px-2 text-xs font-medium text-amber-700",
+								children: requests.length
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+							className: "space-y-4",
+							children: sortedRequests.map((req) => /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+								className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+									className: "p-5 sm:p-6",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+												className: "flex items-start gap-4",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+													className: "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-100 text-lg font-bold text-accent-700",
+													children: req.client.charAt(0)
+												}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h3", {
+													className: "text-base font-semibold text-gray-900",
+													children: req.client
+												}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+													className: "text-sm text-gray-500",
+													children: "New booking request"
+												})] })]
+											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusBadge$1, { status: "Pending Request" })]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "mt-4 border-t border-gray-100 pt-4",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h4", {
+												className: "text-sm font-semibold text-gray-800",
+												children: req.task
+											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+												className: "mt-1 text-sm leading-relaxed text-gray-500",
+												children: req.description
+											})]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+												className: "flex items-center gap-1.5",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("svg", {
+													xmlns: "http://www.w3.org/2000/svg",
+													viewBox: "0 0 24 24",
+													fill: "currentColor",
+													className: "h-4 w-4 text-gray-400",
+													children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("path", {
+														fillRule: "evenodd",
+														d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
+														clipRule: "evenodd"
+													})
+												}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: req.address })]
+											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+												className: "flex items-center gap-1.5",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("svg", {
+														xmlns: "http://www.w3.org/2000/svg",
+														viewBox: "0 0 24 24",
+														fill: "currentColor",
+														className: "h-4 w-4 text-gray-400",
+														children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("path", {
+															fillRule: "evenodd",
+															d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
+															clipRule: "evenodd"
+														})
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: req.date }),
+													/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+														className: "text-gray-300",
+														children: "|"
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: req.time })
+												]
+											})]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "mt-5 flex flex-col-reverse gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+												className: "flex items-center gap-3",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+													className: "text-xl font-bold text-gray-900",
+													children: req.price
+												}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+													onClick: () => setDetailId(req.id),
+													className: "rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:bg-gray-50",
+													children: "Details"
+												})]
+											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+												className: "flex gap-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+													onClick: () => setRejectingId(req.id),
+													className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 hover:border-red-200",
+													children: "Reject"
+												}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+													onClick: () => acceptRequest(req.id),
+													className: "rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700",
+													children: "Accept"
+												})]
+											})]
+										})
+									]
+								})
+							}, req.id))
+						})] }) : activeTab !== "My Bookings" && /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+							className: "rounded-xl border border-dashed border-gray-300 bg-white py-12 text-center",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+									className: "text-4xl mb-3",
+									children: "📭"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+									className: "text-base font-semibold text-gray-700",
+									children: "No incoming requests"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+									className: "mt-1 text-sm text-gray-500",
+									children: "New requests will appear here"
+								})
+							]
+						})
+					}),
+					showBookings && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", { children: bookings.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)(import_jsx_runtime$17.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h2", {
+						className: "mb-4 text-lg font-semibold text-gray-900",
+						children: "My Bookings"
 					}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
 						className: "space-y-4",
-						children: filteredIncoming.map((req) => /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+						children: sortedBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
 							className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
 							children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
 								className: "p-5 sm:p-6",
@@ -18540,25 +18987,28 @@ function ProviderBookingsPage() {
 										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
 											className: "flex items-start gap-4",
 											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-												className: "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-100 text-lg font-bold text-accent-700",
-												children: req.client.charAt(0)
+												className: "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700",
+												children: booking.client.charAt(0)
 											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h3", {
 												className: "text-base font-semibold text-gray-900",
-												children: req.client
+												children: booking.client
 											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
 												className: "text-sm text-gray-500",
-												children: "New booking request"
+												children: "Job"
 											})] })]
-										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusBadge$1, { status: "Pending Request" })]
+										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "flex items-center gap-2",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusDot, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusBadge$1, { status: booking.status })]
+										})]
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
 										className: "mt-4 border-t border-gray-100 pt-4",
 										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h4", {
 											className: "text-sm font-semibold text-gray-800",
-											children: req.task
+											children: booking.task
 										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
 											className: "mt-1 text-sm leading-relaxed text-gray-500",
-											children: req.description
+											children: booking.description
 										})]
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
@@ -18575,7 +19025,7 @@ function ProviderBookingsPage() {
 													d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
 													clipRule: "evenodd"
 												})
-											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: req.address })]
+											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: booking.address })]
 										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
 											className: "flex items-center gap-1.5",
 											children: [
@@ -18590,156 +19040,298 @@ function ProviderBookingsPage() {
 														clipRule: "evenodd"
 													})
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: req.date }),
+												/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: booking.date }),
 												/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
 													className: "text-gray-300",
 													children: "|"
 												}),
-												/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: req.time })
+												/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: booking.time })
 											]
 										})]
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
 										className: "mt-5 flex flex-col-reverse gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
-											className: "text-xl font-bold text-gray-900",
-											children: req.price
-										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-											className: "flex gap-2",
-											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
-												onClick: () => rejectRequest(req.id),
-												className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 hover:border-red-200",
-												children: "Reject"
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "flex items-center gap-3",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+												className: "text-xl font-bold text-gray-900",
+												children: booking.price
 											}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
-												onClick: () => acceptRequest(req.id),
-												className: "rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700",
-												children: "Accept"
+												onClick: () => setDetailId(booking.id),
+												className: "rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:bg-gray-50",
+												children: "Details"
 											})]
+										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+											className: "flex flex-wrap gap-2",
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+													onClick: () => navigate("/provider-messages"),
+													className: "rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
+													children: "Contact"
+												}),
+												(booking.status === "Pending Request" || booking.status === "Confirmed") && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+													onClick: () => setCancelingId(booking.id),
+													className: "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 hover:border-red-200",
+													children: "Cancel"
+												}),
+												booking.status === "Completed" && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+													onClick: () => navigate("/explore"),
+													className: "rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800",
+													children: "Book Again"
+												})
+											]
 										})]
 									})
 								]
 							})
-						}, req.id))
-					})]
-				}),
-				showBookings && bookings.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h2", {
-					className: "mb-4 text-lg font-semibold text-gray-900",
-					children: "My Bookings"
-				}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-					className: "space-y-4",
-					children: filteredBookings.map((booking) => /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-						className: "overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md",
-						children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-							className: "p-5 sm:p-6",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-									className: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-										className: "flex items-start gap-4",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-											className: "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700",
-											children: booking.client.charAt(0)
-										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h3", {
-											className: "text-base font-semibold text-gray-900",
-											children: booking.client
-										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
-											className: "text-sm text-gray-500",
-											children: "Job"
-										})] })]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-										className: "flex items-center gap-2",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusDot, { status: booking.status }), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusBadge$1, { status: booking.status })]
-									})]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-									className: "mt-4 border-t border-gray-100 pt-4",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h4", {
-										className: "text-sm font-semibold text-gray-800",
-										children: booking.task
-									}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
-										className: "mt-1 text-sm leading-relaxed text-gray-500",
-										children: booking.description
-									})]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-									className: "mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-										className: "flex items-center gap-1.5",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("svg", {
-											xmlns: "http://www.w3.org/2000/svg",
-											viewBox: "0 0 24 24",
-											fill: "currentColor",
-											className: "h-4 w-4 text-gray-400",
-											children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("path", {
-												fillRule: "evenodd",
-												d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
-												clipRule: "evenodd"
-											})
-										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: booking.address })]
-									}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-										className: "flex items-center gap-1.5",
-										children: [
-											/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("svg", {
-												xmlns: "http://www.w3.org/2000/svg",
-												viewBox: "0 0 24 24",
-												fill: "currentColor",
-												className: "h-4 w-4 text-gray-400",
-												children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("path", {
-													fillRule: "evenodd",
-													d: "M19.5 6.75a3 3 0 00-6 0v7.5a3 3 0 006 0V6.75zM3.75 9.75a3 3 0 016 0v7.5a3 3 0 01-6 0V9.75zM15.75 2.25a3 3 0 016 0v7.5a3 3 0 01-6 0V2.25z",
-													clipRule: "evenodd"
-												})
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: booking.date }),
-											/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
-												className: "text-gray-300",
-												children: "|"
-											}),
-											/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", { children: booking.time })
-										]
-									})]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
-									className: "mt-5 flex flex-col-reverse gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
-										className: "text-xl font-bold text-gray-900",
-										children: booking.price
-									}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-										className: "flex gap-2",
-										children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
-											className: "rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
-											children: "Contact"
-										})
-									})]
-								})
-							]
-						})
-					}, booking.id))
-				})] }),
-				showIncoming && requests.length === 0 && showBookings && bookings.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-					className: "rounded-xl border border-gray-200 bg-white py-16 text-center",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
-						className: "text-gray-400",
-						children: "No bookings found"
+						}, booking.id))
+					})] }) : /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "rounded-xl border border-dashed border-gray-300 bg-white py-16 text-center",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-4xl mb-3",
+								children: "📋"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-base font-semibold text-gray-700",
+								children: "No bookings found"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "mt-1 text-sm text-gray-500",
+								children: activeTab !== "All" ? `You have no ${activeTab.toLowerCase()}` : "Accept requests to create bookings"
+							}),
+							activeTab !== "All" && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+								onClick: () => setActiveTab("All"),
+								className: "mt-4 rounded-lg bg-purple-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-purple-700",
+								children: "View All"
+							})
+						]
+					}) }),
+					showIncoming && requests.length === 0 && showBookings && bookings.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "rounded-xl border border-dashed border-gray-300 bg-white py-16 text-center",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-4xl mb-3",
+								children: "📭"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-base font-semibold text-gray-700",
+								children: "No bookings yet"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "mt-1 text-sm text-gray-500",
+								children: "Accept incoming requests to get started"
+							})
+						]
 					})
-				}),
-				showIncoming && requests.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
-					className: "rounded-xl border border-gray-200 bg-white py-12 text-center",
-					children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
-						className: "text-sm text-gray-400",
-						children: "No incoming requests"
+				]
+			}),
+			rejectingId && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
+				onClick: () => setRejectingId(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+					className: "w-full max-w-sm rounded-2xl bg-white shadow-xl",
+					onClick: (e) => e.stopPropagation(),
+					children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "p-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h3", {
+								className: "text-lg font-bold text-gray-900",
+								children: "Reject Request?"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "mt-2 text-sm text-gray-500",
+								children: "Are you sure you want to reject this request? The client will not be notified."
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+								className: "mt-6 flex gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+									onClick: () => setRejectingId(null),
+									className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
+									children: "Keep Request"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+									onClick: () => rejectRequest(rejectingId),
+									className: "flex-1 rounded-lg bg-red-600 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700",
+									children: "Reject"
+								})]
+							})
+						]
 					})
 				})
-			]
-		})]
+			}),
+			cancelingId && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
+				onClick: () => setCancelingId(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+					className: "w-full max-w-sm rounded-2xl bg-white shadow-xl",
+					onClick: (e) => e.stopPropagation(),
+					children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "p-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h3", {
+								className: "text-lg font-bold text-gray-900",
+								children: "Cancel Booking?"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "mt-2 text-sm text-gray-500",
+								children: "Are you sure you want to cancel this booking? This action cannot be undone."
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+								className: "mt-6 flex gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+									onClick: () => setCancelingId(null),
+									className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50",
+									children: "Keep Booking"
+								}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+									onClick: handleCancelBooking,
+									className: "flex-1 rounded-lg bg-red-600 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700",
+									children: "Cancel Booking"
+								})]
+							})
+						]
+					})
+				})
+			}),
+			detailItem && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4",
+				onClick: () => setDetailId(null),
+				children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+					className: "w-full max-w-md rounded-2xl bg-white shadow-xl",
+					onClick: (e) => e.stopPropagation(),
+					children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "relative",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+							className: "relative h-28 bg-gradient-to-r from-primary-500 to-primary-700",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+								className: "absolute -bottom-10 left-6",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+									className: "flex h-20 w-20 items-center justify-center rounded-full border-4 border-white text-2xl font-bold bg-primary-100 text-primary-700",
+									children: detailItem.client.charAt(0)
+								})
+							})
+						}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+							onClick: () => setDetailId(null),
+							className: "absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-500 transition hover:bg-white hover:text-gray-700",
+							"aria-label": "Close",
+							children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("svg", {
+								xmlns: "http://www.w3.org/2000/svg",
+								viewBox: "0 0 24 24",
+								fill: "currentColor",
+								className: "h-5 w-5",
+								children: /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("path", {
+									fillRule: "evenodd",
+									d: "M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z",
+									clipRule: "evenodd"
+								})
+							})
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+						className: "px-6 pt-12 pb-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("h2", {
+								className: "text-xl font-bold text-gray-900",
+								children: detailItem.client
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("p", {
+								className: "text-sm text-gray-500",
+								children: detailItem.task
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("div", {
+								className: "mt-3 flex items-center gap-2",
+								children: detailItem.status ? /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)(import_jsx_runtime$17.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusDot, { status: detailItem.status }), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusBadge$1, { status: detailItem.status })] }) : /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)(StatusBadge$1, { status: "Pending Request" })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+								className: "mt-4 space-y-3 text-sm",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "text-gray-500",
+											children: "Description"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "text-right text-gray-700",
+											children: detailItem.description
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "text-gray-500",
+											children: "Address"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "font-medium text-gray-800",
+											children: detailItem.address
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+										className: "flex justify-between border-b border-gray-100 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "text-gray-500",
+											children: "Date & Time"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("span", {
+											className: "font-medium text-gray-800",
+											children: [
+												detailItem.date,
+												" at ",
+												detailItem.time
+											]
+										})]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "text-gray-500",
+											children: "Price"
+										}), /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("span", {
+											className: "font-bold text-gray-900",
+											children: detailItem.price
+										})]
+									})
+								]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime$17.jsxs)("div", {
+								className: "mt-6 flex gap-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+										onClick: () => {
+											setDetailId(null);
+											navigate("/provider-messages");
+										},
+										className: "flex-1 rounded-lg bg-purple-600 py-2.5 text-sm font-semibold text-white transition hover:bg-purple-700",
+										children: "Contact Client"
+									}),
+									detailItem.status === "Pending Request" && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+										onClick: () => {
+											setDetailId(null);
+											setCancelingId(detailItem.id);
+										},
+										className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50",
+										children: "Cancel"
+									}),
+									detailItem.status === "Confirmed" && /* @__PURE__ */ (0, import_jsx_runtime$17.jsx)("button", {
+										onClick: () => {
+											setDetailId(null);
+											setCancelingId(detailItem.id);
+										},
+										className: "flex-1 rounded-lg border border-gray-200 bg-white py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50",
+										children: "Cancel"
+									})
+								]
+							})
+						]
+					})]
+				})
+			})
+		]
 	});
 }
-var import_react$10, import_jsx_runtime$17, incomingRequests, myBookings, tabs;
+var import_react$10, import_jsx_runtime$17, initialRequests, initialBookings, tabs;
 var init_ProviderBookingsPage = __esmMin((() => {
 	import_react$10 = /* @__PURE__ */ __toESM(require_react());
+	init_dist();
 	init_Header();
 	import_jsx_runtime$17 = require_jsx_runtime();
-	incomingRequests = [{
+	initialRequests = [{
 		id: 1,
 		client: "Ana Reyes",
 		task: "Leaking Pipe Fix",
@@ -18758,7 +19350,7 @@ var init_ProviderBookingsPage = __esmMin((() => {
 		time: "02:00 PM",
 		price: "P800"
 	}];
-	myBookings = [{
+	initialBookings = [{
 		id: 1,
 		client: "Miguel Torres",
 		task: "Desktop Table Repair",
@@ -18767,7 +19359,7 @@ var init_ProviderBookingsPage = __esmMin((() => {
 		date: "Sep 9, 2026",
 		time: "09:00 AM",
 		price: "P500",
-		status: "Pending Request"
+		status: "Confirmed"
 	}, {
 		id: 2,
 		client: "Liza Cristobal",
@@ -22788,4 +23380,4 @@ var init_input = __esmMin((() => {}));
 //#endregion
 export { __esmMin as t };
 
-//# sourceMappingURL=main-CbKJklEH.js.map
+//# sourceMappingURL=main-C_ypqgqV.js.map
