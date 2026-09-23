@@ -2,6 +2,8 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import WorkerRegisterPage from "./pages/WorkerRegisterPage.jsx";
 import WorkerRegisterLocation from "./pages/WorkerRegisterLocation.jsx";
@@ -62,7 +64,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const authRoutes = ["/login", "/register", "/worker-register", "/worker-register/location", "/client-register", "/client-register/location", "/admin"];
+const authRoutes = ["/login", "/forgot-password", "/reset-password", "/register", "/worker-register", "/worker-register/location", "/client-register", "/client-register/location", "/admin"];
 
 export default function App() {
   const location = useLocation();
@@ -72,7 +74,9 @@ export default function App() {
     <AuthProvider>
       <ErrorBoundary>
         <Routes>
-        <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/worker-register" element={<WorkerRegisterPage />} />
         <Route path="/worker-register/location" element={<WorkerRegisterLocation />} />

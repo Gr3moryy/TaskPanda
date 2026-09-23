@@ -39,19 +39,21 @@ export default function LoginPage() {
     if (errors.email || errors.password) return;
     setIsSubmitting(true);
     try {
-      const response = await fetch("/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
-          remember: formData.remember,
         }),
       });
       const data = await response.json().catch(() => ({}));
       if (response.ok) {
-        login({ email: formData.email, role: data.role || "client" }, data.token);
-        navigate("/");
+        login({ email: formData.email, role: data.user.role || "client" }, data.token);
+        const role = data.user.role || "client";
+        if (role === "admin") navigate("/admin");
+        else if (role === "provider") navigate("/provider-dashboard");
+        else navigate("/dashboard");
       } else {
         setServerError(data.message || "Invalid email or password. Please try again.");
       }

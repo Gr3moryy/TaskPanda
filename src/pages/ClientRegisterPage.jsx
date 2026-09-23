@@ -17,6 +17,7 @@ export default function ClientRegisterPage() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -54,7 +55,7 @@ export default function ClientRegisterPage() {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setTouched({
@@ -70,12 +71,30 @@ export default function ClientRegisterPage() {
       return;
     }
 
-    sessionStorage.setItem("clientStep1", JSON.stringify({
-      fullName: formData.fullName,
-      email: formData.email,
-      password: formData.password,
-    }));
-    navigate("/client-register/location");
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          role: "client",
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        login({ email: formData.email, role: "client" }, data.token);
+        navigate("/dashboard");
+      } else {
+        setError(data.message || "Registration failed. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -255,10 +274,10 @@ export default function ClientRegisterPage() {
 
               <button
                 type="submit"
-                disabled={!agreedToTerms}
+                disabled={!agreedToTerms || isSubmitting}
                 className={`w-full rounded-lg bg-gradient-to-r ${a.button} px-4 py-2.5 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 lg:col-span-2`}
               >
-                Next
+                {isSubmitting ? "Signing up..." : "Next"}
               </button>
             </form>
 

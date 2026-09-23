@@ -8,7 +8,7 @@ export default function WorkerRegisterPage() {
   console.log("[WorkerRegisterPage] MOUNTED");
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
+    fullName: "",
     email: "",
     professions: [],
     password: "",
@@ -16,14 +16,15 @@ export default function WorkerRegisterPage() {
   });
   const [error, setError] = useState("");
   const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const emailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const errors = {
-    username: !formData.username.trim()
-      ? "Username is required"
-      : formData.username.trim().length < 3
-      ? "Username must be at least 3 characters"
+    fullName: !formData.fullName.trim()
+      ? "Full name is required"
+      : formData.fullName.trim().length < 2
+      ? "Name must be at least 2 characters"
       : "",
     email: !formData.email.trim()
       ? "Email is required"
@@ -56,11 +57,11 @@ export default function WorkerRegisterPage() {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setTouched({
-      username: true,
+      fullName: true,
       email: true,
       professions: true,
       password: true,
@@ -68,13 +69,31 @@ export default function WorkerRegisterPage() {
     });
     if (Object.values(errors).some((err) => err)) return;
 
-    sessionStorage.setItem("workerStep1", JSON.stringify({
-      username: formData.username,
-      email: formData.email,
-      professions: formData.professions,
-      password: formData.password,
-    }));
-    navigate("/worker-register/location");
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          professions: formData.professions,
+          password: formData.password,
+          role: "provider",
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        login({ email: formData.email, role: "provider" }, data.token);
+        navigate("/provider-dashboard");
+      } else {
+        setError(data.message || "Registration failed. Please try again.");
+      }
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -94,6 +113,7 @@ export default function WorkerRegisterPage() {
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
                 >
                   <path
                     d="M15.75 19.5L8.25 12l7.5-7.5"
@@ -102,8 +122,8 @@ export default function WorkerRegisterPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                 </svg>
-               </Link>
+                </svg>
+              </Link>
               <span className="text-sm font-medium text-gray-500">
                 Back to role selection
               </span>
@@ -121,27 +141,27 @@ export default function WorkerRegisterPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+                  Full Name
                 </label>
                 <input
                   type="text"
-                  id="username"
-                  name="username"
-                  autoComplete="username"
+                  id="fullName"
+                  name="fullName"
+                  autoComplete="name"
                   required
-                  placeholder="johndoe"
-                  value={formData.username}
+                  placeholder="Jane Smith"
+                  value={formData.fullName}
                   onChange={handleChange}
-                  onBlur={() => handleBlur("username")}
+                  onBlur={() => handleBlur("fullName")}
                   className={`block w-full rounded-lg border px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400/70 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/30 ${
-                    showFieldError("username")
+                    showFieldError("fullName")
                       ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
                       : "border-green-200 bg-green-50/50 focus:border-green-500 focus:ring-green-500/30"
                   }`}
                 />
-                {showFieldError("username") && (
-                  <p className="text-xs text-red-600">{errors.username}</p>
+                {showFieldError("fullName") && (
+                  <p className="text-xs text-red-600">{errors.fullName}</p>
                 )}
               </div>
 
@@ -245,10 +265,11 @@ export default function WorkerRegisterPage() {
 
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className={`w-full rounded-lg bg-gradient-to-r ${a.button} py-2.5 px-4 font-semibold text-white transition-opacity hover:brightness-110 focus:outline-none focus:ring-2 ${a.buttonHover} focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
               >
-            Sign up
-          </button>
+                {isSubmitting ? "Signing up..." : "Sign up"}
+              </button>
             </form>
 
             <div className="flex items-center gap-3 text-sm text-gray-400">
