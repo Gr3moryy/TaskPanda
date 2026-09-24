@@ -7,6 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": "http://localhost:3000",
+      "/register": "http://localhost:3000",
     },
   },
   build: {
@@ -19,5 +20,8 @@ export default defineConfig({
         main: "./index.html",
       },
     },
+  },
+  define: {
+    "process.env.VITE_API_URL": JSON.stringify(process.env.VITE_API_URL || ""),
   },
 });

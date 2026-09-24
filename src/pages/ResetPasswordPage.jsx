@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
+import api from "../lib/api.js";
 
 export default function ResetPasswordPage() {
   const { token } = useParams();
@@ -45,21 +46,11 @@ export default function ResetPasswordPage() {
     }
     const verify = async () => {
       try {
-        const response = await fetch("/api/auth/verify-reset-token", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token }),
-        });
-        if (response.ok) {
-          setTokenValid(true);
-        } else {
-          setTokenValid(false);
-          const data = await response.json().catch(() => ({}));
-          setError(data.message || "Reset link is invalid or has expired");
-        }
-      } catch {
+        const data = await api.verifyResetToken(token);
+        setTokenValid(true);
+      } catch (err) {
         setTokenValid(false);
-        setError("Network error. Please try again.");
+        setError(err.data?.message || err.data?.errors?.join(", ") || err.message || "Reset link is invalid or has expired");
       }
     };
     verify();
@@ -73,30 +64,21 @@ export default function ResetPasswordPage() {
     if (errors.newPassword || errors.confirmPassword) return;
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, newPassword: formData.newPassword }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok) {
-        setMessage(data.message || "Password has been reset successfully");
-        setFormData({ newPassword: "", confirmPassword: "" });
-        setTouched({});
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
+      const data = await api.resetPassword(token, formData.newPassword);
+      setMessage(data.message || "Password has been reset successfully");
+      setFormData({ newPassword: "", confirmPassword: "" });
+      setTouched({});
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    } catch (err) {
+      if (err.status === 429) {
+        setError("Too many attempts. Please wait a few minutes and try again.");
       } else {
-        if (response.status === 429) {
-          setError("Too many attempts. Please wait a few minutes and try again.");
-        } else {
-          setError(data.message || data.errors?.join(", ") || "Something went wrong. Please try again.");
-        }
-        setTokenValid(false);
+        setError(err.data?.message || err.data?.errors?.join(", ") || err.message || "Something went wrong. Please try again.");
       }
-    } catch {
-      setError("Network error. Please check your connection and try again.");
-    } finally {
+      setTokenValid(false);
+} finally {
       setIsSubmitting(false);
     }
   };

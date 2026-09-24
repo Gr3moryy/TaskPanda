@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import SocialButton from "../components/SocialButton.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import api from "../lib/api.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -39,30 +40,18 @@ export default function LoginPage() {
     if (errors.email || errors.password) return;
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok) {
-        login({ email: formData.email, role: data.user.role || "client" }, data.token);
-        const role = data.user.role || "client";
-        if (role === "admin") navigate("/admin");
-        else if (role === "provider") navigate("/provider-dashboard");
-        else navigate("/dashboard");
+      const data = await api.login({ email: formData.email, password: formData.password });
+      login({ email: formData.email, role: data.user.role || "client" }, data.token);
+      const role = data.user.role || "client";
+      if (role === "admin") navigate("/admin");
+      else if (role === "provider") navigate("/provider-dashboard");
+      else navigate("/dashboard");
+    } catch (err) {
+      if (err.status === 429) {
+        setServerError("Too many attempts. Please wait a few minutes and try again.");
       } else {
-        if (response.status === 429) {
-          setServerError("Too many attempts. Please wait a few minutes and try again.");
-        } else {
-          setServerError(data.message || data.errors?.join(", ") || "Invalid email or password. Please try again.");
-        }
+        setServerError(err.data?.message || err.data?.errors?.join(", ") || err.message || "Invalid email or password. Please try again.");
       }
-    } catch {
-      setServerError("Network error. Please check your connection and try again.");
     } finally {
       setIsSubmitting(false);
     }

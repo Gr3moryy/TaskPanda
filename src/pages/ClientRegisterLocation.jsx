@@ -4,9 +4,12 @@ import Layout from "../components/Layout.jsx";
 import SocialButton from "../components/SocialButton.jsx";
 import TermsModal from "../components/TermsModal.jsx";
 import PHLocationPicker from "../components/PHLocationPicker.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+import api from "../lib/api.js";
 
 export default function ClientRegisterLocation() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     provinceCode: "",
     cityCode: "",
@@ -18,8 +21,9 @@ export default function ClientRegisterLocation() {
   const [error, setError] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -28,7 +32,7 @@ export default function ClientRegisterLocation() {
       return;
     }
 
-    if (!formData.province || !formData.city || !formData.barangay) {
+    if (!formData.provinceCode || !formData.cityCode || !formData.barangayCode) {
       setError("Please select your complete location.");
       return;
     }
@@ -50,23 +54,19 @@ export default function ClientRegisterLocation() {
       role: "client",
     };
 
-    fetch("/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then(async (res) => {
-        const data = await res.json().catch(() => ({}));
-        sessionStorage.removeItem("clientStep1");
-        if (res.ok) {
-          navigate("/login");
-        } else {
-          setError(data.message || "Registration failed. Please try again.");
-        }
-      })
-      .catch(() => {
-        setError("Network error. Please try again.");
-      });
+    setIsSubmitting(true);
+    try {
+      const data = await api.registerComplete(payload);
+      console.log("Register response:", data);
+      sessionStorage.removeItem("clientStep1");
+      login({ email: formData.email || step1.email, role: "client" }, data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError(err.data?.message || err.data?.errors?.join(", ") || err.message || "Registration failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

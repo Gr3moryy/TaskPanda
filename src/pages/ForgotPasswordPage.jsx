@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
+import api from "../lib/api.js";
 
 export default function ForgotPasswordPage() {
   const [formData, setFormData] = useState({ email: "" });
@@ -29,25 +30,16 @@ export default function ForgotPasswordPage() {
     if (errors.email) return;
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok) {
-        setMessage(data.message || "If an account with that email exists, a password reset link has been sent");
-        setFormData({ email: "" });
-        setTouched({});
+      const data = await api.forgotPassword(formData.email);
+      setMessage(data.message || "If an account with that email exists, a password reset link has been sent");
+      setFormData({ email: "" });
+      setTouched({});
+    } catch (err) {
+      if (err.status === 429) {
+        setError("Too many requests. Please wait an hour and try again.");
       } else {
-        if (response.status === 429) {
-          setError("Too many requests. Please wait an hour and try again.");
-        } else {
-          setError(data.message || data.errors?.join(", ") || "Something went wrong. Please try again.");
-        }
+        setError(err.data?.message || err.data?.errors?.join(", ") || err.message || "Something went wrong. Please try again.");
       }
-    } catch {
-      setError("Network error. Please check your connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
