@@ -15311,7 +15311,8 @@ function LoginPage() {
 				if (role === "admin") navigate("/admin");
 				else if (role === "provider") navigate("/provider-dashboard");
 				else navigate("/dashboard");
-			} else setServerError(data.message || "Invalid email or password. Please try again.");
+			} else if (response.status === 429) setServerError("Too many attempts. Please wait a few minutes and try again.");
+			else setServerError(data.message || data.errors?.join(", ") || "Invalid email or password. Please try again.");
 		} catch {
 			setServerError("Network error. Please check your connection and try again.");
 		} finally {
@@ -15574,7 +15575,8 @@ function ForgotPasswordPage() {
 				setMessage(data.message || "If an account with that email exists, a password reset link has been sent");
 				setFormData({ email: "" });
 				setTouched({});
-			} else setError(data.message || "Something went wrong. Please try again.");
+			} else if (response.status === 429) setError("Too many requests. Please wait an hour and try again.");
+			else setError(data.message || data.errors?.join(", ") || "Something went wrong. Please try again.");
 		} catch {
 			setError("Network error. Please check your connection and try again.");
 		} finally {
@@ -15755,7 +15757,8 @@ function ResetPasswordPage() {
 					navigate("/login");
 				}, 3e3);
 			} else {
-				setError(data.message || "Something went wrong. Please try again.");
+				if (response.status === 429) setError("Too many attempts. Please wait a few minutes and try again.");
+				else setError(data.message || data.errors?.join(", ") || "Something went wrong. Please try again.");
 				setTokenValid(false);
 			}
 		} catch {
@@ -17034,7 +17037,7 @@ function WorkerRegisterPage() {
 		fullName: !formData.fullName.trim() ? "Full name is required" : formData.fullName.trim().length < 2 ? "Name must be at least 2 characters" : "",
 		email: !formData.email.trim() ? "Email is required" : !emailValid(formData.email) ? "Please enter a valid email address" : "",
 		professions: formData.professions.length === 0 ? "Select at least one profession" : "",
-		password: !formData.password ? "Password is required" : formData.password.length < 6 ? "Password must be at least 6 characters" : "",
+		password: !formData.password ? "Password is required" : formData.password.length < 8 ? "Password must be at least 8 characters" : !/\d/.test(formData.password) ? "Password must contain at least one number" : !/[a-z]/.test(formData.password) ? "Password must contain at least one lowercase letter" : !/[A-Z]/.test(formData.password) ? "Password must contain at least one uppercase letter" : !/[^a-zA-Z0-9]/.test(formData.password) ? "Password must contain at least one special character" : "",
 		"confirm-password": !formData["confirm-password"] ? "Please confirm your password" : formData["confirm-password"] !== formData.password ? "Passwords do not match" : ""
 	};
 	const showFieldError = (field) => touched[field] && errors[field];
@@ -17064,25 +17067,13 @@ function WorkerRegisterPage() {
 		if (Object.values(errors).some((err) => err)) return;
 		setIsSubmitting(true);
 		try {
-			const response = await fetch("/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					fullName: formData.fullName,
-					email: formData.email,
-					professions: formData.professions,
-					password: formData.password,
-					role: "provider"
-				})
-			});
-			const data = await response.json().catch(() => ({}));
-			if (response.ok) {
-				login({
-					email: formData.email,
-					role: "provider"
-				}, data.token);
-				navigate("/provider-dashboard");
-			} else setError(data.message || "Registration failed. Please try again.");
+			sessionStorage.setItem("workerStep1", JSON.stringify({
+				fullName: formData.fullName,
+				email: formData.email,
+				professions: formData.professions,
+				password: formData.password
+			}));
+			navigate("/worker-register/location");
 		} catch {
 			setError("Network error. Please check your connection and try again.");
 		} finally {
@@ -17475,7 +17466,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 	const bgClass = accent === "green" ? "bg-green-50/50" : "bg-primary-50/50";
 	const focusClass = accent === "green" ? "focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500/30" : "focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30";
 	(0, import_react$19.useEffect)(() => {
-		__vitePreload(() => import("./ph-addresses-locations-K4VmZ_Yj.js").then(setPh), []);
+		__vitePreload(() => import("./ph-addresses-locations-BhEFCMAP.js").then(setPh), []);
 	}, []);
 	const handleProvinceChange = (0, import_react$19.useCallback)((e) => {
 		const provinceCode = e.target.value;
@@ -17523,9 +17514,11 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 		}
 	}, [ph, setFormData]);
 	const handleBarangayChange = (0, import_react$19.useCallback)((e) => {
+		const barangayCode = e.target.value;
 		const barangayName = e.target.options[e.target.selectedIndex]?.text || "";
 		setFormData((prev) => ({
 			...prev,
+			barangayCode,
 			barangay: barangayName
 		}));
 	}, [setFormData]);
@@ -17601,7 +17594,7 @@ function PHLocationPicker({ formData, setFormData, accent = "primary" }) {
 				}), /* @__PURE__ */ (0, import_jsx_runtime$29.jsxs)("select", {
 					id: "barangay",
 					name: "barangay",
-					value: formData.barangay || "",
+					value: formData.barangayCode || "",
 					onChange: handleBarangayChange,
 					disabled: !formData.cityCode || loading.barangay || !ph,
 					required: true,
@@ -17661,6 +17654,7 @@ function WorkerRegisterLocation() {
 			province: formData.province,
 			city: formData.city,
 			barangay: formData.barangay,
+			barangayCode: formData.barangayCode,
 			address: formData.address,
 			role: "provider"
 		};
@@ -17849,7 +17843,7 @@ function ClientRegisterPage() {
 	const errors = {
 		fullName: !formData.fullName.trim() ? "Full name is required" : formData.fullName.trim().length < 2 ? "Name must be at least 2 characters" : "",
 		email: !formData.email.trim() ? "Email is required" : !emailValid(formData.email) ? "Please enter a valid email address" : "",
-		password: !formData.password ? "Password is required" : formData.password.length < 6 ? "Password must be at least 6 characters" : "",
+		password: !formData.password ? "Password is required" : formData.password.length < 8 ? "Password must be at least 8 characters" : !/\d/.test(formData.password) ? "Password must contain at least one number" : !/[a-z]/.test(formData.password) ? "Password must contain at least one lowercase letter" : !/[A-Z]/.test(formData.password) ? "Password must contain at least one uppercase letter" : !/[^a-zA-Z0-9]/.test(formData.password) ? "Password must contain at least one special character" : "",
 		confirmPassword: !formData.confirmPassword ? "Please confirm your password" : formData.confirmPassword !== formData.password ? "Passwords do not match" : ""
 	};
 	const showFieldError = (field) => touched[field] && errors[field];
@@ -17882,24 +17876,12 @@ function ClientRegisterPage() {
 		}
 		setIsSubmitting(true);
 		try {
-			const response = await fetch("/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					fullName: formData.fullName,
-					email: formData.email,
-					password: formData.password,
-					role: "client"
-				})
-			});
-			const data = await response.json().catch(() => ({}));
-			if (response.ok) {
-				login({
-					email: formData.email,
-					role: "client"
-				}, data.token);
-				navigate("/dashboard");
-			} else setError(data.message || "Registration failed. Please try again.");
+			sessionStorage.setItem("clientStep1", JSON.stringify({
+				fullName: formData.fullName,
+				email: formData.email,
+				password: formData.password
+			}));
+			navigate("/client-register/location");
 		} catch {
 			setError("Network error. Please check your connection and try again.");
 		} finally {
@@ -18179,6 +18161,7 @@ function ClientRegisterLocation() {
 			province: formData.province,
 			city: formData.city,
 			barangay: formData.barangay,
+			barangayCode: formData.barangayCode,
 			address: formData.address,
 			role: "client"
 		};
@@ -25321,4 +25304,4 @@ var init_input = __esmMin((() => {}));
 //#endregion
 export { __esmMin as t };
 
-//# sourceMappingURL=main-DX-2sROa.js.map
+//# sourceMappingURL=main-Cvd2uOgc.js.map

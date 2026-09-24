@@ -34,8 +34,16 @@ export default function ClientRegisterPage() {
       : "",
     password: !formData.password
       ? "Password is required"
-      : formData.password.length < 6
-      ? "Password must be at least 6 characters"
+      : formData.password.length < 8
+      ? "Password must be at least 8 characters"
+      : !/\d/.test(formData.password)
+      ? "Password must contain at least one number"
+      : !/[a-z]/.test(formData.password)
+      ? "Password must contain at least one lowercase letter"
+      : !/[A-Z]/.test(formData.password)
+      ? "Password must contain at least one uppercase letter"
+      : !/[^a-zA-Z0-9]/.test(formData.password)
+      ? "Password must contain at least one special character"
       : "",
     confirmPassword: !formData.confirmPassword
       ? "Please confirm your password"
@@ -73,23 +81,14 @@ export default function ClientRegisterPage() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-          role: "client",
-        }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok) {
-        login({ email: formData.email, role: "client" }, data.token);
-        navigate("/dashboard");
-      } else {
-        setError(data.message || "Registration failed. Please try again.");
-      }
+      // Step 1: Save to sessionStorage only, no API call yet
+      sessionStorage.setItem("clientStep1", JSON.stringify({
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+      }));
+      // Navigate to step 2 (location)
+      navigate("/client-register/location");
     } catch {
       setError("Network error. Please check your connection and try again.");
     } finally {

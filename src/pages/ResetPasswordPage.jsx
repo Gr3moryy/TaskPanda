@@ -87,7 +87,11 @@ export default function ResetPasswordPage() {
           navigate("/login");
         }, 3000);
       } else {
-        setError(data.message || "Something went wrong. Please try again.");
+        if (response.status === 429) {
+          setError("Too many attempts. Please wait a few minutes and try again.");
+        } else {
+          setError(data.message || data.errors?.join(", ") || "Something went wrong. Please try again.");
+        }
         setTokenValid(false);
       }
     } catch {

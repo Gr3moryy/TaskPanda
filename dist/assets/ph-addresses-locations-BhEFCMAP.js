@@ -1,4 +1,4 @@
-import { t as __esmMin } from "./main-DX-2sROa.js";
+import { t as __esmMin } from "./main-Cvd2uOgc.js";
 //#region node_modules/ph-addresses-locations/data/regions.json
 var regions_default;
 var init_regions = __esmMin((() => {
@@ -793,4 +793,4 @@ __esmMin((() => {
 }))();
 export { ph_addresses_locations_default as default, getBarangay, getBarangays, getCities, getCity, getFullAddress, getLocationHierarchy, getLocationStats, getProvince, getProvinces, getRegion, getRegions, isValidPSGCCode, searchLocations };
 
-//# sourceMappingURL=ph-addresses-locations-K4VmZ_Yj.js.map
+//# sourceMappingURL=ph-addresses-locations-BhEFCMAP.js.map

@@ -7,6 +7,8 @@ const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 const connectDB = require("./db.js");
 const authRoutes = require("./routes/auth.js");
+const User = require("./models/User.js");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -96,6 +98,29 @@ const upload = multer({
 });
 
 app.use("/api/auth", authRoutes);
+
+app.post("/register", async (req, res) => {
+  try {
+    const { email, password, role, fullName } = req.body;
+    if (!email || !password || !role) {
+      return res.status(400).json({ message: "Email, password, and role are required" });
+    }
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: "An account with this email already exists. Please try logging in." });
+    }
+    const user = await User.create({ email, password, role, fullName: fullName || undefined });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || "taskpanda_secret_key_2026", { expiresIn: "30d" });
+    res.status(201).json({
+      token,
+      user: { id: user._id, email: user.email, role: user.role, fullName: user.fullName, username: user.username, isVerified: user.isVerified },
+    });
+  } catch (error) {
+    console.error("Register error:", error.message);
+    console.error("Register error stack:", error.stack);
+    res.status(500).json({ message: "Registration failed. Server error - please try again later." });
+  }
+});
 
 app.use(express.static(path.join(__dirname, "dist")));
 app.use("/assets", express.static(path.join(__dirname, "assets")));

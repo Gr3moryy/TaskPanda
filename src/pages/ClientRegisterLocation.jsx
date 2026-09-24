@@ -45,6 +45,7 @@ export default function ClientRegisterLocation() {
       province: formData.province,
       city: formData.city,
       barangay: formData.barangay,
+      barangayCode: formData.barangayCode,
       address: formData.address,
       role: "client",
     };

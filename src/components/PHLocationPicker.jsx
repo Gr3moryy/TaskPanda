@@ -46,8 +46,9 @@ export default function PHLocationPicker({ formData, setFormData, accent = "prim
   }, [ph, setFormData]);
 
   const handleBarangayChange = useCallback((e) => {
+    const barangayCode = e.target.value;
     const barangayName = e.target.options[e.target.selectedIndex]?.text || "";
-    setFormData((prev) => ({ ...prev, barangay: barangayName }));
+    setFormData((prev) => ({ ...prev, barangayCode, barangay: barangayName }));
   }, [setFormData]);
 
   useEffect(() => {
@@ -113,7 +114,7 @@ export default function PHLocationPicker({ formData, setFormData, accent = "prim
         <select
           id="barangay"
           name="barangay"
-          value={formData.barangay || ""}
+          value={formData.barangayCode || ""}
           onChange={handleBarangayChange}
           disabled={!formData.cityCode || loading.barangay || !ph}
           required

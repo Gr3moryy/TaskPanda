@@ -97,7 +97,7 @@ router.post("/register", authLimiter, registerValidation, handleValidationErrors
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "Registration failed" });
+      return res.status(409).json({ message: "An account with this email already exists. Please try logging in." });
     }
 
     const user = await User.create({
@@ -121,7 +121,9 @@ router.post("/register", authLimiter, registerValidation, handleValidationErrors
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Registration failed" });
+    console.error("Register error:", error.message);
+    console.error("Register error stack:", error.stack);
+    res.status(500).json({ message: "Registration failed. Server error - please try again later." });
   }
 });
 

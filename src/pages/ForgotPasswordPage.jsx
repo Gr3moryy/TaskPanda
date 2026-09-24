@@ -40,7 +40,11 @@ export default function ForgotPasswordPage() {
         setFormData({ email: "" });
         setTouched({});
       } else {
-        setError(data.message || "Something went wrong. Please try again.");
+        if (response.status === 429) {
+          setError("Too many requests. Please wait an hour and try again.");
+        } else {
+          setError(data.message || data.errors?.join(", ") || "Something went wrong. Please try again.");
+        }
       }
     } catch {
       setError("Network error. Please check your connection and try again.");

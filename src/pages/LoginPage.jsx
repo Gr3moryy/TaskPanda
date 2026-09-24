@@ -55,7 +55,11 @@ export default function LoginPage() {
         else if (role === "provider") navigate("/provider-dashboard");
         else navigate("/dashboard");
       } else {
-        setServerError(data.message || "Invalid email or password. Please try again.");
+        if (response.status === 429) {
+          setServerError("Too many attempts. Please wait a few minutes and try again.");
+        } else {
+          setServerError(data.message || data.errors?.join(", ") || "Invalid email or password. Please try again.");
+        }
       }
     } catch {
       setServerError("Network error. Please check your connection and try again.");
