@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [8, "Password must be at least 8 characters"],
+      minlength: [12, "Password must be at least 12 characters"],
       select: false,
     },
     role: {
@@ -48,6 +48,15 @@ const userSchema = new mongoose.Schema(
     },
     passwordResetExpires: {
       type: Date,
+      select: false,
+    },
+    loginAttempts: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+    lockUntil: {
+      type: Number,
       select: false,
     },
   },

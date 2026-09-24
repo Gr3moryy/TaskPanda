@@ -1,46 +1,38 @@
 import { connectDB } from "../../lib/db.js";
 import User from "../../lib/User.js";
-import { body, validationResult } from "express-validator";
-import rateLimit from "express-rate-limit";
+import { passwordResetRateLimit, handleValidationErrors, securityHeaders } from "../../lib/security.js";
 import { sendPasswordResetEmail } from "../../lib/email.js";
-
-const forgotPasswordLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max: 5,
-  message: { message: "Too many password reset requests, please try again later" },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+import { body } from "express-validator";
 
 const forgotValidation = [
   body("email").trim().isEmail().withMessage("Please enter a valid email address").normalizeEmail(),
 ];
 
-const handleValidationErrors = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array().map((e) => e.msg) });
-  }
-  return null;
-};
-
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", process.env.FRONTEND_URL || "http://localhost:5173");
+  securityHeaders(req, res, () => {});
+  
+  const origin = req.headers.origin;
+  const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5173", "http://localhost:3000"].filter(Boolean);
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  }
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   await connectDB();
 
-  await new Promise((resolve) => forgotPasswordLimiter(req, res, resolve));
+  await new Promise((resolve) => passwordResetRateLimit(req, res, resolve));
   if (res.headersSent) return;
 
   await Promise.all(forgotValidation.map((v) => v.run(req)));
-  const validationError = handleValidationErrors(req, res);
-  if (validationError) return;
+  const errors = (await import("express-validator")).validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array().map((e) => e.msg) });
+  }
 
   try {
     const { email } = req.body;
@@ -59,12 +51,12 @@ export default async function handler(req, res) {
     } catch (emailError) {
       user.clearPasswordResetToken();
       await user.save({ validateBeforeSave: false });
-      return res.status(500).json({ message: "Failed to send reset email. Please try again later" });
+      return res.status(500).json({ error: "Failed to send reset email. Please try again later" });
     }
 
     return res.status(200).json({ message: "If an account with that email exists, a password reset link has been sent" });
   } catch (error) {
     console.error("Forgot password error:", error.message);
-    return res.status(500).json({ message: "Password reset request failed" });
+    return res.status(500).json({ error: "Password reset request failed" });
   }
 }
